@@ -20,6 +20,8 @@ export class PomoTimer {
 
   taskList = signal<Task[]>([]);
 
+  uncompletedTasks = computed(() => this.taskList().filter((task) => !task.isCompleted));
+
   // Mode configuration for template repetition
   readonly modes: ModeOption[] = [
     { id: 'pomodoro', label: 'Pomodoro' },

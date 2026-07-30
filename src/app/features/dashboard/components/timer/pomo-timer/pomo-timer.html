@@ -172,17 +172,14 @@
 
 <!-- Dialog -->
 <app-dialog [dialogTitle]="'Tasks List'" [dialogHasButtons]="false">
-  @for (task of taskList(); track task.id) {
+  @for (task of uncompletedTasks(); track task.id) {
     <div
       class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
     >
       <div class="flex items-center gap-3">
         <!-- Task Details -->
         <div>
-          <p
-            class="text-sm font-medium transition-all"
-            [class]="task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'"
-          >
+          <p class="text-sm font-medium transition-all">
             {{ task.title }}
           </p>
 

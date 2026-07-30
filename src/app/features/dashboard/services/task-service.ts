@@ -20,6 +20,7 @@ export class TaskService {
         shortBreakLength: 5,
         longBreakLength: 15,
       },
+      isSelected: false,
     },
 
     // 2. High-Focus Scheduled Project Task
@@ -38,6 +39,7 @@ export class TaskService {
         shortBreakLength: 10,
         longBreakLength: 20,
       },
+      isSelected: false,
     },
 
     // 3. Short Everyday Learning Habit
@@ -57,6 +59,7 @@ export class TaskService {
         shortBreakLength: 5,
         longBreakLength: 15,
       },
+      isSelected: false,
     },
 
     // 4. Time-Sensitive Scheduled Deadline
@@ -76,6 +79,7 @@ export class TaskService {
         shortBreakLength: 5,
         longBreakLength: 15,
       },
+      isSelected: false,
     },
 
     // 5. Intensive Scheduled Maintenance Task
@@ -96,6 +100,7 @@ export class TaskService {
         shortBreakLength: 10,
         longBreakLength: 30,
       },
+      isSelected: false,
     },
   ]);
 
@@ -106,6 +111,7 @@ export class TaskService {
       createdAt: new Date().toISOString(),
       completedPomodoros: 0,
       isCompleted: false,
+      isSelected: false,
     };
 
     this.taskList.update((tasks) => [...tasks, newTask]);
