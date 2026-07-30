@@ -20,114 +20,102 @@
     </div>
 
     <!-- Task List -->
-    <div class="space-y-4">
-      <!-- Item 1 (Checked) -->
-      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-5 h-5 rounded bg-indigo-600 flex items-center justify-center text-white shrink-0"
-          >
-            <svg
-              class="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              viewBox="0 0 24 24"
+    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
+      @for (task of taskList(); track task.id) {
+        <div
+          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
+        >
+          <div class="flex items-center gap-3">
+            <!-- Checkbox Container -->
+            <div
+              class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
+              (click)="onChangeTaskCompletionState(task.id)"
+              [class]="
+                task.isCompleted
+                  ? 'bg-indigo-600 text-white'
+                  : 'border border-slate-700 group-hover:border-slate-500'
+              "
             >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-slate-200 line-through opacity-60">
-              Design new landing page
-            </p>
-            <p class="text-xs text-slate-500">Website Redesign</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
-          <span>25m</span>
-          <span class="text-xs">🍅</span>
-        </div>
-      </div>
+              @if (task.isCompleted) {
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              }
+            </div>
 
-      <!-- Item 2 -->
-      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
-          ></div>
-          <div>
-            <p class="text-sm font-medium text-slate-200">Implement API integration</p>
-            <p class="text-xs text-slate-500">Client Project</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
-          <span>50m</span>
-          <span class="text-xs">🍅</span>
-        </div>
-      </div>
+            <!-- Task Details -->
+            <div>
+              <p
+                class="text-sm font-medium transition-all"
+                [class]="
+                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
+                "
+              >
+                {{ task.title }}
+              </p>
 
-      <!-- Item 3 -->
-      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
-          ></div>
-          <div>
-            <p class="text-sm font-medium text-slate-200">Write documentation</p>
-            <p class="text-xs text-slate-500">Client Project</p>
+              <p class="text-xs text-slate-500 capitalize">
+                {{ task.description || task.type + ' task' }}
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
-          <span>25m</span>
-          <span class="text-xs">🍅</span>
-        </div>
-      </div>
 
-      <!-- Item 4 -->
-      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
-          ></div>
-          <div>
-            <p class="text-sm font-medium text-slate-200">Team stand-up meeting</p>
-            <p class="text-xs text-slate-500">Meetings</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
-          <span>30m</span>
-          <span class="text-xs">🍅</span>
-        </div>
-      </div>
+          <!-- Time & Pomodoro Metadata -->
+          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
+            <!-- Pomodoro Progress Counter -->
+            <div
+              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
+            >
+              <span>🍅</span>
+              <span>{{ task.completedPomodoros || 0 }}</span>
+              <span class="text-slate-500">/</span>
+              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
+            </div>
 
-      <!-- Item 5 -->
-      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
-          ></div>
-          <div>
-            <p class="text-sm font-medium text-slate-200">Fix bugs and optimize</p>
-            <p class="text-xs text-slate-500">Website Redesign</p>
+            <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
+            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
+              <span title="Work Duration" class="text-indigo-400"
+                >{{ task.settings.pomoLength }}m</span
+              >
+              <span>/</span>
+              <span title="Short Break" class="text-emerald-400"
+                >{{ task.settings.shortBreakLength }}m</span
+              >
+              <span>/</span>
+              <span title="Long Break" class="text-sky-400"
+                >{{ task.settings.longBreakLength }}m</span
+              >
+            </div>
           </div>
         </div>
-        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
-          <span>45m</span>
-          <span class="text-xs">🍅</span>
-        </div>
-      </div>
+      } @empty {
+        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
+      }
     </div>
   </div>
 
   <!-- Task Completion Progress Bar -->
   <div class="mt-6 pt-4 border-t border-slate-800/40">
     <div class="flex items-center justify-between text-xs mb-2">
-      <span class="text-slate-400">Completed 2 of 5 tasks</span>
-      <span class="font-bold text-indigo-400">40%</span>
+      <span class="text-slate-400">
+        Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
+      </span>
+      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
+        {{ completionPercentage() }}%
+      </span>
     </div>
+
     <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
-      <div class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full w-[40%]"></div>
+      <div
+        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
+        [style.width.%]="completionPercentage()"
+      ></div>
     </div>
   </div>
 </div>
