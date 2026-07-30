@@ -23,6 +23,8 @@ export interface Task {
   // Configuration for timer when this task is active
   settings: PomodoroSettings;
 
+  isSelected: boolean; // Optional property to indicate if the task is currently selected
+
   // Metadata
   createdAt: Date | string;
   completedAt?: Date | string | null;
