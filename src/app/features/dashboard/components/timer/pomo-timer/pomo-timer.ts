@@ -1,10 +1,11 @@
 import { NgClass, DatePipe } from '@angular/common';
-import { Component, computed, OnDestroy, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, signal } from '@angular/core';
+import { PomodoroService } from '../../../services/pomodoro-service';
 
 const TIMER_DURATIONS = {
-  pomodoro: 1 * 10,
-  short: 5 * 60,
-  long: 15 * 60,
+  pomodoro: 1 * 3,
+  short: 1 * 2,
+  long: 1 * 3,
 } as const;
 
 export type TimerMode = keyof typeof TIMER_DURATIONS;
@@ -27,6 +28,8 @@ export class PomoTimer implements OnDestroy {
     { id: 'short', label: 'Short Break' },
     { id: 'long', label: 'Long Break' },
   ];
+
+  private pomodoroService = inject(PomodoroService);
 
   // Primary reactive state
   timerMode = signal<TimerMode>('pomodoro');
@@ -124,8 +127,10 @@ export class PomoTimer implements OnDestroy {
         this.pomoNumber.set(0);
         this.setMode('long');
       }
+      this.pomodoroService.playPomodoroFinishedSound();
     } else {
       this.setMode('pomodoro');
+      this.pomodoroService.playBreakFinishedSound();
     }
   }
 
