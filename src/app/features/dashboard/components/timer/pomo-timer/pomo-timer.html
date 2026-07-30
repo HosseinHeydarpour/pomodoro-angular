@@ -6,18 +6,50 @@
   <div
     class="flex items-center gap-2 bg-[#0b0e14]/60 p-1.5 rounded-full border border-slate-800/50 mb-8"
   >
+    <!-- Pomodoro Button -->
     <button
-      class="px-6 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 shadow-lg shadow-indigo-500/25"
+      (click)="setMode('pomodoro')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'pomodoro'"
+      [class.bg-gradient-to-r]="timerMode() === 'pomodoro'"
+      [class.from-indigo-600]="timerMode() === 'pomodoro'"
+      [class.to-blue-600]="timerMode() === 'pomodoro'"
+      [class.shadow-lg]="timerMode() === 'pomodoro'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'pomodoro'"
+      [class.text-slate-400]="timerMode() !== 'pomodoro'"
+      [class.hover:text-white]="timerMode() !== 'pomodoro'"
     >
       Pomodoro
     </button>
+
+    <!-- Short Break Button -->
     <button
-      class="px-6 py-2 rounded-full text-sm font-medium text-slate-400 hover:text-white transition-all"
+      (click)="setMode('short')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'short'"
+      [class.bg-gradient-to-r]="timerMode() === 'short'"
+      [class.from-indigo-600]="timerMode() === 'short'"
+      [class.to-blue-600]="timerMode() === 'short'"
+      [class.shadow-lg]="timerMode() === 'short'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'short'"
+      [class.text-slate-400]="timerMode() !== 'short'"
+      [class.hover:text-white]="timerMode() !== 'short'"
     >
       Short Break
     </button>
+
+    <!-- Long Break Button -->
     <button
-      class="px-6 py-2 rounded-full text-sm font-medium text-slate-400 hover:text-white transition-all"
+      (click)="setMode('long')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'long'"
+      [class.bg-gradient-to-r]="timerMode() === 'long'"
+      [class.from-indigo-600]="timerMode() === 'long'"
+      [class.to-blue-600]="timerMode() === 'long'"
+      [class.shadow-lg]="timerMode() === 'long'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'long'"
+      [class.text-slate-400]="timerMode() !== 'long'"
+      [class.hover:text-white]="timerMode() !== 'long'"
     >
       Long Break
     </button>
@@ -57,7 +89,9 @@
     <div class="absolute flex flex-col items-center text-center px-4">
       <span class="text-2xl mb-1">🍅</span>
       <span class="text-xs font-medium text-slate-400 tracking-wider mb-1">Focus Time</span>
-      <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">25:00</h1>
+      <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">
+        {{ timerDate() | date: 'mm:ss' : 'UTC' }}
+      </h1>
 
       <button
         class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/50 text-xs text-slate-400 hover:text-white hover:border-slate-600 transition-all"
@@ -81,6 +115,7 @@
     <div class="flex flex-col items-center gap-2">
       <button
         class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+        (click)="resetTimer()"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -94,25 +129,8 @@
       <span class="text-[11px] text-slate-400 font-medium">Reset</span>
     </div>
 
-    <!-- Previous -->
-    <div class="flex flex-col items-center gap-2">
-      <button
-        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-          ></path>
-        </svg>
-      </button>
-      <span class="text-[11px] text-slate-400 font-medium">Previous</span>
-    </div>
-
     <!-- Start (Primary CTA) -->
-    <div class="flex flex-col items-center gap-2 -mt-2">
+    <div class="flex flex-col items-center gap-2 -mt-2" (click)="startTimer()">
       <button
         class="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all"
       >
@@ -123,33 +141,17 @@
       <span class="text-[11px] text-slate-300 font-medium">Start</span>
     </div>
 
-    <!-- Skip -->
-    <div class="flex flex-col items-center gap-2">
-      <button
-        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 5l7 7-7 7M5 5l7 7-7 7"
-          ></path>
-        </svg>
-      </button>
-      <span class="text-[11px] text-slate-400 font-medium">Skip</span>
-    </div>
-
     <!-- Stop -->
     <div class="flex flex-col items-center gap-2">
       <button
         class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+        (click)="pauseTimer()"
       >
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M6 6h12v12H6z" />
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
         </svg>
       </button>
-      <span class="text-[11px] text-slate-400 font-medium">Stop</span>
+      <span class="text-[11px] text-slate-400 font-medium">Pause</span>
     </div>
   </div>
 </div>
