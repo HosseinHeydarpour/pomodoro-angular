@@ -1,1 +1,125 @@
-<p>sidebar works!</p>
+<aside
+  class="w-full bg-sidebar flex flex-col justify-between min-h-screen p-5 border-r border-border/40 text-text"
+>
+  <!-- Top Section: Logo & Nav -->
+  <div class="space-y-8">
+    <!-- Logo Header -->
+    <div class="flex items-center gap-3 px-2">
+      <div
+        class="w-10 h-10 rounded-xl bg-primary-gradient flex items-center justify-center shadow-button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-base font-semibold tracking-wide text-text leading-snug">FocusFlow</h1>
+        <p class="text-xs text-text-muted">Stay focused. Get more done.</p>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="space-y-1.5">
+      @for (item of navItems; track item.label) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="bg-primary text-white shadow-button font-medium"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm transition-all duration-180 hover:bg-hover text-text-secondary hover:text-text cursor-pointer group"
+        >
+          <!-- Lucide / Heroicons SVG rendering -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 transition-transform duration-180 group-hover:scale-105"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.iconPath" />
+          </svg>
+
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </div>
+
+  <!-- Bottom Section: Streak Widget & User Profile -->
+  <div class="space-y-4 pt-4 border-t border-border/30">
+    <!-- Streak Card Widget -->
+    <div class="bg-surface-2/60 border border-border/50 rounded-2xl p-4 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-9 h-9 rounded-xl bg-warning/10 text-warning flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.399 8.165L12 18.896l-7.333 3.863 1.399-8.165-5.934-5.784 8.2-1.192z"
+            />
+          </svg>
+        </div>
+        <div>
+          <div class="text-lg font-bold text-text leading-none mb-1">
+            12 <span class="text-xs font-normal text-text-muted">day streak</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Activity Mini Bar Chart -->
+      <div class="flex items-end justify-between gap-1.5 h-10 pt-2 px-1">
+        @for (bar of streakBars; track $index) {
+          <div class="flex-1 flex flex-col items-center gap-1">
+            <div
+              class="w-full rounded-full transition-all duration-250"
+              [class.bg-primary]="bar.active"
+              [class.bg-surface]="!bar.active"
+              [style.height.%]="bar.height"
+            ></div>
+            <span class="text-[10px] text-text-muted uppercase">{{ bar.day }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- User Profile Footer -->
+    <div
+      class="flex items-center justify-between p-2.5 bg-surface-2/40 hover:bg-hover rounded-2xl transition-colors duration-180 border border-border/30 cursor-pointer"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="w-9 h-9 rounded-full bg-primary/20 border border-primary/40 overflow-hidden flex items-center justify-center text-text font-semibold text-sm"
+        >
+          H
+        </div>
+        <div>
+          <div class="text-sm font-medium text-text leading-tight">Hossein</div>
+          <div class="text-[11px] text-text-muted">Free Plan</div>
+        </div>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4 text-text-muted"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+</aside>

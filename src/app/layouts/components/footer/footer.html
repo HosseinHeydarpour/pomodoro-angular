@@ -1,1 +1,96 @@
-<p>footer works!</p>
+<div
+  class="flex items-center justify-between px-6 py-3 bg-surface-2/60 border border-border/50 rounded-2xl text-xs text-text-muted"
+>
+  <!-- Left Side: Goal Progress -->
+  <div class="flex items-center gap-4 flex-1 max-w-md">
+    <div class="flex items-center gap-2 whitespace-nowrap font-medium text-text">
+      <button
+        class="p-1 hover:bg-hover rounded-md transition-colors text-text-muted hover:text-text"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+      <button
+        class="p-1 hover:bg-hover rounded-md transition-colors text-text-muted hover:text-text"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+          />
+        </svg>
+      </button>
+      <span class="ml-2">Today's Goal: <strong class="text-text">4 Pomodoros</strong></span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="w-full bg-surface rounded-full h-2 overflow-hidden border border-border/30">
+      <div
+        class="bg-primary-gradient h-full rounded-full transition-all duration-300"
+        [style.width.%]="goalPercentage"
+      ></div>
+    </div>
+    <span class="font-semibold text-text text-xs">{{ goalPercentage }}%</span>
+  </div>
+
+  <!-- Right Side: Sync Status & Settings -->
+  <div class="flex items-center gap-4">
+    <!-- Cloud Backup Status -->
+    <div class="flex items-center gap-2 text-text-muted">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4 text-text-muted"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 15a4 4 0 004 4h9a5 5 0 001-9.9 5 5 0 00-9.2-2.1M15 13l-3-3m0 0l-3 3m3-3v12"
+        />
+      </svg>
+      <span>Backup synced</span>
+      <span class="w-2 h-2 rounded-full bg-success"></span>
+    </div>
+
+    <!-- Quick Settings Trigger -->
+    <button class="p-1 hover:bg-hover rounded-lg transition-colors text-text-muted hover:text-text">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
