@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TaskService } from '../../../services/task-service';
 import { Task } from '../../../models/task-model';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tasks-widget',
@@ -13,6 +13,8 @@ export class TasksWidget {
   taskService = inject(TaskService);
 
   taskList = signal(this.taskService.taskList());
+
+  private router = inject(Router);
 
   // 1. Total tasks count
   totalTasks = computed(() => this.taskList().length);
@@ -50,5 +52,9 @@ export class TasksWidget {
     });
 
     this.taskList.set(updatedTasks);
+  }
+
+  onTaskClicked(task: Task) {
+    this.router.navigate(['/tasks', task.id]);
   }
 }

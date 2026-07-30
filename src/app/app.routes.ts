@@ -9,4 +9,8 @@ export const routes: Routes = [
     path: 'tasks',
     loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
   },
+  {
+    path: 'tasks/:taskId', // 👈 Clean flat route mapping directly to the component
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
 ];

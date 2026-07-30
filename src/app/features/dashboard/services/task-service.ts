@@ -120,4 +120,8 @@ export class TaskService {
   setTaskCompleted(taskId: string, isCompleted: boolean): void {}
 
   persistTaskList(): void {}
+
+  fetchTask(taskId: string): Task | null {
+    return this.taskList().find((task) => task.id === taskId) || null;
+  }
 }
