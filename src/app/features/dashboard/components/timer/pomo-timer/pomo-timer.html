@@ -143,7 +143,7 @@
     </div>
 
     <!-- Start (Primary CTA) -->
-    <div class="flex flex-col items-center gap-2 -mt-2" (click)="startTimer()">
+    <div class="flex flex-col items-center gap-2 -mt-2" (click)="pomodoroService.startTimer()">
       <button
         class="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all"
       >
@@ -158,7 +158,7 @@
     <div class="flex flex-col items-center gap-2">
       <button
         class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
-        (click)="pauseTimer()"
+        (click)="pomodoroService.pauseTimer()"
       >
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />

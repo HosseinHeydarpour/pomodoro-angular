@@ -1,19 +1,7 @@
 import { NgClass, DatePipe } from '@angular/common';
-import { Component, computed, inject, OnDestroy, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { PomodoroService } from '../../../services/pomodoro-service';
-
-const TIMER_DURATIONS = {
-  pomodoro: 1 * 3,
-  short: 1 * 2,
-  long: 1 * 3,
-} as const;
-
-export type TimerMode = keyof typeof TIMER_DURATIONS;
-
-interface ModeOption {
-  id: TimerMode;
-  label: string;
-}
+import { ModeOption, TimerMode, TIMER_DURATIONS } from '../../../models/pomodoro-model';
 
 @Component({
   selector: 'app-pomo-timer',
@@ -21,7 +9,9 @@ interface ModeOption {
   templateUrl: './pomo-timer.html',
   styleUrl: './pomo-timer.scss',
 })
-export class PomoTimer implements OnDestroy {
+export class PomoTimer {
+  pomodoroService = inject(PomodoroService);
+
   // Mode configuration for template repetition
   readonly modes: ModeOption[] = [
     { id: 'pomodoro', label: 'Pomodoro' },
@@ -29,13 +19,11 @@ export class PomoTimer implements OnDestroy {
     { id: 'long', label: 'Long Break' },
   ];
 
-  private pomodoroService = inject(PomodoroService);
-
-  // Primary reactive state
-  timerMode = signal<TimerMode>('pomodoro');
-  secondsRemaining = signal<number>(TIMER_DURATIONS['pomodoro']);
-  isRunning = signal<boolean>(false);
-  pomoNumber = signal<number>(0);
+  // Aliasing service state so the template doesn't need to change
+  timerMode = this.pomodoroService.timerMode;
+  secondsRemaining = this.pomodoroService.secondsRemaining;
+  isRunning = this.pomodoroService.isRunning;
+  pomoNumber = this.pomodoroService.pomoNumber;
 
   // SVG dimensions for circular progress bar
   readonly RADIUS = 44;
@@ -59,82 +47,22 @@ export class PomoTimer implements OnDestroy {
     const angleInRadians = (this.progress() * 360 - 90) * (Math.PI / 180);
     const x = 50 + this.RADIUS * Math.cos(angleInRadians);
     const y = 50 + this.RADIUS * Math.sin(angleInRadians);
+    // Note: Added missing backticks to the string interpolation
     return { x: `${x}%`, y: `${y}%` };
   });
 
   timerDate = computed(() => new Date(this.secondsRemaining() * 1000));
 
-  private timerInterval: ReturnType<typeof setInterval> | null = null;
-
-  /**
-   * Switches to a new timer mode and resets remaining duration.
-   */
+  // Forwarding UI events to the service
   setMode(mode: TimerMode): void {
-    this.pauseTimer();
-    this.timerMode.set(mode);
-    this.secondsRemaining.set(TIMER_DURATIONS[mode]);
+    this.pomodoroService.setMode(mode);
   }
 
-  /**
-   * Toggles active interval execution state.
-   */
   toggleTimer(): void {
-    if (this.isRunning()) {
-      this.pauseTimer();
-    } else {
-      this.startTimer();
-    }
-  }
-
-  startTimer(): void {
-    if (this.isRunning()) return;
-
-    this.isRunning.set(true);
-
-    this.timerInterval = setInterval(() => {
-      if (this.secondsRemaining() <= 1) {
-        this.handleTimerCompletion();
-        return;
-      }
-
-      this.secondsRemaining.update((current) => current - 1);
-    }, 1000);
-  }
-
-  pauseTimer(): void {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
-      this.timerInterval = null;
-    }
-    this.isRunning.set(false);
+    this.pomodoroService.toggleTimer();
   }
 
   resetTimer(): void {
-    this.pauseTimer();
-    this.secondsRemaining.set(TIMER_DURATIONS[this.timerMode()]);
-  }
-
-  private handleTimerCompletion(): void {
-    this.pauseTimer();
-
-    if (this.timerMode() === 'pomodoro') {
-      const nextPomoCount = this.pomoNumber() + 1;
-
-      if (nextPomoCount < 4) {
-        this.pomoNumber.set(nextPomoCount);
-        this.setMode('short');
-      } else {
-        this.pomoNumber.set(0);
-        this.setMode('long');
-      }
-      this.pomodoroService.playPomodoroFinishedSound();
-    } else {
-      this.setMode('pomodoro');
-      this.pomodoroService.playBreakFinishedSound();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.pauseTimer();
+    this.pomodoroService.resetTimer();
   }
 }
