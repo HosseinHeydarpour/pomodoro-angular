@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './timer.html',
   styleUrl: './timer.scss',
 })
-export class Timer {
-
-}
+export class Timer {}
