@@ -99,11 +99,25 @@ export class TaskService {
     },
   ]);
 
-  cretaeTask(title: string, description?: string): void {}
+  createTask(task: Task): void {
+    const newTask: Task = {
+      ...task,
+      id: `task-${Date.now()}`, // Simple unique ID generation
+      createdAt: new Date().toISOString(),
+      completedPomodoros: 0,
+      isCompleted: false,
+    };
 
-  deleteTask(taskId: string): void {}
+    this.taskList.update((tasks) => [...tasks, newTask]);
+  }
+
+  deleteTask(taskId: string): void {
+    this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
+  }
 
   updateTask(taskId: string, title?: string, description?: string): void {}
 
   setTaskCompleted(taskId: string, isCompleted: boolean): void {}
+
+  persistTaskList(): void {}
 }

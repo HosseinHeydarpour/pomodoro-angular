@@ -1,1 +1,242 @@
-<p>tasks works!</p>
+<!-- src/app/features/dashboard/components/tasks/tasks.html -->
+<div class="max-w-full mx-auto w-full pt-8 pb-12">
+  <form
+    [formGroup]="taskForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-surface rounded-[24px] p-8 border border-border/60 shadow-xl"
+  >
+    <!-- Row 1: Title & Task Type -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <!-- Task Title (Takes up 2 columns) -->
+      <div class="md:col-span-2">
+        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Title</label>
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Implement Authentication Service"
+          class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+        />
+        @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
+          <span class="text-xs text-danger mt-1.5 block">Title is required.</span>
+        }
+      </div>
+
+      <!-- Task Type -->
+      <div>
+        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Type</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+            <!-- Dynamic Icon based on type -->
+            @if (taskForm.get('type')?.value === 'everyday') {
+              <div
+                class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+              ></div>
+            } @else {
+              <div
+                class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
+              ></div>
+            }
+          </div>
+          <select
+            formControlName="type"
+            class="w-full bg-background border border-border/80 rounded-xl pl-10 pr-10 py-3 text-sm text-text appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+          >
+            <option value="everyday">Everyday Habit</option>
+            <option value="scheduled">Scheduled Task</option>
+          </select>
+          <div
+            class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-text-muted"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Description -->
+    <div class="mb-8">
+      <label class="block text-[13px] font-medium text-text-muted mb-2"
+        >Description (optional)</label
+      >
+      <textarea
+        formControlName="description"
+        rows="3"
+        placeholder="Add more details about this task..."
+        class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none"
+      ></textarea>
+    </div>
+
+    <!-- Settings Group -->
+    <div formGroupName="settings">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
+        <h3 class="text-sm font-semibold text-text">Timer Configuration</h3>
+      </div>
+
+      <!-- Row 3: Target Pomodoros & Due Date (if scheduled) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Target Pomodoros -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Target Pomodoros</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center">
+              <span class="text-base">🍅</span>
+            </div>
+            <input
+              type="number"
+              min="1"
+              formControlName="targetPomodoros"
+              class="w-full bg-transparent text-sm text-text focus:outline-none placeholder:text-text-muted/60"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">pomos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Due Date (Only visible if type is scheduled) -->
+        @if (taskForm.get('type')?.value === 'scheduled') {
+          <div [formGroup]="taskForm">
+            <label class="block text-[13px] font-medium text-text-muted mb-2">Due Date</label>
+            <div class="relative h-[46px]">
+              <div
+                class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-text-muted"
+              >
+                <!-- Calendar Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </div>
+              <input
+                type="date"
+                formControlName="dueDate"
+                class="w-full h-full bg-background border border-border/80 rounded-xl pl-11 pr-4 text-sm text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer [color-scheme:dark]"
+              />
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Row 4: Custom Durations -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
+        <!-- Pomo Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Work Duration</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-indigo-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="pomoLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short Break Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Short Break</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-emerald-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="shortBreakLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Long Break Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Long Break</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-blue-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 14h6m-3-3v6m3-9h10m-5-5v10m5 5v5m-3-3h6"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="longBreakLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Footer -->
+    <div class="flex items-center justify-end gap-4 pt-6 mt-8 border-t border-border/40">
+      <button
+        type="button"
+        [routerLink]="['/']"
+        class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        [disabled]="taskForm.invalid"
+        class="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary-hover shadow-button transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Save Task
+      </button>
+    </div>
+  </form>
+</div>

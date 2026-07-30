@@ -9,8 +9,8 @@ export interface PomodoroSettings {
 
 export interface Task {
   id: string;
-  title: string;
-  description?: string;
+  title: string; //
+  description?: string; //
 
   // Progress tracking
   completedPomodoros: number;
