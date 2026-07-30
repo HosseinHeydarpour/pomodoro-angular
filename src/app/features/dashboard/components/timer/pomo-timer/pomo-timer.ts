@@ -1,16 +1,24 @@
 import { NgClass, DatePipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { PomodoroService } from '../../../services/pomodoro-service';
 import { ModeOption, TimerMode, TIMER_DURATIONS } from '../../../models/pomodoro-model';
+import { DialogService } from '../../../../../core/services/dialog-service';
+import { Dialog } from '../../../../../shared/components/dialog/dialog';
+import { Task } from '../../../models/task-model';
+import { TaskService } from '../../../services/task-service';
 
 @Component({
   selector: 'app-pomo-timer',
-  imports: [DatePipe, NgClass],
+  imports: [DatePipe, NgClass, Dialog],
   templateUrl: './pomo-timer.html',
   styleUrl: './pomo-timer.scss',
 })
 export class PomoTimer {
   pomodoroService = inject(PomodoroService);
+  dialogService = inject(DialogService);
+  taskService = inject(TaskService);
+
+  taskList = signal<Task[]>([]);
 
   // Mode configuration for template repetition
   readonly modes: ModeOption[] = [
@@ -53,6 +61,12 @@ export class PomoTimer {
 
   timerDate = computed(() => new Date(this.secondsRemaining() * 1000));
 
+  constructor() {
+    effect(() => {
+      this.taskList.set(this.taskService.taskList());
+    });
+  }
+
   // Forwarding UI events to the service
   setMode(mode: TimerMode): void {
     this.pomodoroService.setMode(mode);
@@ -64,5 +78,9 @@ export class PomoTimer {
 
   resetTimer(): void {
     this.pomodoroService.resetTimer();
+  }
+
+  onSelectTaskButtonClicked() {
+    this.dialogService.openDialog();
   }
 }
