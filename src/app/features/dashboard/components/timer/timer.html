@@ -1,0 +1,19 @@
+<div class="max-w-full w-full grid grid-cols-1 lg:grid-cols-12 gap-6 mx-auto mt-8">
+  <!-- ================= LEFT COLUMN ================= -->
+  <div class="lg:col-span-7 flex flex-col gap-6">
+    <!-- Pomodoro Timer -->
+    <app-pomo-timer></app-pomo-timer>
+
+    <!-- SESSION SUMMARY CARD -->
+    <app-summary></app-summary>
+  </div>
+
+  <!-- ================= RIGHT COLUMN ================= -->
+  <div class="lg:col-span-5 flex flex-col gap-6">
+    <!-- TODAY'S TASKS CARD -->
+    <app-tasks-widget class="flex-1"></app-tasks-widget>
+
+    <!-- NOTES CARD -->
+    <app-notes-widget></app-notes-widget>
+  </div>
+</div>

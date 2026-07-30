@@ -1,0 +1,133 @@
+<div
+  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
+>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
+      <button
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+        <span>Add Task</span>
+      </button>
+    </div>
+
+    <!-- Task List -->
+    <div class="space-y-4">
+      <!-- Item 1 (Checked) -->
+      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-5 h-5 rounded bg-indigo-600 flex items-center justify-center text-white shrink-0"
+          >
+            <svg
+              class="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-slate-200 line-through opacity-60">
+              Design new landing page
+            </p>
+            <p class="text-xs text-slate-500">Website Redesign</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
+          <span>25m</span>
+          <span class="text-xs">🍅</span>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
+          ></div>
+          <div>
+            <p class="text-sm font-medium text-slate-200">Implement API integration</p>
+            <p class="text-xs text-slate-500">Client Project</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
+          <span>50m</span>
+          <span class="text-xs">🍅</span>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
+          ></div>
+          <div>
+            <p class="text-sm font-medium text-slate-200">Write documentation</p>
+            <p class="text-xs text-slate-500">Client Project</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
+          <span>25m</span>
+          <span class="text-xs">🍅</span>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
+          ></div>
+          <div>
+            <p class="text-sm font-medium text-slate-200">Team stand-up meeting</p>
+            <p class="text-xs text-slate-500">Meetings</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
+          <span>30m</span>
+          <span class="text-xs">🍅</span>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="flex items-center justify-between py-2 border-b border-slate-800/50">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-5 h-5 rounded border border-slate-700 hover:border-slate-500 shrink-0"
+          ></div>
+          <div>
+            <p class="text-sm font-medium text-slate-200">Fix bugs and optimize</p>
+            <p class="text-xs text-slate-500">Website Redesign</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
+          <span>45m</span>
+          <span class="text-xs">🍅</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Completion Progress Bar -->
+  <div class="mt-6 pt-4 border-t border-slate-800/40">
+    <div class="flex items-center justify-between text-xs mb-2">
+      <span class="text-slate-400">Completed 2 of 5 tasks</span>
+      <span class="font-bold text-indigo-400">40%</span>
+    </div>
+    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
+      <div class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full w-[40%]"></div>
+    </div>
+  </div>
+</div>
