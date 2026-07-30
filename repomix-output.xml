@@ -1,0 +1,2118 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+public/
+  favicon.ico
+src/
+  app/
+    features/
+      dashboard/
+        components/
+          tasks/
+            tasks.html
+            tasks.scss
+            tasks.spec.ts
+            tasks.ts
+          timer/
+            notes-widget/
+              notes-widget.html
+              notes-widget.scss
+              notes-widget.spec.ts
+              notes-widget.ts
+            pomo-timer/
+              pomo-timer.html
+              pomo-timer.scss
+              pomo-timer.ts
+            summary/
+              summary.html
+              summary.scss
+              summary.ts
+            tasks-widget/
+              tasks-widget.html
+              tasks-widget.scss
+              tasks-widget.ts
+            timer.html
+            timer.scss
+            timer.ts
+        models/
+          task-model.ts
+        services/
+          pomodoro-service.ts
+          task-service.ts
+    layouts/
+      components/
+        footer/
+          footer.html
+          footer.scss
+          footer.ts
+        header/
+          header.html
+          header.scss
+          header.ts
+        sidebar/
+          sidebar.html
+          sidebar.scss
+          sidebar.ts
+      main-layout/
+        main-layout/
+          main-layout.html
+          main-layout.scss
+          main-layout.ts
+    app.config.ts
+    app.html
+    app.routes.ts
+    app.scss
+    app.spec.ts
+    app.ts
+  index.html
+  main.ts
+  styles.scss
+.editorconfig
+.gitignore
+angular.json
+package.json
+README.md
+tailwind.config.js
+tsconfig.app.json
+tsconfig.json
+tsconfig.spec.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="src/app/features/dashboard/components/tasks/tasks.html">
+<p>tasks works!</p>
+</file>
+
+<file path="src/app/features/dashboard/components/tasks/tasks.scss">
+
+</file>
+
+<file path="src/app/features/dashboard/components/tasks/tasks.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Tasks } from './tasks';
+
+describe('Tasks', () => {
+  let component: Tasks;
+  let fixture: ComponentFixture<Tasks>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Tasks]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(Tasks);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="src/app/features/dashboard/components/tasks/tasks.ts">
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-tasks',
+  imports: [],
+  templateUrl: './tasks.html',
+  styleUrl: './tasks.scss',
+})
+export class Tasks {}
+</file>
+
+<file path="src/app/features/dashboard/components/timer/notes-widget/notes-widget.html">
+<div class="bg-[#121620] border border-slate-800/80 rounded-3xl p-7">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-base font-semibold text-white">Notes</h2>
+    <button class="text-slate-400 hover:text-white">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex gap-3 items-start">
+    <svg
+      class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5 rotate-180"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h3.983v7h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v7h-9.983z"
+      />
+    </svg>
+    <div>
+      <p class="text-sm text-slate-300 italic leading-relaxed">
+        Discipline is the bridge between goals and accomplishment.
+      </p>
+      <p class="text-xs text-slate-500 mt-2 font-medium">— Jim Rohn</p>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/notes-widget/notes-widget.scss">
+
+</file>
+
+<file path="src/app/features/dashboard/components/timer/notes-widget/notes-widget.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { NotesWidget } from './notes-widget';
+
+describe('NotesWidget', () => {
+  let component: NotesWidget;
+  let fixture: ComponentFixture<NotesWidget>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [NotesWidget]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(NotesWidget);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="src/app/features/dashboard/components/timer/notes-widget/notes-widget.ts">
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-notes-widget',
+  imports: [],
+  templateUrl: './notes-widget.html',
+  styleUrl: './notes-widget.scss',
+})
+export class NotesWidget {
+
+}
+</file>
+
+<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.scss">
+
+</file>
+
+<file path="src/app/features/dashboard/components/timer/summary/summary.html">
+<div class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-base font-semibold text-white">Session Summary</h2>
+    <button
+      class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-800/40 px-3 py-1.5 rounded-lg border border-slate-700/50"
+    >
+      <span>Today</span>
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <!-- Stat 1 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center text-indigo-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Focus Time</p>
+        <p class="text-lg font-bold text-white">3h 40m</p>
+      </div>
+    </div>
+
+    <!-- Stat 2 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center text-emerald-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Completed</p>
+        <p class="text-lg font-bold text-white">8</p>
+      </div>
+    </div>
+
+    <!-- Stat 3 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-amber-950/60 border border-amber-800/40 flex items-center justify-center text-amber-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Pomodoros</p>
+        <p class="text-lg font-bold text-white">12</p>
+      </div>
+    </div>
+
+    <!-- Stat 4 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-blue-950/60 border border-blue-800/40 flex items-center justify-center text-blue-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Long Breaks</p>
+        <p class="text-lg font-bold text-white">2</p>
+      </div>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/summary/summary.scss">
+
+</file>
+
+<file path="src/app/features/dashboard/components/timer/summary/summary.ts">
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-summary',
+  imports: [],
+  templateUrl: './summary.html',
+  styleUrl: './summary.scss',
+})
+export class Summary {
+
+}
+</file>
+
+<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.scss">
+
+</file>
+
+<file path="src/app/features/dashboard/components/timer/timer.html">
+<div class="max-w-full w-full grid grid-cols-1 lg:grid-cols-12 gap-6 mx-auto mt-8">
+  <!-- ================= LEFT COLUMN ================= -->
+  <div class="lg:col-span-7 flex flex-col gap-6">
+    <!-- Pomodoro Timer -->
+    <app-pomo-timer></app-pomo-timer>
+
+    <!-- SESSION SUMMARY CARD -->
+    <app-summary></app-summary>
+  </div>
+
+  <!-- ================= RIGHT COLUMN ================= -->
+  <div class="lg:col-span-5 flex flex-col gap-6">
+    <!-- TODAY'S TASKS CARD -->
+    <app-tasks-widget class="flex-1"></app-tasks-widget>
+
+    <!-- NOTES CARD -->
+    <app-notes-widget></app-notes-widget>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/timer.scss">
+
+</file>
+
+<file path="src/app/features/dashboard/components/timer/timer.ts">
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { PomoTimer } from './pomo-timer/pomo-timer';
+import { Summary } from './summary/summary';
+import { TasksWidget } from './tasks-widget/tasks-widget';
+import { NotesWidget } from './notes-widget/notes-widget';
+
+@Component({
+  selector: 'app-timer',
+  imports: [PomoTimer, Summary, TasksWidget, NotesWidget],
+  templateUrl: './timer.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './timer.scss',
+})
+export class Timer {}
+</file>
+
+<file path="src/app/features/dashboard/models/task-model.ts">
+export type TaskType = 'everyday' | 'scheduled';
+
+export interface PomodoroSettings {
+  pomoLength: number; // Duration in minutes (e.g., 25)
+  shortBreakLength: number; // Duration in minutes (e.g., 5)
+  longBreakLength: number; // Duration in minutes (e.g., 15)
+  targetPomodoros: number; // Estimated pomodoros required (e.g., 4)
+}
+
+export interface Task {
+  id: string;
+  title: string;
+  description?: string;
+
+  // Progress tracking
+  completedPomodoros: number;
+  isCompleted: boolean;
+
+  // Scheduling: Either an everyday repeating task or has a explicit due date
+  type: TaskType;
+  dueDate?: Date | string | null;
+
+  // Configuration for timer when this task is active
+  settings: PomodoroSettings;
+
+  // Metadata
+  createdAt: Date | string;
+  completedAt?: Date | string | null;
+}
+</file>
+
+<file path="src/app/features/dashboard/services/pomodoro-service.ts">
+import { Service } from '@angular/core';
+
+@Service()
+export class PomodoroService {
+  
+}
+</file>
+
+<file path="src/app/features/dashboard/services/task-service.ts">
+import { Service, signal } from '@angular/core';
+import { Task } from '../models/task-model';
+
+@Service()
+export class TaskService {
+  taskList = signal<Task[]>([
+    // 1. Everyday Daily Routine Task
+    {
+      id: 'task-1',
+      title: 'Morning Code Review & PR Triage',
+      description: 'Review pending team pull requests and prioritize open issues before deep work.',
+      completedPomodoros: 1,
+      isCompleted: false,
+      type: 'everyday',
+      dueDate: null,
+      createdAt: '2026-07-30T08:00:00Z',
+      settings: {
+        targetPomodoros: 2,
+        pomoLength: 25,
+        shortBreakLength: 5,
+        longBreakLength: 15,
+      },
+    },
+
+    // 2. High-Focus Scheduled Project Task
+    {
+      id: 'task-2',
+      title: 'Implement Authentication Service',
+      description: 'Setup JWT authentication, refresh token rotation, and Angular route guards.',
+      completedPomodoros: 3,
+      isCompleted: false,
+      type: 'scheduled',
+      dueDate: '2026-08-05',
+      createdAt: '2026-07-28T10:00:00Z',
+      settings: {
+        targetPomodoros: 6,
+        pomoLength: 45,
+        shortBreakLength: 10,
+        longBreakLength: 20,
+      },
+    },
+
+    // 3. Short Everyday Learning Habit
+    {
+      id: 'task-3',
+      title: 'Read Technical Documentation',
+      description: 'Study Angular signal APIs, RxJS interop, and change detection optimizations.',
+      completedPomodoros: 1,
+      isCompleted: true,
+      dueDate: null,
+      createdAt: '2026-07-29T09:00:00Z',
+      completedAt: '2026-07-30T10:30:00Z',
+      type: 'everyday',
+      settings: {
+        targetPomodoros: 1,
+        pomoLength: 20,
+        shortBreakLength: 5,
+        longBreakLength: 15,
+      },
+    },
+
+    // 4. Time-Sensitive Scheduled Deadline
+    {
+      id: 'task-4',
+      title: 'Prepare Sprint Demo Deck',
+      description:
+        'Create slide deck for end-of-sprint demo and record short feature walkthrough video.',
+      completedPomodoros: 0,
+      isCompleted: false,
+      type: 'scheduled',
+      dueDate: '2026-07-31',
+      createdAt: '2026-07-30T07:30:00Z',
+      settings: {
+        targetPomodoros: 3,
+        pomoLength: 25,
+        shortBreakLength: 5,
+        longBreakLength: 15,
+      },
+    },
+
+    // 5. Intensive Scheduled Maintenance Task
+    {
+      id: 'task-5',
+      title: 'Database Schema Migration & Cleanup',
+      description:
+        'Archive legacy user audit logs, run index optimization scripts, and update ORM schemas.',
+      completedPomodoros: 4,
+      isCompleted: true,
+      type: 'scheduled',
+      dueDate: '2026-08-12',
+      createdAt: '2026-07-25T11:00:00Z',
+      completedAt: '2026-07-29T16:00:00Z',
+      settings: {
+        targetPomodoros: 4,
+        pomoLength: 50,
+        shortBreakLength: 10,
+        longBreakLength: 30,
+      },
+    },
+  ]);
+
+  cretaeTask(title: string, description?: string): void {}
+
+  deleteTask(taskId: string): void {}
+
+  updateTask(taskId: string, title?: string, description?: string): void {}
+
+  setTaskCompleted(taskId: string, isCompleted: boolean): void {}
+}
+</file>
+
+<file path="src/app/layouts/components/footer/footer.scss">
+
+</file>
+
+<file path="src/app/layouts/components/header/header.scss">
+
+</file>
+
+<file path="src/app/layouts/components/sidebar/sidebar.scss">
+
+</file>
+
+<file path="src/app/layouts/main-layout/main-layout/main-layout.scss">
+
+</file>
+
+<file path="src/app/app.scss">
+
+</file>
+
+<file path="src/app/app.spec.ts">
+import { TestBed } from '@angular/core/testing';
+import { App } from './app';
+
+describe('App', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [App],
+    }).compileComponents();
+  });
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it('should render title', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, pomodoro-app');
+  });
+});
+</file>
+
+<file path="src/index.html">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PomodoroApp</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+</file>
+
+<file path="src/main.ts">
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
+
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
+</file>
+
+<file path=".editorconfig">
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.ts]
+quote_type = single
+ij_typescript_use_double_quotes = false
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+</file>
+
+<file path=".gitignore">
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+</file>
+
+<file path="README.md">
+# PomodoroApp
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+</file>
+
+<file path="tailwind.config.js">
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{html,js}'],
+  theme: {
+    extend: {
+      colors: {
+        // Backgrounds
+        background: '#0B1220',
+        surface: '#111827',
+        'surface-2': '#172033',
+        sidebar: '#0F172A',
+        hover: '#1C2940',
+        border: '#23314A',
+
+        // Primary
+        primary: {
+          DEFAULT: '#6D6AFE',
+          hover: '#7F7CFF',
+          pressed: '#5956F4',
+          light: '#8E8BFF',
+        },
+
+        // Text
+        text: {
+          DEFAULT: '#F8FAFC',
+          secondary: '#CBD5E1',
+          muted: '#94A3B8',
+          disabled: '#64748B',
+        },
+
+        // Status
+        success: '#22C55E',
+        warning: '#F59E0B',
+        danger: '#EF4444',
+        info: '#3B82F6',
+
+        // Charts
+        chart: {
+          1: '#6D6AFE',
+          2: '#8B5CF6',
+          3: '#22C55E',
+          4: '#F59E0B',
+          5: '#06B6D4',
+        },
+      },
+
+      fontFamily: {
+        sans: ['Geist', 'Inter', 'sans-serif'],
+        mono: ['Geist Mono', 'monospace'],
+      },
+
+      borderRadius: {
+        xs: '6px',
+        sm: '8px',
+        md: '12px',
+        lg: '14px',
+        xl: '20px',
+        '2xl': '24px',
+        full: '9999px',
+      },
+
+      boxShadow: {
+        card: '0 10px 30px rgba(0,0,0,.35)',
+        button: '0 0 30px rgba(109,106,254,.25)',
+        modal: '0 25px 70px rgba(0,0,0,.55)',
+      },
+
+      backgroundImage: {
+        'primary-gradient': 'linear-gradient(135deg, #6D6AFE 0%, #8B5CF6 100%)',
+      },
+
+      spacing: {
+        18: '4.5rem',
+        22: '5.5rem',
+        26: '6.5rem',
+        30: '7.5rem',
+      },
+
+      transitionDuration: {
+        180: '180ms',
+        250: '250ms',
+      },
+
+      transitionTimingFunction: {
+        smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+    },
+  },
+  plugins: [],
+};
+</file>
+
+<file path="tsconfig.json">
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+</file>
+
+<file path="tsconfig.spec.json">
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": [
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts"
+  ]
+}
+</file>
+
+<file path="src/app/layouts/components/footer/footer.html">
+<div
+  class="flex items-center justify-between px-6 py-3 bg-surface-2/60 border border-border/50 rounded-2xl text-xs text-text-muted"
+>
+  <!-- Left Side: Goal Progress -->
+  <div class="flex items-center gap-4 flex-1 max-w-md">
+    <div class="flex items-center gap-2 whitespace-nowrap font-medium text-text">
+      <button
+        class="p-1 hover:bg-hover rounded-md transition-colors text-text-muted hover:text-text"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+      <button
+        class="p-1 hover:bg-hover rounded-md transition-colors text-text-muted hover:text-text"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+          />
+        </svg>
+      </button>
+      <span class="ml-2">Today's Goal: <strong class="text-text">4 Pomodoros</strong></span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="w-full bg-surface rounded-full h-2 overflow-hidden border border-border/30">
+      <div
+        class="bg-primary-gradient h-full rounded-full transition-all duration-300"
+        [style.width.%]="goalPercentage"
+      ></div>
+    </div>
+    <span class="font-semibold text-text text-xs">{{ goalPercentage }}%</span>
+  </div>
+
+  <!-- Right Side: Sync Status & Settings -->
+  <div class="flex items-center gap-4">
+    <!-- Cloud Backup Status -->
+    <div class="flex items-center gap-2 text-text-muted">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4 text-text-muted"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 15a4 4 0 004 4h9a5 5 0 001-9.9 5 5 0 00-9.2-2.1M15 13l-3-3m0 0l-3 3m3-3v12"
+        />
+      </svg>
+      <span>Backup synced</span>
+      <span class="w-2 h-2 rounded-full bg-success"></span>
+    </div>
+
+    <!-- Quick Settings Trigger -->
+    <button class="p-1 hover:bg-hover rounded-lg transition-colors text-text-muted hover:text-text">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+</file>
+
+<file path="src/app/layouts/components/header/header.html">
+<nav class="flex justify-between">
+  <div class="flex flex-col gap-0">
+    <!-- TODO: make this message dynamic based on the time of day and user name -->
+    <h2 class="text-lg text-text">Good morning, Hossein 👋</h2>
+    <p class="text-text/75 text-sm">Let's focus and crush your goals today.</p>
+  </div>
+  <div class="flex gap-4">
+    <button
+      class="stats-btn bg-surface-2 border-border text-text rounded-md flex h-10 w-10 items-center justify-center border hover:bg-hover hover:pointer"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M6 20v-4" />
+        <path d="M12 20V4" />
+        <path d="M18 20v-8" />
+      </svg>
+    </button>
+    <button
+      class="notification-btn bg-surface-2 border-border text-text rounded-md flex h-10 w-10 items-center justify-center border hover:bg-hover"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+      </svg>
+    </button>
+    <button
+      class="dark-light-btn bg-surface-2 border-border text-text rounded-md flex h-10 w-10 items-center justify-center border hover:bg-hover"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+      </svg>
+    </button>
+  </div>
+</nav>
+</file>
+
+<file path="src/app/layouts/components/header/header.ts">
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'app-header',
+  imports: [],
+  templateUrl: './header.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './header.scss',
+})
+export class Header {
+
+}
+</file>
+
+<file path="src/app/app.config.ts">
+import { provideTaiga } from "@taiga-ui/core";
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+        provideTaiga()
+    ]
+};
+</file>
+
+<file path="src/styles.scss">
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
+
+:root {
+  --background: #0b1220;
+  --surface: #111827;
+  --surface-2: #172033;
+  --sidebar: #0f172a;
+  --hover: #1c2940;
+  --border: #23314a;
+
+  --primary: #6d6afe;
+  --primary-hover: #7f7cff;
+  --primary-pressed: #5956f4;
+  --primary-light: #8e8bff;
+
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-disabled: #64748b;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+}
+
+body {
+  @apply bg-background text-text font-sans;
+}
+</file>
+
+<file path="angular.json">
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "pomodoro-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
+              }
+            ],
+            "styles": [
+              "node_modules/@taiga-ui/styles/taiga-ui-theme.less",
+              "node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
+              "src/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "pomodoro-app:build:production"
+            },
+            "development": {
+              "buildTarget": "pomodoro-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    }
+  }
+}
+</file>
+
+<file path="tsconfig.app.json">
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
+}
+</file>
+
+<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.html">
+<!-- MAIN TIMER CARD -->
+<div
+  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-8 flex flex-col items-center justify-between relative shadow-2xl"
+>
+  <!-- Timer Mode Pills -->
+  <div
+    class="flex items-center gap-2 bg-[#0b0e14]/60 p-1.5 rounded-full border border-slate-800/50 mb-8"
+  >
+    <!-- Pomodoro Button -->
+    <button
+      (click)="setMode('pomodoro')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'pomodoro'"
+      [class.bg-gradient-to-r]="timerMode() === 'pomodoro'"
+      [class.from-indigo-600]="timerMode() === 'pomodoro'"
+      [class.to-blue-600]="timerMode() === 'pomodoro'"
+      [class.shadow-lg]="timerMode() === 'pomodoro'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'pomodoro'"
+      [class.text-slate-400]="timerMode() !== 'pomodoro'"
+      [class.hover:text-white]="timerMode() !== 'pomodoro'"
+    >
+      Pomodoro
+    </button>
+
+    <!-- Short Break Button -->
+    <button
+      (click)="setMode('short')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'short'"
+      [class.bg-gradient-to-r]="timerMode() === 'short'"
+      [class.from-indigo-600]="timerMode() === 'short'"
+      [class.to-blue-600]="timerMode() === 'short'"
+      [class.shadow-lg]="timerMode() === 'short'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'short'"
+      [class.text-slate-400]="timerMode() !== 'short'"
+      [class.hover:text-white]="timerMode() !== 'short'"
+    >
+      Short Break
+    </button>
+
+    <!-- Long Break Button -->
+    <button
+      (click)="setMode('long')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'long'"
+      [class.bg-gradient-to-r]="timerMode() === 'long'"
+      [class.from-indigo-600]="timerMode() === 'long'"
+      [class.to-blue-600]="timerMode() === 'long'"
+      [class.shadow-lg]="timerMode() === 'long'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'long'"
+      [class.text-slate-400]="timerMode() !== 'long'"
+      [class.hover:text-white]="timerMode() !== 'long'"
+    >
+      Long Break
+    </button>
+  </div>
+
+  <!-- Circular Timer Display -->
+  <div class="relative w-80 h-80 flex items-center justify-center my-4">
+    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+      <!-- Background Circle -->
+      <circle cx="50" cy="50" r="44" stroke="#1b202e" stroke-width="3" fill="transparent" />
+
+      <!-- Active Progress Arc -->
+      <circle
+        cx="50"
+        cy="50"
+        r="44"
+        stroke="url(#blue-gradient)"
+        stroke-width="3.5"
+        fill="transparent"
+        stroke-linecap="round"
+        [attr.stroke-dasharray]="CIRCUMFERENCE"
+        [attr.stroke-dashoffset]="strokeDashoffset()"
+        class="transition-[stroke-dashoffset] duration-1000 ease-linear"
+      />
+
+      <defs>
+        <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4f46e5" />
+          <stop offset="100%" stop-color="#3b82f6" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Floating Progress Knob -->
+    <div
+      class="absolute w-5 h-5 bg-indigo-400 rounded-full border-2 border-indigo-200 shadow-[0_0_12px_rgba(99,102,241,0.8)] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ease-linear pointer-events-none"
+      [style.left]="knobPosition().x"
+      [style.top]="knobPosition().y"
+    ></div>
+
+    <!-- Center Content -->
+    <div class="absolute flex flex-col items-center text-center px-4">
+      <span class="text-2xl mb-1">
+        @if (timerMode() === 'pomodoro') {
+          🍅
+        } @else {
+          ☕
+        }
+      </span>
+      <span class="text-xs font-medium text-slate-400 tracking-wider mb-1 capitalize">
+        {{ timerMode() }} Time
+      </span>
+      <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">
+        {{ timerDate() | date: 'mm:ss' : 'UTC' }}
+      </h1>
+
+      <button
+        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/50 text-xs text-slate-400 hover:text-white hover:border-slate-600 transition-all"
+      >
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+          ></path>
+        </svg>
+        <span>Tap to add task</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Timer Controls -->
+  <div class="flex items-center justify-center gap-6 mt-8 w-full max-w-md">
+    <!-- Reset -->
+    <div class="flex flex-col items-center gap-2">
+      <button
+        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+        (click)="resetTimer()"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          ></path>
+        </svg>
+      </button>
+      <span class="text-[11px] text-slate-400 font-medium">Reset</span>
+    </div>
+
+    <!-- Start (Primary CTA) -->
+    <div class="flex flex-col items-center gap-2 -mt-2" (click)="startTimer()">
+      <button
+        class="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all"
+      >
+        <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
+      <span class="text-[11px] text-slate-300 font-medium">Start</span>
+    </div>
+
+    <!-- Stop -->
+    <div class="flex flex-col items-center gap-2">
+      <button
+        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+        (click)="pauseTimer()"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+      </button>
+      <span class="text-[11px] text-slate-400 font-medium">Pause</span>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.ts">
+import { NgClass, DatePipe } from '@angular/common';
+import { Component, computed, OnDestroy, signal } from '@angular/core';
+
+const TIMER_DURATIONS = {
+  pomodoro: 1 * 10,
+  short: 5 * 60,
+  long: 15 * 60,
+} as const;
+
+export type TimerMode = keyof typeof TIMER_DURATIONS;
+
+interface ModeOption {
+  id: TimerMode;
+  label: string;
+}
+
+@Component({
+  selector: 'app-pomo-timer',
+  imports: [DatePipe, NgClass],
+  templateUrl: './pomo-timer.html',
+  styleUrl: './pomo-timer.scss',
+})
+export class PomoTimer implements OnDestroy {
+  // Mode configuration for template repetition
+  readonly modes: ModeOption[] = [
+    { id: 'pomodoro', label: 'Pomodoro' },
+    { id: 'short', label: 'Short Break' },
+    { id: 'long', label: 'Long Break' },
+  ];
+
+  // Primary reactive state
+  timerMode = signal<TimerMode>('pomodoro');
+  secondsRemaining = signal<number>(TIMER_DURATIONS['pomodoro']);
+  isRunning = signal<boolean>(false);
+  pomoNumber = signal<number>(0);
+
+  // SVG dimensions for circular progress bar
+  readonly RADIUS = 44;
+  readonly CIRCUMFERENCE = 2 * Math.PI * this.RADIUS; // ~276.46
+
+  // Computed properties
+  totalSeconds = computed(() => TIMER_DURATIONS[this.timerMode()]);
+
+  progress = computed(() => {
+    const total = this.totalSeconds();
+    if (total === 0) return 0;
+    return this.secondsRemaining() / total;
+  });
+
+  strokeDashoffset = computed(() => {
+    return this.CIRCUMFERENCE * (1 - this.progress());
+  });
+
+  knobPosition = computed(() => {
+    // Standard polar coordinates translated to SVG percentage center (50, 50)
+    const angleInRadians = (this.progress() * 360 - 90) * (Math.PI / 180);
+    const x = 50 + this.RADIUS * Math.cos(angleInRadians);
+    const y = 50 + this.RADIUS * Math.sin(angleInRadians);
+    return { x: `${x}%`, y: `${y}%` };
+  });
+
+  timerDate = computed(() => new Date(this.secondsRemaining() * 1000));
+
+  private timerInterval: ReturnType<typeof setInterval> | null = null;
+
+  /**
+   * Switches to a new timer mode and resets remaining duration.
+   */
+  setMode(mode: TimerMode): void {
+    this.pauseTimer();
+    this.timerMode.set(mode);
+    this.secondsRemaining.set(TIMER_DURATIONS[mode]);
+  }
+
+  /**
+   * Toggles active interval execution state.
+   */
+  toggleTimer(): void {
+    if (this.isRunning()) {
+      this.pauseTimer();
+    } else {
+      this.startTimer();
+    }
+  }
+
+  startTimer(): void {
+    if (this.isRunning()) return;
+
+    this.isRunning.set(true);
+
+    this.timerInterval = setInterval(() => {
+      if (this.secondsRemaining() <= 1) {
+        this.handleTimerCompletion();
+        return;
+      }
+
+      this.secondsRemaining.update((current) => current - 1);
+    }, 1000);
+  }
+
+  pauseTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+    this.isRunning.set(false);
+  }
+
+  resetTimer(): void {
+    this.pauseTimer();
+    this.secondsRemaining.set(TIMER_DURATIONS[this.timerMode()]);
+  }
+
+  private handleTimerCompletion(): void {
+    this.pauseTimer();
+
+    if (this.timerMode() === 'pomodoro') {
+      const nextPomoCount = this.pomoNumber() + 1;
+
+      if (nextPomoCount < 4) {
+        this.pomoNumber.set(nextPomoCount);
+        this.setMode('short');
+      } else {
+        this.pomoNumber.set(0);
+        this.setMode('long');
+      }
+    } else {
+      this.setMode('pomodoro');
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.pauseTimer();
+  }
+}
+</file>
+
+<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.html">
+<div
+  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
+>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
+      <button
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
+        [routerLink]="['/tasks']"
+        type="button"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+        <span>Add Task</span>
+      </button>
+    </div>
+
+    <!-- Task List -->
+    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
+      @for (task of taskList(); track task.id) {
+        <div
+          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
+        >
+          <div class="flex items-center gap-3">
+            <!-- Checkbox Container -->
+            <div
+              class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
+              (click)="onChangeTaskCompletionState(task.id)"
+              [class]="
+                task.isCompleted
+                  ? 'bg-indigo-600 text-white'
+                  : 'border border-slate-700 group-hover:border-slate-500'
+              "
+            >
+              @if (task.isCompleted) {
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              }
+            </div>
+
+            <!-- Task Details -->
+            <div>
+              <p
+                class="text-sm font-medium transition-all"
+                [class]="
+                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
+                "
+              >
+                {{ task.title }}
+              </p>
+
+              <p class="text-xs text-slate-500 capitalize">
+                {{ task.description || task.type + ' task' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Time & Pomodoro Metadata -->
+          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
+            <!-- Pomodoro Progress Counter -->
+            <div
+              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
+            >
+              <span>🍅</span>
+              <span>{{ task.completedPomodoros || 0 }}</span>
+              <span class="text-slate-500">/</span>
+              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
+            </div>
+
+            <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
+            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
+              <span title="Work Duration" class="text-indigo-400"
+                >{{ task.settings.pomoLength }}m</span
+              >
+              <span>/</span>
+              <span title="Short Break" class="text-emerald-400"
+                >{{ task.settings.shortBreakLength }}m</span
+              >
+              <span>/</span>
+              <span title="Long Break" class="text-sky-400"
+                >{{ task.settings.longBreakLength }}m</span
+              >
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
+      }
+    </div>
+  </div>
+
+  <!-- Task Completion Progress Bar -->
+  <div class="mt-6 pt-4 border-t border-slate-800/40">
+    <div class="flex items-center justify-between text-xs mb-2">
+      <span class="text-slate-400">
+        Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
+      </span>
+      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
+        {{ completionPercentage() }}%
+      </span>
+    </div>
+
+    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
+      <div
+        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
+        [style.width.%]="completionPercentage()"
+      ></div>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.ts">
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { TaskService } from '../../../services/task-service';
+import { Task } from '../../../models/task-model';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-tasks-widget',
+  imports: [RouterLink],
+  templateUrl: './tasks-widget.html',
+  styleUrl: './tasks-widget.scss',
+})
+export class TasksWidget {
+  taskService = inject(TaskService);
+
+  taskList = signal(this.taskService.taskList());
+
+  // 1. Total tasks count
+  totalTasks = computed(() => this.taskList().length);
+
+  // 2. Completed tasks count
+  completedTasks = computed(() => this.taskList().filter((task) => task.isCompleted).length);
+
+  // 3. Completion percentage safely rounded, handling 0/0 edge case (NaN)
+  completionPercentage = computed(() => {
+    const total = this.totalTasks();
+    if (total === 0) return 0;
+
+    return Math.round((this.completedTasks() / total) * 100);
+  });
+
+  constructor() {
+    effect(() => {
+      this.taskList.set(this.taskService.taskList());
+    });
+  }
+
+  onChangeTaskCompletionState(taskId: string) {
+    const updatedTasks: Task[] = this.taskList().map((task) => {
+      if (task.id === taskId) {
+        const isCompleted = !task.isCompleted;
+
+        return {
+          ...task,
+          isCompleted,
+          // Set timestamp if completed; clear it (null) if unchecked
+          completedAt: isCompleted ? new Date().toISOString() : null,
+        };
+      }
+      return task;
+    });
+
+    this.taskList.set(updatedTasks);
+  }
+}
+</file>
+
+<file path="src/app/layouts/components/footer/footer.ts">
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  imports: [],
+  templateUrl: './footer.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './footer.scss',
+})
+export class Footer {
+  readonly goalPercentage = 75;
+}
+</file>
+
+<file path="src/app/layouts/components/sidebar/sidebar.html">
+<aside
+  class="fixed bg-sidebar flex flex-col justify-between min-h-screen p-5 border-r border-border/40 text-text"
+>
+  <!-- Top Section: Logo & Nav -->
+  <div class="space-y-8">
+    <!-- Logo Header -->
+    <div class="flex items-center gap-3 px-2">
+      <div
+        class="w-10 h-10 rounded-xl bg-primary-gradient flex items-center justify-center shadow-button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-base font-semibold tracking-wide text-text leading-snug">FocusFlow</h1>
+        <p class="text-xs text-text-muted">Stay focused. Get more done.</p>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="space-y-1.5">
+      @for (item of navItems; track item.label) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="bg-primary text-white shadow-button font-medium"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm transition-all duration-180 hover:bg-hover text-text-secondary hover:text-text cursor-pointer group"
+        >
+          <!-- Lucide / Heroicons SVG rendering -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 transition-transform duration-180 group-hover:scale-105"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.iconPath" />
+          </svg>
+
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </div>
+
+  <!-- Bottom Section: Streak Widget & User Profile -->
+  <div class="space-y-4 pt-4 border-t border-border/30">
+    <!-- Streak Card Widget -->
+    <div class="bg-surface-2/60 border border-border/50 rounded-2xl p-4 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-9 h-9 rounded-xl bg-warning/10 text-warning flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.399 8.165L12 18.896l-7.333 3.863 1.399-8.165-5.934-5.784 8.2-1.192z"
+            />
+          </svg>
+        </div>
+        <div>
+          <div class="text-lg font-bold text-text leading-none mb-1">
+            12 <span class="text-xs font-normal text-text-muted">day streak</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Activity Mini Bar Chart -->
+      <div class="flex items-end justify-between gap-1.5 h-10 pt-2 px-1">
+        @for (bar of streakBars; track $index) {
+          <div class="flex-1 flex flex-col items-center gap-1">
+            <div
+              class="w-full rounded-full transition-all duration-250"
+              [class.bg-primary]="bar.active"
+              [class.bg-surface]="!bar.active"
+              [style.height.%]="bar.height"
+            ></div>
+            <span class="text-[10px] text-text-muted uppercase">{{ bar.day }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- User Profile Footer -->
+    <div
+      class="flex items-center justify-between p-2.5 bg-surface-2/40 hover:bg-hover rounded-2xl transition-colors duration-180 border border-border/30 cursor-pointer"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="w-9 h-9 rounded-full bg-primary/20 border border-primary/40 overflow-hidden flex items-center justify-center text-text font-semibold text-sm"
+        >
+          H
+        </div>
+        <div>
+          <div class="text-sm font-medium text-text leading-tight">Hossein</div>
+          <div class="text-[11px] text-text-muted">Free Plan</div>
+        </div>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4 text-text-muted"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+</aside>
+</file>
+
+<file path="src/app/layouts/components/sidebar/sidebar.ts">
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+interface NavItem {
+  label: string;
+  route: string;
+  iconPath: string;
+}
+
+interface StreakBar {
+  day: string;
+  height: number;
+  active: boolean;
+}
+
+@Component({
+  selector: 'app-sidebar',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './sidebar.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './sidebar.scss',
+})
+export class Sidebar {
+  readonly navItems: NavItem[] = [
+    {
+      label: 'Timer',
+      route: '/',
+      iconPath: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+    },
+    {
+      label: 'Tasks',
+      route: '/tasks',
+      iconPath:
+        'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
+    },
+    {
+      label: 'Statistics',
+      route: '/statistics',
+      iconPath:
+        'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    },
+    {
+      label: 'Calendar',
+      route: '/calendar',
+      iconPath:
+        'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+    },
+    {
+      label: 'Focus Music',
+      route: '/music',
+      iconPath:
+        'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12 0c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3',
+    },
+    {
+      label: 'Goals',
+      route: '/goals',
+      iconPath: 'M13 10V3L4 14h7v7l9-11h-7z',
+    },
+    {
+      label: 'Settings',
+      route: '/settings',
+      iconPath:
+        'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+    },
+  ];
+
+  readonly streakBars: StreakBar[] = [
+    { day: 'M', height: 40, active: true },
+    { day: 'T', height: 75, active: true },
+    { day: 'W', height: 50, active: true },
+    { day: 'T', height: 90, active: true },
+    { day: 'F', height: 60, active: true },
+    { day: 'S', height: 100, active: true },
+    { day: 'S', height: 35, active: false },
+  ];
+}
+</file>
+
+<file path="src/app/layouts/main-layout/main-layout/main-layout.html">
+<div class="flex min-h-screen bg-background">
+  <!-- Sidebar Container -->
+  <div class="w-64 flex-shrink-0">
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Main Content View -->
+  <div class="flex-1 flex flex-col p-6 overflow-y-auto">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <footer class="mt-auto pt-6">
+      <app-footer></app-footer>
+    </footer>
+  </div>
+</div>
+</file>
+
+<file path="src/app/layouts/main-layout/main-layout/main-layout.ts">
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Sidebar } from '../../components/sidebar/sidebar';
+import { Footer } from '../../components/footer/footer';
+import { Header } from '../../components/header/header';
+
+@Component({
+  selector: 'app-main-layout',
+  imports: [RouterOutlet, Sidebar, Footer, Header],
+  templateUrl: './main-layout.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './main-layout.scss',
+})
+export class MainLayout {}
+</file>
+
+<file path="src/app/app.ts">
+import { TuiRoot } from '@taiga-ui/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { MainLayout } from './layouts/main-layout/main-layout/main-layout';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet, MainLayout, TuiRoot],
+  templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './app.scss',
+})
+export class App {
+  protected readonly title = signal('pomodoro-app');
+}
+</file>
+
+<file path="src/app/app.html">
+<tui-root>
+  <app-main-layout></app-main-layout>
+</tui-root>
+</file>
+
+<file path="src/app/app.routes.ts">
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./features/dashboard/components/timer/timer').then((m) => m.Timer),
+  },
+  {
+    path: 'tasks',
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
+];
+</file>
+
+<file path="package.json">
+{
+  "name": "pomodoro-app",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "packageManager": "npm@10.9.2",
+  "dependencies": {
+    "@angular/cdk": "^22.0.0",
+    "@angular/common": "^22.1.0",
+    "@angular/compiler": "^22.1.0",
+    "@angular/core": "^22.1.0",
+    "@angular/forms": "^22.1.0",
+    "@angular/platform-browser": "^22.1.0",
+    "@angular/router": "^22.1.0",
+    "@taiga-ui/addon-charts": "^5.17.0",
+    "@taiga-ui/addon-commerce": "^5.17.0",
+    "@taiga-ui/addon-doc": "^5.17.0",
+    "@taiga-ui/addon-mobile": "^5.17.0",
+    "@taiga-ui/addon-table": "^5.17.0",
+    "@taiga-ui/cdk": "^5.17.0",
+    "@taiga-ui/core": "^5.17.0",
+    "@taiga-ui/icons": "^5.17.0",
+    "@taiga-ui/kit": "^5.17.0",
+    "@taiga-ui/layout": "^5.17.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.1.0",
+    "@angular/cli": "^22.1.0",
+    "@angular/compiler-cli": "^22.1.0",
+    "jsdom": "^27.1.0",
+    "less": "^4.8.1",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~6.0.3",
+    "vitest": "^4.0.8"
+  }
+}
+</file>
+
+</files>
