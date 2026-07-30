@@ -1,0 +1,56 @@
+<!-- Backdrop Overlay -->
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+  [class.hidden]="!dialogService.isDialogOpen()"
+>
+  <!-- Dialog Container -->
+  <div
+    class="relative w-full max-w-lg bg-surface border border-border/80 rounded-2xl shadow-modal overflow-hidden transform transition-all"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-5 border-b border-border/40">
+      <h2 class="text-lg font-semibold text-text">{{ dialogTitle() }}</h2>
+
+      <!-- Close Button -->
+      <button
+        type="button"
+        class="p-1.5 rounded-xl text-text-muted hover:text-text hover:bg-hover transition-colors"
+        aria-label="Close dialog"
+        (click)="onCloseButtonClicked()"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6 text-sm text-text-secondary leading-relaxed">
+      <ng-content></ng-content>
+    </div>
+
+    @if (dialogHasButtons()) {
+      <!-- Footer Actions -->
+      <div
+        class="flex items-center justify-end gap-3 px-6 py-4 bg-surface-2/40 border-t border-border/40"
+      >
+        <button
+          type="button"
+          (click)="onCancelButtonClicked()"
+          class="px-5 py-2.5 rounded-xl text-sm font-medium text-text-secondary border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary-hover shadow-button transition-all"
+          (click)="onConfirmButtonClicked()"
+        >
+          Confirm
+        </button>
+      </div>
+    }
+  </div>
+</div>
