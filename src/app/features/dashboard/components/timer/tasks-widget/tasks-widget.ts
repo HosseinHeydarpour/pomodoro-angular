@@ -1,10 +1,11 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TaskService } from '../../../services/task-service';
 import { Task } from '../../../models/task-model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tasks-widget',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './tasks-widget.html',
   styleUrl: './tasks-widget.scss',
 })

@@ -5,4 +5,8 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./features/dashboard/components/timer/timer').then((m) => m.Timer),
   },
+  {
+    path: 'tasks',
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
 ];
