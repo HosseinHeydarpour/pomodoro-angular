@@ -60,6 +60,7 @@
     <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
       <!-- Background Circle -->
       <circle cx="50" cy="50" r="44" stroke="#1b202e" stroke-width="3" fill="transparent" />
+
       <!-- Active Progress Arc -->
       <circle
         cx="50"
@@ -69,9 +70,11 @@
         stroke-width="3.5"
         fill="transparent"
         stroke-linecap="round"
-        stroke-dasharray="276"
-        stroke-dashoffset="60"
+        [attr.stroke-dasharray]="CIRCUMFERENCE"
+        [attr.stroke-dashoffset]="strokeDashoffset()"
+        class="transition-[stroke-dashoffset] duration-1000 ease-linear"
       />
+
       <defs>
         <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#4f46e5" />
@@ -82,13 +85,23 @@
 
     <!-- Floating Progress Knob -->
     <div
-      class="absolute top-[28px] right-[48px] w-5 h-5 bg-indigo-400 rounded-full border-2 border-indigo-200 shadow-[0_0_12px_rgba(99,102,241,0.8)]"
+      class="absolute w-5 h-5 bg-indigo-400 rounded-full border-2 border-indigo-200 shadow-[0_0_12px_rgba(99,102,241,0.8)] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ease-linear pointer-events-none"
+      [style.left]="knobPosition().x"
+      [style.top]="knobPosition().y"
     ></div>
 
     <!-- Center Content -->
     <div class="absolute flex flex-col items-center text-center px-4">
-      <span class="text-2xl mb-1">🍅</span>
-      <span class="text-xs font-medium text-slate-400 tracking-wider mb-1">Focus Time</span>
+      <span class="text-2xl mb-1">
+        @if (timerMode() === 'pomodoro') {
+          🍅
+        } @else {
+          ☕
+        }
+      </span>
+      <span class="text-xs font-medium text-slate-400 tracking-wider mb-1 capitalize">
+        {{ timerMode() }} Time
+      </span>
       <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">
         {{ timerDate() | date: 'mm:ss' : 'UTC' }}
       </h1>
