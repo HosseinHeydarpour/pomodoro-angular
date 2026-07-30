@@ -41,16 +41,21 @@ The content is organized as follows:
 
 <directory_structure>
 public/
+  sounds/
+    break-finish.wav
+    pomo-finished.wav
   favicon.ico
 src/
   app/
+    core/
+      services/
+        dialog-service.ts
     features/
       dashboard/
         components/
           tasks/
             tasks.html
             tasks.scss
-            tasks.spec.ts
             tasks.ts
           timer/
             notes-widget/
@@ -74,6 +79,7 @@ src/
             timer.scss
             timer.ts
         models/
+          pomodoro-model.ts
           task-model.ts
         services/
           pomodoro-service.ts
@@ -97,6 +103,12 @@ src/
           main-layout.html
           main-layout.scss
           main-layout.ts
+    shared/
+      components/
+        dialog/
+          dialog.html
+          dialog.scss
+          dialog.ts
     app.config.ts
     app.html
     app.routes.ts
@@ -120,50 +132,40 @@ tsconfig.spec.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="src/app/features/dashboard/components/tasks/tasks.html">
-<p>tasks works!</p>
+<file path="src/app/core/services/dialog-service.ts">
+import { Service } from '@angular/core';
+
+@Service()
+export class DialogService {
+  
+}
+</file>
+
+<file path="src/app/shared/components/dialog/dialog.html">
+<p>dialog works!</p>
+re
+</file>
+
+<file path="src/app/shared/components/dialog/dialog.scss">
+
+</file>
+
+<file path="src/app/shared/components/dialog/dialog.ts">
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-dialog',
+  imports: [],
+  templateUrl: './dialog.html',
+  styleUrl: './dialog.scss',
+})
+export class Dialog {
+
+}
 </file>
 
 <file path="src/app/features/dashboard/components/tasks/tasks.scss">
 
-</file>
-
-<file path="src/app/features/dashboard/components/tasks/tasks.spec.ts">
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Tasks } from './tasks';
-
-describe('Tasks', () => {
-  let component: Tasks;
-  let fixture: ComponentFixture<Tasks>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Tasks]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(Tasks);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
-</file>
-
-<file path="src/app/features/dashboard/components/tasks/tasks.ts">
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-tasks',
-  imports: [],
-  templateUrl: './tasks.html',
-  styleUrl: './tasks.scss',
-})
-export class Tasks {}
 </file>
 
 <file path="src/app/features/dashboard/components/timer/notes-widget/notes-widget.html">
@@ -418,156 +420,18 @@ import { NotesWidget } from './notes-widget/notes-widget';
 export class Timer {}
 </file>
 
-<file path="src/app/features/dashboard/models/task-model.ts">
-export type TaskType = 'everyday' | 'scheduled';
+<file path="src/app/features/dashboard/models/pomodoro-model.ts">
+export const TIMER_DURATIONS = {
+  pomodoro: 1 * 3,
+  short: 1 * 2,
+  long: 1 * 3,
+} as const;
 
-export interface PomodoroSettings {
-  pomoLength: number; // Duration in minutes (e.g., 25)
-  shortBreakLength: number; // Duration in minutes (e.g., 5)
-  longBreakLength: number; // Duration in minutes (e.g., 15)
-  targetPomodoros: number; // Estimated pomodoros required (e.g., 4)
-}
+export type TimerMode = keyof typeof TIMER_DURATIONS;
 
-export interface Task {
-  id: string;
-  title: string;
-  description?: string;
-
-  // Progress tracking
-  completedPomodoros: number;
-  isCompleted: boolean;
-
-  // Scheduling: Either an everyday repeating task or has a explicit due date
-  type: TaskType;
-  dueDate?: Date | string | null;
-
-  // Configuration for timer when this task is active
-  settings: PomodoroSettings;
-
-  // Metadata
-  createdAt: Date | string;
-  completedAt?: Date | string | null;
-}
-</file>
-
-<file path="src/app/features/dashboard/services/pomodoro-service.ts">
-import { Service } from '@angular/core';
-
-@Service()
-export class PomodoroService {
-  
-}
-</file>
-
-<file path="src/app/features/dashboard/services/task-service.ts">
-import { Service, signal } from '@angular/core';
-import { Task } from '../models/task-model';
-
-@Service()
-export class TaskService {
-  taskList = signal<Task[]>([
-    // 1. Everyday Daily Routine Task
-    {
-      id: 'task-1',
-      title: 'Morning Code Review & PR Triage',
-      description: 'Review pending team pull requests and prioritize open issues before deep work.',
-      completedPomodoros: 1,
-      isCompleted: false,
-      type: 'everyday',
-      dueDate: null,
-      createdAt: '2026-07-30T08:00:00Z',
-      settings: {
-        targetPomodoros: 2,
-        pomoLength: 25,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-    },
-
-    // 2. High-Focus Scheduled Project Task
-    {
-      id: 'task-2',
-      title: 'Implement Authentication Service',
-      description: 'Setup JWT authentication, refresh token rotation, and Angular route guards.',
-      completedPomodoros: 3,
-      isCompleted: false,
-      type: 'scheduled',
-      dueDate: '2026-08-05',
-      createdAt: '2026-07-28T10:00:00Z',
-      settings: {
-        targetPomodoros: 6,
-        pomoLength: 45,
-        shortBreakLength: 10,
-        longBreakLength: 20,
-      },
-    },
-
-    // 3. Short Everyday Learning Habit
-    {
-      id: 'task-3',
-      title: 'Read Technical Documentation',
-      description: 'Study Angular signal APIs, RxJS interop, and change detection optimizations.',
-      completedPomodoros: 1,
-      isCompleted: true,
-      dueDate: null,
-      createdAt: '2026-07-29T09:00:00Z',
-      completedAt: '2026-07-30T10:30:00Z',
-      type: 'everyday',
-      settings: {
-        targetPomodoros: 1,
-        pomoLength: 20,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-    },
-
-    // 4. Time-Sensitive Scheduled Deadline
-    {
-      id: 'task-4',
-      title: 'Prepare Sprint Demo Deck',
-      description:
-        'Create slide deck for end-of-sprint demo and record short feature walkthrough video.',
-      completedPomodoros: 0,
-      isCompleted: false,
-      type: 'scheduled',
-      dueDate: '2026-07-31',
-      createdAt: '2026-07-30T07:30:00Z',
-      settings: {
-        targetPomodoros: 3,
-        pomoLength: 25,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-    },
-
-    // 5. Intensive Scheduled Maintenance Task
-    {
-      id: 'task-5',
-      title: 'Database Schema Migration & Cleanup',
-      description:
-        'Archive legacy user audit logs, run index optimization scripts, and update ORM schemas.',
-      completedPomodoros: 4,
-      isCompleted: true,
-      type: 'scheduled',
-      dueDate: '2026-08-12',
-      createdAt: '2026-07-25T11:00:00Z',
-      completedAt: '2026-07-29T16:00:00Z',
-      settings: {
-        targetPomodoros: 4,
-        pomoLength: 50,
-        shortBreakLength: 10,
-        longBreakLength: 30,
-      },
-    },
-  ]);
-
-  cretaeTask(title: string, description?: string): void {}
-
-  deleteTask(taskId: string): void {}
-
-  updateTask(taskId: string, title?: string, description?: string): void {}
-
-  setTaskCompleted(taskId: string, isCompleted: boolean): void {}
+export interface ModeOption {
+  id: TimerMode;
+  label: string;
 }
 </file>
 
@@ -918,6 +782,38 @@ export default {
 }
 </file>
 
+<file path="src/app/features/dashboard/models/task-model.ts">
+export type TaskType = 'everyday' | 'scheduled';
+
+export interface PomodoroSettings {
+  pomoLength: number; // Duration in minutes (e.g., 25)
+  shortBreakLength: number; // Duration in minutes (e.g., 5)
+  longBreakLength: number; // Duration in minutes (e.g., 15)
+  targetPomodoros: number; // Estimated pomodoros required (e.g., 4)
+}
+
+export interface Task {
+  id: string;
+  title: string; //
+  description?: string; //
+
+  // Progress tracking
+  completedPomodoros: number;
+  isCompleted: boolean;
+
+  // Scheduling: Either an everyday repeating task or has a explicit due date
+  type: TaskType;
+  dueDate?: Date | string | null;
+
+  // Configuration for timer when this task is active
+  settings: PomodoroSettings;
+
+  // Metadata
+  createdAt: Date | string;
+  completedAt?: Date | string | null;
+}
+</file>
+
 <file path="src/app/layouts/components/footer/footer.html">
 <div
   class="flex items-center justify-between px-6 py-3 bg-surface-2/60 border border-border/50 rounded-2xl text-xs text-text-muted"
@@ -1098,22 +994,6 @@ export class Header {
 }
 </file>
 
-<file path="src/app/app.config.ts">
-import { provideTaiga } from "@taiga-ui/core";
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-        provideTaiga()
-    ]
-};
-</file>
-
 <file path="src/styles.scss">
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
@@ -1265,257 +1145,383 @@ body {
 }
 </file>
 
-<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.html">
-<!-- MAIN TIMER CARD -->
-<div
-  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-8 flex flex-col items-center justify-between relative shadow-2xl"
->
-  <!-- Timer Mode Pills -->
-  <div
-    class="flex items-center gap-2 bg-[#0b0e14]/60 p-1.5 rounded-full border border-slate-800/50 mb-8"
+<file path="src/app/features/dashboard/components/tasks/tasks.html">
+<!-- src/app/features/dashboard/components/tasks/tasks.html -->
+<div class="max-w-full mx-auto w-full pt-8 pb-12">
+  <form
+    [formGroup]="taskForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-surface rounded-[24px] p-8 border border-border/60 shadow-xl"
   >
-    <!-- Pomodoro Button -->
-    <button
-      (click)="setMode('pomodoro')"
-      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
-      [class.text-white]="timerMode() === 'pomodoro'"
-      [class.bg-gradient-to-r]="timerMode() === 'pomodoro'"
-      [class.from-indigo-600]="timerMode() === 'pomodoro'"
-      [class.to-blue-600]="timerMode() === 'pomodoro'"
-      [class.shadow-lg]="timerMode() === 'pomodoro'"
-      [class.shadow-indigo-500\/25]="timerMode() === 'pomodoro'"
-      [class.text-slate-400]="timerMode() !== 'pomodoro'"
-      [class.hover:text-white]="timerMode() !== 'pomodoro'"
-    >
-      Pomodoro
-    </button>
-
-    <!-- Short Break Button -->
-    <button
-      (click)="setMode('short')"
-      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
-      [class.text-white]="timerMode() === 'short'"
-      [class.bg-gradient-to-r]="timerMode() === 'short'"
-      [class.from-indigo-600]="timerMode() === 'short'"
-      [class.to-blue-600]="timerMode() === 'short'"
-      [class.shadow-lg]="timerMode() === 'short'"
-      [class.shadow-indigo-500\/25]="timerMode() === 'short'"
-      [class.text-slate-400]="timerMode() !== 'short'"
-      [class.hover:text-white]="timerMode() !== 'short'"
-    >
-      Short Break
-    </button>
-
-    <!-- Long Break Button -->
-    <button
-      (click)="setMode('long')"
-      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
-      [class.text-white]="timerMode() === 'long'"
-      [class.bg-gradient-to-r]="timerMode() === 'long'"
-      [class.from-indigo-600]="timerMode() === 'long'"
-      [class.to-blue-600]="timerMode() === 'long'"
-      [class.shadow-lg]="timerMode() === 'long'"
-      [class.shadow-indigo-500\/25]="timerMode() === 'long'"
-      [class.text-slate-400]="timerMode() !== 'long'"
-      [class.hover:text-white]="timerMode() !== 'long'"
-    >
-      Long Break
-    </button>
-  </div>
-
-  <!-- Circular Timer Display -->
-  <div class="relative w-80 h-80 flex items-center justify-center my-4">
-    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-      <!-- Background Circle -->
-      <circle cx="50" cy="50" r="44" stroke="#1b202e" stroke-width="3" fill="transparent" />
-
-      <!-- Active Progress Arc -->
-      <circle
-        cx="50"
-        cy="50"
-        r="44"
-        stroke="url(#blue-gradient)"
-        stroke-width="3.5"
-        fill="transparent"
-        stroke-linecap="round"
-        [attr.stroke-dasharray]="CIRCUMFERENCE"
-        [attr.stroke-dashoffset]="strokeDashoffset()"
-        class="transition-[stroke-dashoffset] duration-1000 ease-linear"
-      />
-
-      <defs>
-        <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#4f46e5" />
-          <stop offset="100%" stop-color="#3b82f6" />
-        </linearGradient>
-      </defs>
-    </svg>
-
-    <!-- Floating Progress Knob -->
-    <div
-      class="absolute w-5 h-5 bg-indigo-400 rounded-full border-2 border-indigo-200 shadow-[0_0_12px_rgba(99,102,241,0.8)] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ease-linear pointer-events-none"
-      [style.left]="knobPosition().x"
-      [style.top]="knobPosition().y"
-    ></div>
-
-    <!-- Center Content -->
-    <div class="absolute flex flex-col items-center text-center px-4">
-      <span class="text-2xl mb-1">
-        @if (timerMode() === 'pomodoro') {
-          🍅
-        } @else {
-          ☕
+    <!-- Row 1: Title & Task Type -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <!-- Task Title (Takes up 2 columns) -->
+      <div class="md:col-span-2">
+        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Title</label>
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Implement Authentication Service"
+          class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+        />
+        @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
+          <span class="text-xs text-danger mt-1.5 block">Title is required.</span>
         }
-      </span>
-      <span class="text-xs font-medium text-slate-400 tracking-wider mb-1 capitalize">
-        {{ timerMode() }} Time
-      </span>
-      <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">
-        {{ timerDate() | date: 'mm:ss' : 'UTC' }}
-      </h1>
+      </div>
 
-      <button
-        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/50 text-xs text-slate-400 hover:text-white hover:border-slate-600 transition-all"
-      >
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-          ></path>
-        </svg>
-        <span>Tap to add task</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Timer Controls -->
-  <div class="flex items-center justify-center gap-6 mt-8 w-full max-w-md">
-    <!-- Reset -->
-    <div class="flex flex-col items-center gap-2">
-      <button
-        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
-        (click)="resetTimer()"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-          ></path>
-        </svg>
-      </button>
-      <span class="text-[11px] text-slate-400 font-medium">Reset</span>
+      <!-- Task Type -->
+      <div>
+        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Type</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+            <!-- Dynamic Icon based on type -->
+            @if (taskForm.get('type')?.value === 'everyday') {
+              <div
+                class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+              ></div>
+            } @else {
+              <div
+                class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
+              ></div>
+            }
+          </div>
+          <select
+            formControlName="type"
+            class="w-full bg-background border border-border/80 rounded-xl pl-10 pr-10 py-3 text-sm text-text appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+          >
+            <option value="everyday">Everyday Habit</option>
+            <option value="scheduled">Scheduled Task</option>
+          </select>
+          <div
+            class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-text-muted"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Start (Primary CTA) -->
-    <div class="flex flex-col items-center gap-2 -mt-2" (click)="startTimer()">
-      <button
-        class="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all"
+    <!-- Row 2: Description -->
+    <div class="mb-8">
+      <label class="block text-[13px] font-medium text-text-muted mb-2"
+        >Description (optional)</label
       >
-        <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </button>
-      <span class="text-[11px] text-slate-300 font-medium">Start</span>
+      <textarea
+        formControlName="description"
+        rows="3"
+        placeholder="Add more details about this task..."
+        class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none"
+      ></textarea>
     </div>
 
-    <!-- Stop -->
-    <div class="flex flex-col items-center gap-2">
-      <button
-        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
-        (click)="pauseTimer()"
-      >
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-        </svg>
-      </button>
-      <span class="text-[11px] text-slate-400 font-medium">Pause</span>
+    <!-- Settings Group -->
+    <div formGroupName="settings">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
+        <h3 class="text-sm font-semibold text-text">Timer Configuration</h3>
+      </div>
+
+      <!-- Row 3: Target Pomodoros & Due Date (if scheduled) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Target Pomodoros -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Target Pomodoros</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center">
+              <span class="text-base">🍅</span>
+            </div>
+            <input
+              type="number"
+              min="1"
+              formControlName="targetPomodoros"
+              class="w-full bg-transparent text-sm text-text focus:outline-none placeholder:text-text-muted/60"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">pomos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Due Date (Only visible if type is scheduled) -->
+        @if (taskForm.get('type')?.value === 'scheduled') {
+          <div [formGroup]="taskForm">
+            <label class="block text-[13px] font-medium text-text-muted mb-2">Due Date</label>
+            <div class="relative h-[46px]">
+              <div
+                class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-text-muted"
+              >
+                <!-- Calendar Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </div>
+              <input
+                type="date"
+                formControlName="dueDate"
+                class="w-full h-full bg-background border border-border/80 rounded-xl pl-11 pr-4 text-sm text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer [color-scheme:dark]"
+              />
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Row 4: Custom Durations -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
+        <!-- Pomo Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Work Duration</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-indigo-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="pomoLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short Break Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Short Break</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-emerald-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="shortBreakLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Long Break Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Long Break</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-blue-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 14h6m-3-3v6m3-9h10m-5-5v10m5 5v5m-3-3h6"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="longBreakLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- Actions Footer -->
+    <div class="flex items-center justify-end gap-4 pt-6 mt-8 border-t border-border/40">
+      <button
+        type="button"
+        [routerLink]="['/']"
+        class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
+      >
+        Cancel
+      </button>
+      @if (mode() === 'edit') {
+        <button
+          type="button"
+          [routerLink]="['/']"
+          class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
+        >
+          Delete
+        </button>
+      }
+      <button
+        type="submit"
+        [disabled]="taskForm.invalid"
+        class="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary-hover shadow-button transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ mode() === 'create' ? 'Create Task' : 'Update Task' }}
+      </button>
+    </div>
+  </form>
 </div>
 </file>
 
-<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.ts">
-import { NgClass, DatePipe } from '@angular/common';
-import { Component, computed, OnDestroy, signal } from '@angular/core';
-
-const TIMER_DURATIONS = {
-  pomodoro: 1 * 10,
-  short: 5 * 60,
-  long: 15 * 60,
-} as const;
-
-export type TimerMode = keyof typeof TIMER_DURATIONS;
-
-interface ModeOption {
-  id: TimerMode;
-  label: string;
-}
+<file path="src/app/features/dashboard/components/tasks/tasks.ts">
+// src/app/features/dashboard/components/tasks/tasks.ts
+import { Component, effect, inject, input, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
+import { Task, TaskType } from '../../models/task-model';
+import { TaskService } from '../../services/task-service';
 
 @Component({
-  selector: 'app-pomo-timer',
-  imports: [DatePipe, NgClass],
-  templateUrl: './pomo-timer.html',
-  styleUrl: './pomo-timer.scss',
+  selector: 'app-tasks',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './tasks.html',
+  styleUrl: './tasks.scss',
 })
-export class PomoTimer implements OnDestroy {
-  // Mode configuration for template repetition
-  readonly modes: ModeOption[] = [
-    { id: 'pomodoro', label: 'Pomodoro' },
-    { id: 'short', label: 'Short Break' },
-    { id: 'long', label: 'Long Break' },
-  ];
+export class Tasks {
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private taskService = inject(TaskService);
+  loadedTask = signal<Task | null>(null);
+  mode = signal<'create' | 'edit'>('create');
+  taskForm: FormGroup = this.fb.group({
+    title: ['', [Validators.required]],
+    description: [''],
+    type: ['everyday' as TaskType, [Validators.required]],
+    dueDate: [null], // Only applicable if type is 'scheduled'
+    // Holds the task data if editing an existing task
 
+    // Nested form group for PomodoroSettings
+    settings: this.fb.group({
+      targetPomodoros: [4, [Validators.required, Validators.min(1)]],
+      pomoLength: [25, [Validators.required, Validators.min(1)]],
+      shortBreakLength: [5, [Validators.required, Validators.min(1)]],
+      longBreakLength: [15, [Validators.required, Validators.min(1)]],
+    }),
+  });
+
+  taskId = input<string>();
+
+  constructor() {
+    effect(
+      () => {
+        const currentId = this.taskId();
+
+        if (currentId) {
+          const task = this.taskService.fetchTask(currentId);
+
+          if (task) {
+            this.loadedTask.set(task);
+            this.fillTaskForm(task); // 👈 Pass 'task' directly (TypeScript knows it is non-null)
+            this.mode.set('edit');
+          } else {
+            console.warn(`Task with ID ${currentId} not found.`);
+          }
+        } else {
+          console.log('Creating a new task');
+          this.loadedTask.set(null);
+          this.taskForm.reset();
+        }
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  fillTaskForm(task: Task) {
+    this.taskForm.patchValue({
+      title: task.title,
+      description: task.description || '',
+      type: task.type,
+      dueDate: task.dueDate,
+      settings: {
+        targetPomodoros: task.settings.targetPomodoros,
+        pomoLength: task.settings.pomoLength,
+        shortBreakLength: task.settings.shortBreakLength,
+        longBreakLength: task.settings.longBreakLength,
+      },
+    });
+  }
+
+  onSubmit() {
+    if (this.taskForm.invalid) {
+      this.taskForm.markAllAsTouched();
+      return;
+    }
+
+    const formValue = this.taskForm.value;
+
+    // Cleanup dueDate if the type is everyday
+    if (formValue.type === 'everyday') {
+      formValue.dueDate = null;
+    }
+
+    console.log('Task Data Ready for Service:', formValue);
+
+    // TODO: Call your TaskService here to save the task
+    this.taskService.createTask(formValue);
+
+    // Navigate back to the dashboard after saving
+    this.router.navigate(['/']);
+  }
+}
+</file>
+
+<file path="src/app/features/dashboard/services/pomodoro-service.ts">
+import { Injectable, signal, OnDestroy, Service } from '@angular/core';
+import { TIMER_DURATIONS, TimerMode } from '../models/pomodoro-model';
+
+@Service()
+export class PomodoroService implements OnDestroy {
   // Primary reactive state
-  timerMode = signal<TimerMode>('pomodoro');
-  secondsRemaining = signal<number>(TIMER_DURATIONS['pomodoro']);
-  isRunning = signal<boolean>(false);
-  pomoNumber = signal<number>(0);
-
-  // SVG dimensions for circular progress bar
-  readonly RADIUS = 44;
-  readonly CIRCUMFERENCE = 2 * Math.PI * this.RADIUS; // ~276.46
-
-  // Computed properties
-  totalSeconds = computed(() => TIMER_DURATIONS[this.timerMode()]);
-
-  progress = computed(() => {
-    const total = this.totalSeconds();
-    if (total === 0) return 0;
-    return this.secondsRemaining() / total;
-  });
-
-  strokeDashoffset = computed(() => {
-    return this.CIRCUMFERENCE * (1 - this.progress());
-  });
-
-  knobPosition = computed(() => {
-    // Standard polar coordinates translated to SVG percentage center (50, 50)
-    const angleInRadians = (this.progress() * 360 - 90) * (Math.PI / 180);
-    const x = 50 + this.RADIUS * Math.cos(angleInRadians);
-    const y = 50 + this.RADIUS * Math.sin(angleInRadians);
-    return { x: `${x}%`, y: `${y}%` };
-  });
-
-  timerDate = computed(() => new Date(this.secondsRemaining() * 1000));
+  readonly timerMode = signal<TimerMode>('pomodoro');
+  readonly secondsRemaining = signal(TIMER_DURATIONS['pomodoro']);
+  readonly isRunning = signal(false);
+  readonly pomoNumber = signal(0);
 
   private timerInterval: ReturnType<typeof setInterval> | null = null;
 
-  /**
-   * Switches to a new timer mode and resets remaining duration.
-   */
   setMode(mode: TimerMode): void {
     this.pauseTimer();
     this.timerMode.set(mode);
     this.secondsRemaining.set(TIMER_DURATIONS[mode]);
   }
 
-  /**
-   * Toggles active interval execution state.
-   */
   toggleTimer(): void {
     if (this.isRunning()) {
       this.pauseTimer();
@@ -1534,7 +1540,6 @@ export class PomoTimer implements OnDestroy {
         this.handleTimerCompletion();
         return;
       }
-
       this.secondsRemaining.update((current) => current - 1);
     }, 1000);
   }
@@ -1565,9 +1570,21 @@ export class PomoTimer implements OnDestroy {
         this.pomoNumber.set(0);
         this.setMode('long');
       }
+      this.playPomodoroFinishedSound();
     } else {
       this.setMode('pomodoro');
+      this.playBreakFinishedSound();
     }
+  }
+
+  playPomodoroFinishedSound() {
+    const audio = new Audio('/sounds/pomo-finished.wav');
+    audio.play().catch((err) => console.error('Error playing pomo sound:', err));
+  }
+
+  playBreakFinishedSound() {
+    const audio = new Audio('/sounds/break-finish.wav');
+    audio.play().catch((err) => console.error('Error playing break sound:', err));
   }
 
   ngOnDestroy(): void {
@@ -1576,185 +1593,132 @@ export class PomoTimer implements OnDestroy {
 }
 </file>
 
-<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.html">
-<div
-  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
->
-  <div>
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
-      <button
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
-        [routerLink]="['/tasks']"
-        type="button"
-      >
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          ></path>
-        </svg>
-        <span>Add Task</span>
-      </button>
-    </div>
+<file path="src/app/features/dashboard/services/task-service.ts">
+import { Service, signal } from '@angular/core';
+import { Task } from '../models/task-model';
 
-    <!-- Task List -->
-    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
-      @for (task of taskList(); track task.id) {
-        <div
-          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
-        >
-          <div class="flex items-center gap-3">
-            <!-- Checkbox Container -->
-            <div
-              class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
-              (click)="onChangeTaskCompletionState(task.id)"
-              [class]="
-                task.isCompleted
-                  ? 'bg-indigo-600 text-white'
-                  : 'border border-slate-700 group-hover:border-slate-500'
-              "
-            >
-              @if (task.isCompleted) {
-                <svg
-                  class="w-3.5 h-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="3"
-                  viewBox="0 0 24 24"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              }
-            </div>
+@Service()
+export class TaskService {
+  taskList = signal<Task[]>([
+    // 1. Everyday Daily Routine Task
+    {
+      id: 'task-1',
+      title: 'Morning Code Review & PR Triage',
+      description: 'Review pending team pull requests and prioritize open issues before deep work.',
+      completedPomodoros: 1,
+      isCompleted: false,
+      type: 'everyday',
+      dueDate: null,
+      createdAt: '2026-07-30T08:00:00Z',
+      settings: {
+        targetPomodoros: 2,
+        pomoLength: 25,
+        shortBreakLength: 5,
+        longBreakLength: 15,
+      },
+    },
 
-            <!-- Task Details -->
-            <div>
-              <p
-                class="text-sm font-medium transition-all"
-                [class]="
-                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
-                "
-              >
-                {{ task.title }}
-              </p>
+    // 2. High-Focus Scheduled Project Task
+    {
+      id: 'task-2',
+      title: 'Implement Authentication Service',
+      description: 'Setup JWT authentication, refresh token rotation, and Angular route guards.',
+      completedPomodoros: 3,
+      isCompleted: false,
+      type: 'scheduled',
+      dueDate: '2026-08-05',
+      createdAt: '2026-07-28T10:00:00Z',
+      settings: {
+        targetPomodoros: 6,
+        pomoLength: 45,
+        shortBreakLength: 10,
+        longBreakLength: 20,
+      },
+    },
 
-              <p class="text-xs text-slate-500 capitalize">
-                {{ task.description || task.type + ' task' }}
-              </p>
-            </div>
-          </div>
+    // 3. Short Everyday Learning Habit
+    {
+      id: 'task-3',
+      title: 'Read Technical Documentation',
+      description: 'Study Angular signal APIs, RxJS interop, and change detection optimizations.',
+      completedPomodoros: 1,
+      isCompleted: true,
+      dueDate: null,
+      createdAt: '2026-07-29T09:00:00Z',
+      completedAt: '2026-07-30T10:30:00Z',
+      type: 'everyday',
+      settings: {
+        targetPomodoros: 1,
+        pomoLength: 20,
+        shortBreakLength: 5,
+        longBreakLength: 15,
+      },
+    },
 
-          <!-- Time & Pomodoro Metadata -->
-          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
-            <!-- Pomodoro Progress Counter -->
-            <div
-              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
-            >
-              <span>🍅</span>
-              <span>{{ task.completedPomodoros || 0 }}</span>
-              <span class="text-slate-500">/</span>
-              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
-            </div>
+    // 4. Time-Sensitive Scheduled Deadline
+    {
+      id: 'task-4',
+      title: 'Prepare Sprint Demo Deck',
+      description:
+        'Create slide deck for end-of-sprint demo and record short feature walkthrough video.',
+      completedPomodoros: 0,
+      isCompleted: false,
+      type: 'scheduled',
+      dueDate: '2026-07-31',
+      createdAt: '2026-07-30T07:30:00Z',
+      settings: {
+        targetPomodoros: 3,
+        pomoLength: 25,
+        shortBreakLength: 5,
+        longBreakLength: 15,
+      },
+    },
 
-            <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
-            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
-              <span title="Work Duration" class="text-indigo-400"
-                >{{ task.settings.pomoLength }}m</span
-              >
-              <span>/</span>
-              <span title="Short Break" class="text-emerald-400"
-                >{{ task.settings.shortBreakLength }}m</span
-              >
-              <span>/</span>
-              <span title="Long Break" class="text-sky-400"
-                >{{ task.settings.longBreakLength }}m</span
-              >
-            </div>
-          </div>
-        </div>
-      } @empty {
-        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
-      }
-    </div>
-  </div>
+    // 5. Intensive Scheduled Maintenance Task
+    {
+      id: 'task-5',
+      title: 'Database Schema Migration & Cleanup',
+      description:
+        'Archive legacy user audit logs, run index optimization scripts, and update ORM schemas.',
+      completedPomodoros: 4,
+      isCompleted: true,
+      type: 'scheduled',
+      dueDate: '2026-08-12',
+      createdAt: '2026-07-25T11:00:00Z',
+      completedAt: '2026-07-29T16:00:00Z',
+      settings: {
+        targetPomodoros: 4,
+        pomoLength: 50,
+        shortBreakLength: 10,
+        longBreakLength: 30,
+      },
+    },
+  ]);
 
-  <!-- Task Completion Progress Bar -->
-  <div class="mt-6 pt-4 border-t border-slate-800/40">
-    <div class="flex items-center justify-between text-xs mb-2">
-      <span class="text-slate-400">
-        Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
-      </span>
-      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
-        {{ completionPercentage() }}%
-      </span>
-    </div>
+  createTask(task: Task): void {
+    const newTask: Task = {
+      ...task,
+      id: `task-${Date.now()}`, // Simple unique ID generation
+      createdAt: new Date().toISOString(),
+      completedPomodoros: 0,
+      isCompleted: false,
+    };
 
-    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
-      <div
-        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
-        [style.width.%]="completionPercentage()"
-      ></div>
-    </div>
-  </div>
-</div>
-</file>
-
-<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.ts">
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { TaskService } from '../../../services/task-service';
-import { Task } from '../../../models/task-model';
-import { RouterLink } from '@angular/router';
-
-@Component({
-  selector: 'app-tasks-widget',
-  imports: [RouterLink],
-  templateUrl: './tasks-widget.html',
-  styleUrl: './tasks-widget.scss',
-})
-export class TasksWidget {
-  taskService = inject(TaskService);
-
-  taskList = signal(this.taskService.taskList());
-
-  // 1. Total tasks count
-  totalTasks = computed(() => this.taskList().length);
-
-  // 2. Completed tasks count
-  completedTasks = computed(() => this.taskList().filter((task) => task.isCompleted).length);
-
-  // 3. Completion percentage safely rounded, handling 0/0 edge case (NaN)
-  completionPercentage = computed(() => {
-    const total = this.totalTasks();
-    if (total === 0) return 0;
-
-    return Math.round((this.completedTasks() / total) * 100);
-  });
-
-  constructor() {
-    effect(() => {
-      this.taskList.set(this.taskService.taskList());
-    });
+    this.taskList.update((tasks) => [...tasks, newTask]);
   }
 
-  onChangeTaskCompletionState(taskId: string) {
-    const updatedTasks: Task[] = this.taskList().map((task) => {
-      if (task.id === taskId) {
-        const isCompleted = !task.isCompleted;
+  deleteTask(taskId: string): void {
+    this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
+  }
 
-        return {
-          ...task,
-          isCompleted,
-          // Set timestamp if completed; clear it (null) if unchecked
-          completedAt: isCompleted ? new Date().toISOString() : null,
-        };
-      }
-      return task;
-    });
+  updateTask(taskId: string, title?: string, description?: string): void {}
 
-    this.taskList.set(updatedTasks);
+  setTaskCompleted(taskId: string, isCompleted: boolean): void {}
+
+  persistTaskList(): void {}
+
+  fetchTask(taskId: string): Task | null {
+    return this.taskList().find((task) => task.id === taskId) || null;
   }
 }
 </file>
@@ -2017,6 +1981,22 @@ import { Header } from '../../components/header/header';
 export class MainLayout {}
 </file>
 
+<file path="src/app/app.config.ts">
+import { provideTaiga } from '@taiga-ui/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes, withComponentInputBinding()),
+    provideTaiga(),
+  ],
+};
+</file>
+
 <file path="src/app/app.ts">
 import { TuiRoot } from '@taiga-ui/core';
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
@@ -2035,25 +2015,373 @@ export class App {
 }
 </file>
 
+<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.html">
+<!-- MAIN TIMER CARD -->
+<div
+  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-8 flex flex-col items-center justify-between relative shadow-2xl"
+>
+  <!-- Timer Mode Pills -->
+  <div
+    class="flex items-center gap-2 bg-[#0b0e14]/60 p-1.5 rounded-full border border-slate-800/50 mb-8"
+  >
+    <!-- Pomodoro Button -->
+    <button
+      (click)="setMode('pomodoro')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'pomodoro'"
+      [class.bg-gradient-to-r]="timerMode() === 'pomodoro'"
+      [class.from-indigo-600]="timerMode() === 'pomodoro'"
+      [class.to-blue-600]="timerMode() === 'pomodoro'"
+      [class.shadow-lg]="timerMode() === 'pomodoro'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'pomodoro'"
+      [class.text-slate-400]="timerMode() !== 'pomodoro'"
+      [class.hover:text-white]="timerMode() !== 'pomodoro'"
+    >
+      Pomodoro
+    </button>
+
+    <!-- Short Break Button -->
+    <button
+      (click)="setMode('short')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'short'"
+      [class.bg-gradient-to-r]="timerMode() === 'short'"
+      [class.from-indigo-600]="timerMode() === 'short'"
+      [class.to-blue-600]="timerMode() === 'short'"
+      [class.shadow-lg]="timerMode() === 'short'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'short'"
+      [class.text-slate-400]="timerMode() !== 'short'"
+      [class.hover:text-white]="timerMode() !== 'short'"
+    >
+      Short Break
+    </button>
+
+    <!-- Long Break Button -->
+    <button
+      (click)="setMode('long')"
+      class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-200"
+      [class.text-white]="timerMode() === 'long'"
+      [class.bg-gradient-to-r]="timerMode() === 'long'"
+      [class.from-indigo-600]="timerMode() === 'long'"
+      [class.to-blue-600]="timerMode() === 'long'"
+      [class.shadow-lg]="timerMode() === 'long'"
+      [class.shadow-indigo-500\/25]="timerMode() === 'long'"
+      [class.text-slate-400]="timerMode() !== 'long'"
+      [class.hover:text-white]="timerMode() !== 'long'"
+    >
+      Long Break
+    </button>
+  </div>
+
+  <!-- Circular Timer Display -->
+  <div class="relative w-80 h-80 flex items-center justify-center my-4">
+    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+      <!-- Background Circle -->
+      <circle cx="50" cy="50" r="44" stroke="#1b202e" stroke-width="3" fill="transparent" />
+
+      <!-- Active Progress Arc -->
+      <circle
+        cx="50"
+        cy="50"
+        r="44"
+        stroke="url(#blue-gradient)"
+        stroke-width="3.5"
+        fill="transparent"
+        stroke-linecap="round"
+        [attr.stroke-dasharray]="CIRCUMFERENCE"
+        [attr.stroke-dashoffset]="strokeDashoffset()"
+        class="transition-[stroke-dashoffset] duration-1000 ease-linear"
+      />
+
+      <defs>
+        <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4f46e5" />
+          <stop offset="100%" stop-color="#3b82f6" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Floating Progress Knob -->
+    <div
+      class="absolute w-5 h-5 bg-indigo-400 rounded-full border-2 border-indigo-200 shadow-[0_0_12px_rgba(99,102,241,0.8)] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ease-linear pointer-events-none"
+      [style.left]="knobPosition().x"
+      [style.top]="knobPosition().y"
+    ></div>
+
+    <!-- Center Content -->
+    <div class="absolute flex flex-col items-center text-center px-4">
+      <span class="text-2xl mb-1">
+        @if (timerMode() === 'pomodoro') {
+          🍅
+        } @else {
+          ☕
+        }
+      </span>
+      <span class="text-xs font-medium text-slate-400 tracking-wider mb-1 capitalize">
+        {{ timerMode() }} Time
+      </span>
+      <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">
+        {{ timerDate() | date: 'mm:ss' : 'UTC' }}
+      </h1>
+
+      <button
+        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/50 text-xs text-slate-400 hover:text-white hover:border-slate-600 transition-all"
+      >
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+          ></path>
+        </svg>
+        <span>Tap to add task</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Timer Controls -->
+  <div class="flex items-center justify-center gap-6 mt-8 w-full max-w-md">
+    <!-- Reset -->
+    <div class="flex flex-col items-center gap-2">
+      <button
+        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+        (click)="resetTimer()"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          ></path>
+        </svg>
+      </button>
+      <span class="text-[11px] text-slate-400 font-medium">Reset</span>
+    </div>
+
+    <!-- Start (Primary CTA) -->
+    <div class="flex flex-col items-center gap-2 -mt-2" (click)="pomodoroService.startTimer()">
+      <button
+        class="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all"
+      >
+        <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
+      <span class="text-[11px] text-slate-300 font-medium">Start</span>
+    </div>
+
+    <!-- Stop -->
+    <div class="flex flex-col items-center gap-2">
+      <button
+        class="w-12 h-12 rounded-full bg-[#181d2a] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+        (click)="pomodoroService.pauseTimer()"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+      </button>
+      <span class="text-[11px] text-slate-400 font-medium">Pause</span>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.html">
+<div
+  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
+>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
+      <button
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
+        [routerLink]="['/tasks']"
+        type="button"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+        <span>Add Task</span>
+      </button>
+    </div>
+
+    <!-- Task List -->
+    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
+      @for (task of taskList(); track task.id) {
+        <div
+          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
+          (click)="onTaskClicked(task)"
+        >
+          <div class="flex items-center gap-3">
+            <!-- Checkbox Container -->
+            <div
+              class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
+              (click)="onChangeTaskCompletionState(task.id)"
+              [class]="
+                task.isCompleted
+                  ? 'bg-indigo-600 text-white'
+                  : 'border border-slate-700 group-hover:border-slate-500'
+              "
+            >
+              @if (task.isCompleted) {
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              }
+            </div>
+
+            <!-- Task Details -->
+            <div>
+              <p
+                class="text-sm font-medium transition-all"
+                [class]="
+                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
+                "
+              >
+                {{ task.title }}
+              </p>
+
+              <p class="text-xs text-slate-500 capitalize">
+                {{ task.description || task.type + ' task' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Time & Pomodoro Metadata -->
+          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
+            <!-- Pomodoro Progress Counter -->
+            <div
+              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
+            >
+              <span>🍅</span>
+              <span>{{ task.completedPomodoros || 0 }}</span>
+              <span class="text-slate-500">/</span>
+              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
+            </div>
+
+            <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
+            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
+              <span title="Work Duration" class="text-indigo-400"
+                >{{ task.settings.pomoLength }}m</span
+              >
+              <span>/</span>
+              <span title="Short Break" class="text-emerald-400"
+                >{{ task.settings.shortBreakLength }}m</span
+              >
+              <span>/</span>
+              <span title="Long Break" class="text-sky-400"
+                >{{ task.settings.longBreakLength }}m</span
+              >
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
+      }
+    </div>
+  </div>
+
+  <!-- Task Completion Progress Bar -->
+  <div class="mt-6 pt-4 border-t border-slate-800/40">
+    <div class="flex items-center justify-between text-xs mb-2">
+      <span class="text-slate-400">
+        Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
+      </span>
+      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
+        {{ completionPercentage() }}%
+      </span>
+    </div>
+
+    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
+      <div
+        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
+        [style.width.%]="completionPercentage()"
+      ></div>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.ts">
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { TaskService } from '../../../services/task-service';
+import { Task } from '../../../models/task-model';
+import { Router, RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-tasks-widget',
+  imports: [RouterLink],
+  templateUrl: './tasks-widget.html',
+  styleUrl: './tasks-widget.scss',
+})
+export class TasksWidget {
+  taskService = inject(TaskService);
+
+  taskList = signal(this.taskService.taskList());
+
+  private router = inject(Router);
+
+  // 1. Total tasks count
+  totalTasks = computed(() => this.taskList().length);
+
+  // 2. Completed tasks count
+  completedTasks = computed(() => this.taskList().filter((task) => task.isCompleted).length);
+
+  // 3. Completion percentage safely rounded, handling 0/0 edge case (NaN)
+  completionPercentage = computed(() => {
+    const total = this.totalTasks();
+    if (total === 0) return 0;
+
+    return Math.round((this.completedTasks() / total) * 100);
+  });
+
+  constructor() {
+    effect(() => {
+      this.taskList.set(this.taskService.taskList());
+    });
+  }
+
+  onChangeTaskCompletionState(taskId: string) {
+    const updatedTasks: Task[] = this.taskList().map((task) => {
+      if (task.id === taskId) {
+        const isCompleted = !task.isCompleted;
+
+        return {
+          ...task,
+          isCompleted,
+          // Set timestamp if completed; clear it (null) if unchecked
+          completedAt: isCompleted ? new Date().toISOString() : null,
+        };
+      }
+      return task;
+    });
+
+    this.taskList.set(updatedTasks);
+  }
+
+  onTaskClicked(task: Task) {
+    this.router.navigate(['/tasks', task.id]);
+  }
+}
+</file>
+
 <file path="src/app/app.html">
 <tui-root>
   <app-main-layout></app-main-layout>
 </tui-root>
-</file>
-
-<file path="src/app/app.routes.ts">
-import { Routes } from '@angular/router';
-
-export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./features/dashboard/components/timer/timer').then((m) => m.Timer),
-  },
-  {
-    path: 'tasks',
-    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
-  },
-];
 </file>
 
 <file path="package.json">
@@ -2113,6 +2441,96 @@ export const routes: Routes = [
     "vitest": "^4.0.8"
   }
 }
+</file>
+
+<file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.ts">
+import { NgClass, DatePipe } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
+import { PomodoroService } from '../../../services/pomodoro-service';
+import { ModeOption, TimerMode, TIMER_DURATIONS } from '../../../models/pomodoro-model';
+
+@Component({
+  selector: 'app-pomo-timer',
+  imports: [DatePipe, NgClass],
+  templateUrl: './pomo-timer.html',
+  styleUrl: './pomo-timer.scss',
+})
+export class PomoTimer {
+  pomodoroService = inject(PomodoroService);
+
+  // Mode configuration for template repetition
+  readonly modes: ModeOption[] = [
+    { id: 'pomodoro', label: 'Pomodoro' },
+    { id: 'short', label: 'Short Break' },
+    { id: 'long', label: 'Long Break' },
+  ];
+
+  // Aliasing service state so the template doesn't need to change
+  timerMode = this.pomodoroService.timerMode;
+  secondsRemaining = this.pomodoroService.secondsRemaining;
+  isRunning = this.pomodoroService.isRunning;
+  pomoNumber = this.pomodoroService.pomoNumber;
+
+  // SVG dimensions for circular progress bar
+  readonly RADIUS = 44;
+  readonly CIRCUMFERENCE = 2 * Math.PI * this.RADIUS; // ~276.46
+
+  // Computed properties
+  totalSeconds = computed(() => TIMER_DURATIONS[this.timerMode()]);
+
+  progress = computed(() => {
+    const total = this.totalSeconds();
+    if (total === 0) return 0;
+    return this.secondsRemaining() / total;
+  });
+
+  strokeDashoffset = computed(() => {
+    return this.CIRCUMFERENCE * (1 - this.progress());
+  });
+
+  knobPosition = computed(() => {
+    // Standard polar coordinates translated to SVG percentage center (50, 50)
+    const angleInRadians = (this.progress() * 360 - 90) * (Math.PI / 180);
+    const x = 50 + this.RADIUS * Math.cos(angleInRadians);
+    const y = 50 + this.RADIUS * Math.sin(angleInRadians);
+    // Note: Added missing backticks to the string interpolation
+    return { x: `${x}%`, y: `${y}%` };
+  });
+
+  timerDate = computed(() => new Date(this.secondsRemaining() * 1000));
+
+  // Forwarding UI events to the service
+  setMode(mode: TimerMode): void {
+    this.pomodoroService.setMode(mode);
+  }
+
+  toggleTimer(): void {
+    this.pomodoroService.toggleTimer();
+  }
+
+  resetTimer(): void {
+    this.pomodoroService.resetTimer();
+  }
+}
+</file>
+
+<file path="src/app/app.routes.ts">
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./features/dashboard/components/timer/timer').then((m) => m.Timer),
+  },
+  {
+    path: 'tasks',
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
+  {
+    path: 'tasks/:taskId', // 👈 Clean flat route mapping directly to the component
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
+];
 </file>
 
 </files>
