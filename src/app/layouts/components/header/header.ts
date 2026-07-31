@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { MainLayout } from '../../main-layout/main-layout/main-layout';
 
 @Component({
   selector: 'app-header',
@@ -8,5 +9,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrl: './header.scss',
 })
 export class Header {
+  private mainLayout = inject(MainLayout, { optional: true });
 
+  toggleSidebar(): void {
+    this.mainLayout?.toggleSidebar();
+  }
 }

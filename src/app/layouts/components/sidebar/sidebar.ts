@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MainLayout } from '../../main-layout/main-layout/main-layout';
 
 interface NavItem {
   label: string;
@@ -22,6 +23,8 @@ interface StreakBar {
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  private mainLayout = inject(MainLayout, { optional: true });
+
   readonly navItems: NavItem[] = [
     {
       label: 'Timer',
@@ -74,4 +77,8 @@ export class Sidebar {
     { day: 'S', height: 100, active: true },
     { day: 'S', height: 35, active: false },
   ];
+
+  onCloseSidebar(): void {
+    this.mainLayout?.toggleSidebar();
+  }
 }
