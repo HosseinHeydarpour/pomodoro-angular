@@ -52,7 +52,6 @@ export class Tasks {
             console.warn(`Task with ID ${currentId} not found.`);
           }
         } else {
-          console.log('Creating a new task');
           this.loadedTask.set(null);
           this.taskForm.reset();
         }
@@ -89,12 +88,14 @@ export class Tasks {
       formValue.dueDate = null;
     }
 
-    console.log('Task Data Ready for Service:', formValue);
-
-    // TODO: Call your TaskService here to save the task
     this.taskService.createTask(formValue);
 
     // Navigate back to the dashboard after saving
     this.router.navigate(['/']);
+  }
+
+  onTaskDeleteButtonClicked() {
+    const currentId = this.taskId();
+    if (currentId) this.taskService.deleteTask(currentId);
   }
 }
