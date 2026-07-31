@@ -6,27 +6,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
 
 :root {
-  --background: #0b1220;
-  --surface: #111827;
-  --surface-2: #172033;
-  --sidebar: #0f172a;
-  --hover: #1c2940;
-  --border: #23314a;
+  --background: 11 18 32;
+  --surface: 17 24 39;
+  --surface-2: 23 32 51;
+  --sidebar: 15 23 42;
+  --hover: 28 41 64;
+  --border: 35 49 74;
 
-  --primary: #6d6afe;
-  --primary-hover: #7f7cff;
-  --primary-pressed: #5956f4;
-  --primary-light: #8e8bff;
+  --primary: 109 106 254;
+  --primary-hover: 127 124 255;
+  --primary-pressed: 89 86 244;
+  --primary-light: 142 139 255;
 
-  --text: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-disabled: #64748b;
+  --text: 248 250 252;
+  --text-secondary: 203 213 225;
+  --text-muted: 148 163 184;
+  --text-disabled: 100 116 139;
 
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --info: #3b82f6;
+  --success: 34 197 94;
+  --warning: 245 158 11;
+  --danger: 239 68 68;
+  --info: 59 130 246;
+
+  --shadow-card: 0 10px 30px rgb(0 0 0 / 0.35);
+  --shadow-button: 0 0 30px rgb(var(--primary) / 0.25);
+  --shadow-modal: 0 25px 70px rgb(0 0 0 / 0.55);
+}
+
+:root.light {
+  --background: 244 247 251;
+  --surface: 255 255 255;
+  --surface-2: 238 242 248;
+  --sidebar: 255 255 255;
+  --hover: 229 235 244;
+  --border: 203 213 225;
+
+  --primary: 79 70 229;
+  --primary-hover: 67 56 202;
+  --primary-pressed: 55 48 163;
+  --primary-light: 124 58 237;
+
+  --text: 15 23 42;
+  --text-secondary: 51 65 85;
+  --text-muted: 100 116 139;
+  --text-disabled: 148 163 184;
+
+  --shadow-card: 0 10px 30px rgb(15 23 42 / 0.08);
+  --shadow-button: 0 8px 24px rgb(var(--primary) / 0.2);
+  --shadow-modal: 0 25px 70px rgb(15 23 42 / 0.18);
 }
 
 body {
@@ -38,6 +65,9 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 /* Mobile-friendly touch targets */

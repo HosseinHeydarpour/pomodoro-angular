@@ -5,34 +5,34 @@ export default {
     extend: {
       colors: {
         // Backgrounds
-        background: '#0B1220',
-        surface: '#111827',
-        'surface-2': '#172033',
-        sidebar: '#0F172A',
-        hover: '#1C2940',
-        border: '#23314A',
+        background: 'rgb(var(--background) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        'surface-2': 'rgb(var(--surface-2) / <alpha-value>)',
+        sidebar: 'rgb(var(--sidebar) / <alpha-value>)',
+        hover: 'rgb(var(--hover) / <alpha-value>)',
+        border: 'rgb(var(--border) / <alpha-value>)',
 
         // Primary
         primary: {
-          DEFAULT: '#6D6AFE',
-          hover: '#7F7CFF',
-          pressed: '#5956F4',
-          light: '#8E8BFF',
+          DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+          hover: 'rgb(var(--primary-hover) / <alpha-value>)',
+          pressed: 'rgb(var(--primary-pressed) / <alpha-value>)',
+          light: 'rgb(var(--primary-light) / <alpha-value>)',
         },
 
         // Text
         text: {
-          DEFAULT: '#F8FAFC',
-          secondary: '#CBD5E1',
-          muted: '#94A3B8',
-          disabled: '#64748B',
+          DEFAULT: 'rgb(var(--text) / <alpha-value>)',
+          secondary: 'rgb(var(--text-secondary) / <alpha-value>)',
+          muted: 'rgb(var(--text-muted) / <alpha-value>)',
+          disabled: 'rgb(var(--text-disabled) / <alpha-value>)',
         },
 
         // Status
-        success: '#22C55E',
-        warning: '#F59E0B',
-        danger: '#EF4444',
-        info: '#3B82F6',
+        success: 'rgb(var(--success) / <alpha-value>)',
+        warning: 'rgb(var(--warning) / <alpha-value>)',
+        danger: 'rgb(var(--danger) / <alpha-value>)',
+        info: 'rgb(var(--info) / <alpha-value>)',
 
         // Charts
         chart: {
@@ -60,13 +60,14 @@ export default {
       },
 
       boxShadow: {
-        card: '0 10px 30px rgba(0,0,0,.35)',
-        button: '0 0 30px rgba(109,106,254,.25)',
-        modal: '0 25px 70px rgba(0,0,0,.55)',
+        card: 'var(--shadow-card)',
+        button: 'var(--shadow-button)',
+        modal: 'var(--shadow-modal)',
       },
 
       backgroundImage: {
-        'primary-gradient': 'linear-gradient(135deg, #6D6AFE 0%, #8B5CF6 100%)',
+        'primary-gradient':
+          'linear-gradient(135deg, rgb(var(--primary)) 0%, rgb(var(--primary-light)) 100%)',
       },
 
       spacing: {
