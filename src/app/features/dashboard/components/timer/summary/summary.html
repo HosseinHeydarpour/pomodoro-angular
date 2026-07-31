@@ -1,8 +1,8 @@
-<div class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6">
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-base font-semibold text-white">Session Summary</h2>
+<div class="bg-surface border border-border/80 rounded-3xl p-4 sm:p-6 shadow-card">
+  <div class="flex items-center justify-between mb-6 gap-3">
+    <h2 class="text-base font-semibold text-text">Session Summary</h2>
     <button
-      class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-800/40 px-3 py-1.5 rounded-lg border border-slate-700/50"
+      class="flex items-center gap-1.5 text-xs text-text-muted hover:text-text bg-surface-2 px-3 py-1.5 rounded-lg border border-border/50 shrink-0"
     >
       <span>Today</span>
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,9 +18,9 @@
 
   <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
     <!-- Stat 1 -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
       <div
-        class="w-11 h-11 rounded-full bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center text-indigo-400 shrink-0"
+        class="w-11 h-11 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -31,18 +31,18 @@
           ></path>
         </svg>
       </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Focus Time</p>
-        <p class="text-lg font-bold text-white">
+      <div class="min-w-0">
+        <p class="text-[11px] text-text-muted">Focus Time</p>
+        <p class="text-lg font-bold text-text truncate">
           {{ taskService.stats().todaysFocusedHoursDisplay }}
         </p>
       </div>
     </div>
 
     <!-- Stat 2 -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
       <div
-        class="w-11 h-11 rounded-full bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center text-emerald-400 shrink-0"
+        class="w-11 h-11 rounded-full bg-success/10 border border-success/20 flex items-center justify-center text-success shrink-0"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -53,16 +53,16 @@
           ></path>
         </svg>
       </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Completed</p>
-        <p class="text-lg font-bold text-white">{{ taskService.stats().todaysPomodoros }}</p>
+      <div class="min-w-0">
+        <p class="text-[11px] text-text-muted">Completed</p>
+        <p class="text-lg font-bold text-text">{{ taskService.stats().todaysPomodoros }}</p>
       </div>
     </div>
 
     <!-- Stat 3 -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
       <div
-        class="w-11 h-11 rounded-full bg-amber-950/60 border border-amber-800/40 flex items-center justify-center text-amber-400 shrink-0"
+        class="w-11 h-11 rounded-full bg-warning/10 border border-warning/20 flex items-center justify-center text-warning shrink-0"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -73,16 +73,16 @@
           ></path>
         </svg>
       </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Pomodoros</p>
-        <p class="text-lg font-bold text-white">{{ taskService.stats().uncompletedPomodoros }}</p>
+      <div class="min-w-0">
+        <p class="text-[11px] text-text-muted">Pomodoros</p>
+        <p class="text-lg font-bold text-text">{{ taskService.stats().uncompletedPomodoros }}</p>
       </div>
     </div>
 
     <!-- Stat 4 -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
       <div
-        class="w-11 h-11 rounded-full bg-blue-950/60 border border-blue-800/40 flex items-center justify-center text-blue-400 shrink-0"
+        class="w-11 h-11 rounded-full bg-info/10 border border-info/20 flex items-center justify-center text-info shrink-0"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -93,9 +93,9 @@
           ></path>
         </svg>
       </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Long Breaks</p>
-        <p class="text-lg font-bold text-white">2</p>
+      <div class="min-w-0">
+        <p class="text-[11px] text-text-muted">Long Breaks</p>
+        <p class="text-lg font-bold text-text">2</p>
       </div>
     </div>
   </div>

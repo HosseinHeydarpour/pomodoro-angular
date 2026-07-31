@@ -1,11 +1,11 @@
 <div
-  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
+  class="bg-surface border border-border/80 rounded-3xl p-4 sm:p-6 flex-1 flex flex-col justify-between h-full shadow-card"
 >
   <div>
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
+    <div class="flex items-center justify-between mb-6 gap-3">
+      <h2 class="text-base font-semibold text-text">Today's Tasks</h2>
       <button
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/15 text-primary border border-primary/25 text-xs font-medium hover:bg-primary/25 transition-all shrink-0"
         [routerLink]="['/tasks']"
         type="button"
       >
@@ -22,21 +22,21 @@
     </div>
 
     <!-- Task List -->
-    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
+    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-1 sm:pr-2">
       @for (task of taskList(); track task.id) {
         <div
-          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
+          class="flex items-center justify-between py-2 border-b border-border/50 cursor-pointer group gap-2"
           (click)="onTaskClicked(task)"
         >
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 min-w-0">
             <!-- Checkbox Container -->
             <div
               class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
               (click)="$event.stopPropagation(); onChangeTaskCompletionState(task.id)"
               [class]="
                 task.isCompleted
-                  ? 'bg-indigo-600 text-white'
-                  : 'border border-slate-700 group-hover:border-slate-500'
+                  ? 'bg-primary text-white'
+                  : 'border border-border group-hover:border-text-muted'
               "
             >
               @if (task.isCompleted) {
@@ -53,70 +53,70 @@
             </div>
 
             <!-- Task Details -->
-            <div>
+            <div class="min-w-0">
               <p
-                class="text-sm font-medium transition-all"
+                class="text-sm font-medium transition-all truncate"
                 [class]="
-                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
+                  task.isCompleted ? 'text-text-secondary line-through opacity-60' : 'text-text'
                 "
               >
                 {{ task.title }}
               </p>
 
-              <p class="text-xs text-slate-500 capitalize">
+              <p class="text-xs text-text-muted capitalize truncate">
                 {{ task.description || task.type + ' task' }}
               </p>
             </div>
           </div>
 
           <!-- Time & Pomodoro Metadata -->
-          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
+          <div class="flex items-center gap-2 sm:gap-3 text-xs text-text-muted shrink-0">
             <!-- Pomodoro Progress Counter -->
             <div
-              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
+              class="flex items-center gap-1 font-mono font-medium text-text-secondary bg-surface-2 px-2 py-1 rounded border border-border/50"
             >
               <span>🍅</span>
               <span>{{ task.completedPomodoros || 0 }}</span>
-              <span class="text-slate-500">/</span>
-              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
+              <span class="text-text-muted">/</span>
+              <span class="text-text-muted">{{ task.settings.targetPomodoros }}</span>
             </div>
 
             <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
-            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
-              <span title="Work Duration" class="text-indigo-400"
+            <div class="hidden sm:flex items-center gap-1.5 text-text-muted font-medium">
+              <span title="Work Duration" class="text-primary"
                 >{{ task.settings.pomoLength }}m</span
               >
               <span>/</span>
-              <span title="Short Break" class="text-emerald-400"
+              <span title="Short Break" class="text-success"
                 >{{ task.settings.shortBreakLength }}m</span
               >
               <span>/</span>
-              <span title="Long Break" class="text-sky-400"
+              <span title="Long Break" class="text-info"
                 >{{ task.settings.longBreakLength }}m</span
               >
             </div>
           </div>
         </div>
       } @empty {
-        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
+        <p class="text-sm text-text-muted py-4 text-center">No tasks found.</p>
       }
     </div>
   </div>
 
   <!-- Task Completion Progress Bar -->
-  <div class="mt-6 pt-4 border-t border-slate-800/40">
-    <div class="flex items-center justify-between text-xs mb-2">
-      <span class="text-slate-400">
+  <div class="mt-6 pt-4 border-t border-border/40">
+    <div class="flex items-center justify-between text-xs mb-2 gap-2">
+      <span class="text-text-muted">
         Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
       </span>
-      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
+      <span class="font-bold text-primary font-mono transition-all duration-300">
         {{ completionPercentage() }}%
       </span>
     </div>
 
-    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
+    <div class="w-full bg-surface-2 rounded-full h-1.5 overflow-hidden">
       <div
-        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
+        class="bg-primary-gradient h-1.5 rounded-full transition-all duration-500 ease-out"
         [style.width.%]="completionPercentage()"
       ></div>
     </div>

@@ -1,7 +1,11 @@
-<nav class="flex justify-between items-center">
+<nav
+  class="flex justify-between items-center gap-3 sm:gap-4 px-4 sm:px-6 pt-4 sm:pt-6 pb-2"
+>
   <!-- Mobile Menu Button -->
   <button
-    class="lg:hidden p-2 -ml-2 text-text-muted hover:text-text"
+    class="lg:hidden p-2 -ml-1 text-text-muted hover:text-text hover:bg-hover rounded-lg transition-colors shrink-0"
+    type="button"
+    aria-label="Open sidebar"
     (click)="toggleSidebar()"
   >
     <svg
@@ -21,14 +25,18 @@
     </svg>
   </button>
 
-  <div class="flex flex-col gap-0">
+  <div class="flex flex-col gap-0 min-w-0 flex-1">
     <!-- TODO: make this message dynamic based on the time of day and user name -->
-    <h2 class="text-lg text-text">Good morning, Hossein 👋</h2>
-    <p class="text-text/75 text-sm">Let's focus and crush your goals today.</p>
+    <h2 class="text-base sm:text-lg text-text truncate">Good morning, Hossein 👋</h2>
+    <p class="text-text-muted text-xs sm:text-sm truncate hidden sm:block">
+      Let's focus and crush your goals today.
+    </p>
   </div>
-  <div class="flex gap-4">
+  <div class="flex gap-2 sm:gap-3 shrink-0">
     <button
-      class="stats-btn bg-surface-2 border-border text-text rounded-md flex h-10 w-10 items-center justify-center border hover:bg-hover hover:pointer"
+      class="stats-btn hidden sm:flex bg-surface-2 border-border text-text rounded-md h-10 w-10 items-center justify-center border hover:bg-hover"
+      type="button"
+      aria-label="Stats"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +55,9 @@
       </svg>
     </button>
     <button
-      class="notification-btn bg-surface-2 border-border text-text rounded-md flex h-10 w-10 items-center justify-center border hover:bg-hover"
+      class="notification-btn hidden sm:flex bg-surface-2 border-border text-text rounded-md h-10 w-10 items-center justify-center border hover:bg-hover"
+      type="button"
+      aria-label="Notifications"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

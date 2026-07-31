@@ -70,13 +70,23 @@ body {
     color 180ms ease;
 }
 
-/* Mobile-friendly touch targets */
-@media (max-width: 1024px) {
-  button,
-  a {
-    min-height: 44px;
-    min-width: 44px;
-  }
+/* Theme-aware native controls (date inputs, etc.) */
+.color-scheme-theme {
+  color-scheme: dark;
+}
+
+:root.light .color-scheme-theme {
+  color-scheme: light;
+}
+
+/* Hide scrollbars on horizontal pill rows without losing scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Prevent text selection on UI elements */
