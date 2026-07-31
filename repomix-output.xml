@@ -1959,133 +1959,6 @@ export class Tasks {
 }
 </file>
 
-<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.html">
-<div
-  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
->
-  <div>
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
-      <button
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
-        [routerLink]="['/tasks']"
-        type="button"
-      >
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          ></path>
-        </svg>
-        <span>Add Task</span>
-      </button>
-    </div>
-
-    <!-- Task List -->
-    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
-      @for (task of taskList(); track task.id) {
-        <div
-          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
-          (click)="onTaskClicked(task)"
-        >
-          <div class="flex items-center gap-3">
-            <!-- Checkbox Container -->
-            <div
-              class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
-              (click)="onChangeTaskCompletionState(task.id)"
-              [class]="
-                task.isCompleted
-                  ? 'bg-indigo-600 text-white'
-                  : 'border border-slate-700 group-hover:border-slate-500'
-              "
-            >
-              @if (task.isCompleted) {
-                <svg
-                  class="w-3.5 h-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="3"
-                  viewBox="0 0 24 24"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              }
-            </div>
-
-            <!-- Task Details -->
-            <div>
-              <p
-                class="text-sm font-medium transition-all"
-                [class]="
-                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
-                "
-              >
-                {{ task.title }}
-              </p>
-
-              <p class="text-xs text-slate-500 capitalize">
-                {{ task.description || task.type + ' task' }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Time & Pomodoro Metadata -->
-          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
-            <!-- Pomodoro Progress Counter -->
-            <div
-              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
-            >
-              <span>🍅</span>
-              <span>{{ task.completedPomodoros || 0 }}</span>
-              <span class="text-slate-500">/</span>
-              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
-            </div>
-
-            <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
-            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
-              <span title="Work Duration" class="text-indigo-400"
-                >{{ task.settings.pomoLength }}m</span
-              >
-              <span>/</span>
-              <span title="Short Break" class="text-emerald-400"
-                >{{ task.settings.shortBreakLength }}m</span
-              >
-              <span>/</span>
-              <span title="Long Break" class="text-sky-400"
-                >{{ task.settings.longBreakLength }}m</span
-              >
-            </div>
-          </div>
-        </div>
-      } @empty {
-        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
-      }
-    </div>
-  </div>
-
-  <!-- Task Completion Progress Bar -->
-  <div class="mt-6 pt-4 border-t border-slate-800/40">
-    <div class="flex items-center justify-between text-xs mb-2">
-      <span class="text-slate-400">
-        Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
-      </span>
-      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
-        {{ completionPercentage() }}%
-      </span>
-    </div>
-
-    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
-      <div
-        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
-        [style.width.%]="completionPercentage()"
-      ></div>
-    </div>
-  </div>
-</div>
-</file>
-
 <file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.ts">
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TaskService } from '../../../services/task-service';
@@ -2250,6 +2123,133 @@ export interface Task {
     "vitest": "^4.0.8"
   }
 }
+</file>
+
+<file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.html">
+<div
+  class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
+>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-base font-semibold text-white">Today's Tasks</h2>
+      <button
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-medium hover:bg-indigo-600/30 transition-all"
+        [routerLink]="['/tasks']"
+        type="button"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+        <span>Add Task</span>
+      </button>
+    </div>
+
+    <!-- Task List -->
+    <div class="space-y-4 max-h-[27rem] overflow-y-auto pr-2">
+      @for (task of taskList(); track task.id) {
+        <div
+          class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
+          (click)="onTaskClicked(task)"
+        >
+          <div class="flex items-center gap-3">
+            <!-- Checkbox Container -->
+            <div
+              class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
+              (click)="$event.stopPropagation(); onChangeTaskCompletionState(task.id)"
+              [class]="
+                task.isCompleted
+                  ? 'bg-indigo-600 text-white'
+                  : 'border border-slate-700 group-hover:border-slate-500'
+              "
+            >
+              @if (task.isCompleted) {
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              }
+            </div>
+
+            <!-- Task Details -->
+            <div>
+              <p
+                class="text-sm font-medium transition-all"
+                [class]="
+                  task.isCompleted ? 'text-slate-200 line-through opacity-60' : 'text-slate-200'
+                "
+              >
+                {{ task.title }}
+              </p>
+
+              <p class="text-xs text-slate-500 capitalize">
+                {{ task.description || task.type + ' task' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Time & Pomodoro Metadata -->
+          <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
+            <!-- Pomodoro Progress Counter -->
+            <div
+              class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
+            >
+              <span>🍅</span>
+              <span>{{ task.completedPomodoros || 0 }}</span>
+              <span class="text-slate-500">/</span>
+              <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
+            </div>
+
+            <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
+            <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
+              <span title="Work Duration" class="text-indigo-400"
+                >{{ task.settings.pomoLength }}m</span
+              >
+              <span>/</span>
+              <span title="Short Break" class="text-emerald-400"
+                >{{ task.settings.shortBreakLength }}m</span
+              >
+              <span>/</span>
+              <span title="Long Break" class="text-sky-400"
+                >{{ task.settings.longBreakLength }}m</span
+              >
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
+      }
+    </div>
+  </div>
+
+  <!-- Task Completion Progress Bar -->
+  <div class="mt-6 pt-4 border-t border-slate-800/40">
+    <div class="flex items-center justify-between text-xs mb-2">
+      <span class="text-slate-400">
+        Completed {{ completedTasks() }} of {{ totalTasks() }} tasks
+      </span>
+      <span class="font-bold text-indigo-400 font-mono transition-all duration-300">
+        {{ completionPercentage() }}%
+      </span>
+    </div>
+
+    <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
+      <div
+        class="bg-gradient-to-r from-indigo-500 to-blue-500 h-1.5 rounded-full transition-all duration-500 ease-out"
+        [style.width.%]="completionPercentage()"
+      ></div>
+    </div>
+  </div>
+</div>
 </file>
 
 <file path="src/app/app.routes.ts">
