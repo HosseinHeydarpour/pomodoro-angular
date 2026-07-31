@@ -1,110 +1,48 @@
-import { computed, Service, signal } from '@angular/core';
+import { computed, effect, Service, signal } from '@angular/core';
 import { Task } from '../models/task-model';
+
+const DEFAULT_TASKS: Task[] = [];
 
 @Service()
 export class TaskService {
-  taskList = signal<Task[]>([
-    // 1. Everyday Daily Routine Task
-    {
-      id: 'task-1',
-      title: 'Morning Code Review & PR Triage',
-      description: 'Review pending team pull requests and prioritize open issues before deep work.',
-      completedPomodoros: 1,
-      isCompleted: false,
-      type: 'everyday',
-      dueDate: null,
-      createdAt: '2026-07-30T08:00:00Z',
-      settings: {
-        targetPomodoros: 2,
-        pomoLength: 25,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-      isSelected: false,
-    },
+  private readonly STORAGE_KEY = 'pomodoro_tasks';
 
-    // 2. High-Focus Scheduled Project Task
-    {
-      id: 'task-2',
-      title: 'Implement Authentication Service',
-      description: 'Setup JWT authentication, refresh token rotation, and Angular route guards.',
-      completedPomodoros: 3,
-      isCompleted: false,
-      type: 'scheduled',
-      dueDate: '2026-08-05',
-      createdAt: '2026-07-28T10:00:00Z',
-      settings: {
-        targetPomodoros: 6,
-        pomoLength: 45,
-        shortBreakLength: 10,
-        longBreakLength: 20,
-      },
-      isSelected: false,
-    },
-
-    // 3. Short Everyday Learning Habit
-    {
-      id: 'task-3',
-      title: 'Read Technical Documentation',
-      description: 'Study Angular signal APIs, RxJS interop, and change detection optimizations.',
-      completedPomodoros: 1,
-      isCompleted: true,
-      dueDate: null,
-      createdAt: '2026-07-29T09:00:00Z',
-      completedAt: '2026-07-30T10:30:00Z',
-      type: 'everyday',
-      settings: {
-        targetPomodoros: 1,
-        pomoLength: 20,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-      isSelected: false,
-    },
-
-    // 4. Time-Sensitive Scheduled Deadline
-    {
-      id: 'task-4',
-      title: 'Prepare Sprint Demo Deck',
-      description:
-        'Create slide deck for end-of-sprint demo and record short feature walkthrough video.',
-      completedPomodoros: 0,
-      isCompleted: false,
-      type: 'scheduled',
-      dueDate: '2026-07-31',
-      createdAt: '2026-07-30T07:30:00Z',
-      settings: {
-        targetPomodoros: 3,
-        pomoLength: 25,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-      isSelected: false,
-    },
-
-    // 5. Intensive Scheduled Maintenance Task
-    {
-      id: 'task-5',
-      title: 'Database Schema Migration & Cleanup',
-      description:
-        'Archive legacy user audit logs, run index optimization scripts, and update ORM schemas.',
-      completedPomodoros: 4,
-      isCompleted: true,
-      type: 'scheduled',
-      dueDate: '2026-08-12',
-      createdAt: '2026-07-25T11:00:00Z',
-      completedAt: '2026-07-29T16:00:00Z',
-      settings: {
-        targetPomodoros: 4,
-        pomoLength: 50,
-        shortBreakLength: 10,
-        longBreakLength: 30,
-      },
-      isSelected: false,
-    },
-  ]);
+  // Initialize the signal directly from localStorage (or fallback to defaults)
+  taskList = signal<Task[]>(this.loadTasksFromStorage());
 
   selectedTask = signal<Task | null>(null);
+
+  constructor() {
+    // If a task was marked as 'isSelected' in storage, set it as active on load
+    const initiallySelected = this.taskList().find((task) => task.isSelected) || null;
+    this.selectedTask.set(initiallySelected);
+
+    // Auto-save to localStorage whenever `taskList` changes
+    effect(() => {
+      this.persistTaskList();
+    });
+  }
+
+  private loadTasksFromStorage(): Task[] {
+    if (typeof localStorage !== 'undefined') {
+      const storedTasks = localStorage.getItem(this.STORAGE_KEY);
+      if (storedTasks) {
+        try {
+          return JSON.parse(storedTasks);
+        } catch (error) {
+          console.error('Failed to parse tasks from local storage', error);
+        }
+      }
+    }
+    // Return default tasks if storage is empty
+    return DEFAULT_TASKS;
+  }
+
+  persistTaskList(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.taskList()));
+    }
+  }
 
   createTask(task: Task): void {
     const newTask: Task = {
@@ -121,19 +59,27 @@ export class TaskService {
 
   deleteTask(taskId: string): void {
     this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
+
+    // Clear the selected task if it was just deleted
+    if (this.selectedTask()?.id === taskId) {
+      this.selectedTask.set(null);
+    }
   }
 
-  updateTask(taskId: string, title?: string, description?: string): void {}
+  updateTask(taskId: string, title?: string, description?: string): void {
+    // Implement as needed
+  }
 
-  setTaskCompleted(taskId: string, isCompleted: boolean): void {}
-
-  persistTaskList(): void {}
+  setTaskCompleted(taskId: string, isCompleted: boolean): void {
+    // Implement as needed
+  }
 
   fetchTask(taskId: string): Task | null {
     return this.taskList().find((task) => task.id === taskId) || null;
   }
 
   setSelectedTask(taskID: string) {
+    // Mark one task as selected and all others as unselected
     this.taskList.update((tasks) =>
       tasks.map((task) => ({
         ...task,
