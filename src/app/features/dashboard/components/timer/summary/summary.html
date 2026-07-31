@@ -33,7 +33,9 @@
       </div>
       <div>
         <p class="text-[11px] text-slate-400">Focus Time</p>
-        <p class="text-lg font-bold text-white">3h 40m</p>
+        <p class="text-lg font-bold text-white">
+          {{ taskService.stats().todaysFocusedHoursDisplay }}
+        </p>
       </div>
     </div>
 
@@ -53,7 +55,7 @@
       </div>
       <div>
         <p class="text-[11px] text-slate-400">Completed</p>
-        <p class="text-lg font-bold text-white">8</p>
+        <p class="text-lg font-bold text-white">{{ taskService.stats().todaysPomodoros }}</p>
       </div>
     </div>
 
@@ -73,7 +75,7 @@
       </div>
       <div>
         <p class="text-[11px] text-slate-400">Pomodoros</p>
-        <p class="text-lg font-bold text-white">12</p>
+        <p class="text-lg font-bold text-white">{{ taskService.stats().uncompletedPomodoros }}</p>
       </div>
     </div>
 

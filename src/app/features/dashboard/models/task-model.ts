@@ -1,3 +1,5 @@
+import { PomodoroHistory } from './pomodoro-model';
+
 export type TaskType = 'everyday' | 'scheduled';
 
 export interface PomodoroSettings {
@@ -15,6 +17,8 @@ export interface Task {
   // Progress tracking
   completedPomodoros: number;
   isCompleted: boolean;
+
+  pomodoroHistory?: PomodoroHistory[] | null;
 
   // Scheduling: Either an everyday repeating task or has a explicit due date
   type: TaskType;

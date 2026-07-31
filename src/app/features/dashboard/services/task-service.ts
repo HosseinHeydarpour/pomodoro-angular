@@ -12,6 +12,60 @@ export class TaskService {
 
   selectedTask = signal<Task | null>(null);
 
+  stats = computed(() => {
+    const tasks = this.taskList();
+    const today = new Date();
+
+    // Helper to safely check if a date string is from today
+    const isToday = (dateString: Date | string | null | undefined) => {
+      if (!dateString) return false;
+      const d = new Date(dateString);
+      return (
+        d.getDate() === today.getDate() &&
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear()
+      );
+    };
+
+    let todaysPomodoros = 0;
+    let uncompletedPomodoros = 0; // <-- Changed this
+    let todaysFocusMinutes = 0;
+    let todaysCompletedTasks = 0;
+
+    tasks.forEach((task) => {
+      // 1. Check completed tasks for today
+      if (task.isCompleted && isToday(task.completedAt)) {
+        todaysCompletedTasks++;
+      }
+
+      // 2. Calculate UNCOMPLETED / REMAINING Pomodoros
+      if (!task.isCompleted) {
+        // Target minus completed (ensure it doesn't go below 0 if they over-achieved)
+        const remaining = task.settings.targetPomodoros - task.completedPomodoros;
+        if (remaining > 0) {
+          uncompletedPomodoros += remaining;
+        }
+      }
+
+      // 3. Count today's finished pomodoros and focus time
+      if (task.pomodoroHistory) {
+        const todayHistory = task.pomodoroHistory.filter((h) => isToday(h.pomodoroDoneDate));
+        todaysPomodoros += todayHistory.length;
+        todaysFocusMinutes += todayHistory.length * task.settings.pomoLength;
+      }
+    });
+
+    const hours = Math.floor(todaysFocusMinutes / 60);
+    const minutes = todaysFocusMinutes % 60;
+
+    return {
+      todaysPomodoros,
+      uncompletedPomodoros, // <-- Returning the new metric
+      todaysCompletedTasks,
+      todaysFocusedHoursDisplay: hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
+    };
+  });
+
   constructor() {
     // If a task was marked as 'isSelected' in storage, set it as active on load
     const initiallySelected = this.taskList().find((task) => task.isSelected) || null;

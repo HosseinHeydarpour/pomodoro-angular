@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TaskService } from '../../../services/task-service';
 
 @Component({
   selector: 'app-summary',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './summary.scss',
 })
 export class Summary {
-
+  taskService = inject(TaskService);
 }

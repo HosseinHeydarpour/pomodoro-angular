@@ -10,3 +10,7 @@ export interface ModeOption {
   id: TimerMode;
   label: string;
 }
+
+export interface PomodoroHistory {
+  pomodoroDoneDate: Date | string; // <-- Allow string for localStorage parsing
+}

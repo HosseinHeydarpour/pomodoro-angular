@@ -92,11 +92,19 @@ export class PomodoroService implements OnDestroy {
 
       const currentTask = this.taskService.selectedTask();
       if (currentTask) {
+        // Create the new history entry
+        const newHistoryEntry = { pomodoroDoneDate: new Date().toISOString() };
+
         // 1. Update the main task list so the TasksWidget UI reflects the progress
         this.taskService.taskList.update((tasks) =>
           tasks.map((task) =>
             task.id === currentTask.id
-              ? { ...task, completedPomodoros: task.completedPomodoros + 1 }
+              ? {
+                  ...task,
+                  completedPomodoros: task.completedPomodoros + 1,
+                  // Append to existing history or create a new array
+                  pomodoroHistory: [...(task.pomodoroHistory || []), newHistoryEntry],
+                }
               : task,
           ),
         );
@@ -104,7 +112,11 @@ export class PomodoroService implements OnDestroy {
         // 2. Update the selectedTask signal immutably
         this.taskService.selectedTask.update((task) => {
           if (!task) return null;
-          return { ...task, completedPomodoros: task.completedPomodoros + 1 };
+          return {
+            ...task,
+            completedPomodoros: task.completedPomodoros + 1,
+            pomodoroHistory: [...(task.pomodoroHistory || []), newHistoryEntry],
+          };
         });
       }
 
@@ -121,7 +133,6 @@ export class PomodoroService implements OnDestroy {
       this.playBreakFinishedSound();
     }
   }
-
   playPomodoroFinishedSound() {
     const audio = new Audio('/sounds/pomo-finished.wav');
     audio.play().catch((err) => console.error('Error playing pomo sound:', err));
