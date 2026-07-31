@@ -405,21 +405,6 @@ import { NotesWidget } from './notes-widget/notes-widget';
 export class Timer {}
 </file>
 
-<file path="src/app/features/dashboard/models/pomodoro-model.ts">
-export const TIMER_DURATIONS = {
-  pomodoro: 1 * 3,
-  short: 1 * 2,
-  long: 1 * 3,
-} as const;
-
-export type TimerMode = keyof typeof TIMER_DURATIONS;
-
-export interface ModeOption {
-  id: TimerMode;
-  label: string;
-}
-</file>
-
 <file path="src/app/layouts/components/footer/footer.scss">
 
 </file>
@@ -856,6 +841,25 @@ export default {
     "src/**/*.d.ts",
     "src/**/*.spec.ts"
   ]
+}
+</file>
+
+<file path="src/app/features/dashboard/models/pomodoro-model.ts">
+export const DEFAULT_TIMER_DURATIONS = {
+  pomodoro: 25 * 60,
+  short: 5 * 60,
+  long: 15 * 60,
+} as const;
+
+export type TimerMode = keyof typeof DEFAULT_TIMER_DURATIONS;
+
+export interface ModeOption {
+  id: TimerMode;
+  label: string;
+}
+
+export interface PomodoroHistory {
+  pomodoroDoneDate: Date;
 }
 </file>
 
@@ -1548,6 +1552,8 @@ export class Tasks {
 </file>
 
 <file path="src/app/features/dashboard/models/task-model.ts">
+import { PomodoroHistory } from './pomodoro-model';
+
 export type TaskType = 'everyday' | 'scheduled';
 
 export interface PomodoroSettings {
@@ -1566,6 +1572,8 @@ export interface Task {
   completedPomodoros: number;
   isCompleted: boolean;
 
+  pomodoroHistory?: PomodoroHistory[] | null;
+
   // Scheduling: Either an everyday repeating task or has a explicit due date
   type: TaskType;
   dueDate?: Date | string | null;
@@ -1578,97 +1586,6 @@ export interface Task {
   // Metadata
   createdAt: Date | string;
   completedAt?: Date | string | null;
-}
-</file>
-
-<file path="src/app/features/dashboard/services/pomodoro-service.ts">
-import { Injectable, signal, OnDestroy, Service } from '@angular/core';
-import { TIMER_DURATIONS, TimerMode } from '../models/pomodoro-model';
-
-@Service()
-export class PomodoroService implements OnDestroy {
-  // Primary reactive state
-  readonly timerMode = signal<TimerMode>('pomodoro');
-  readonly secondsRemaining = signal(TIMER_DURATIONS['pomodoro']);
-  readonly isRunning = signal(false);
-  readonly pomoNumber = signal(0);
-
-  private timerInterval: ReturnType<typeof setInterval> | null = null;
-
-  setMode(mode: TimerMode): void {
-    this.pauseTimer();
-    this.timerMode.set(mode);
-    this.secondsRemaining.set(TIMER_DURATIONS[mode]);
-  }
-
-  toggleTimer(): void {
-    if (this.isRunning()) {
-      this.pauseTimer();
-    } else {
-      this.startTimer();
-    }
-  }
-
-  startTimer(): void {
-    if (this.isRunning()) return;
-
-    this.isRunning.set(true);
-
-    this.timerInterval = setInterval(() => {
-      if (this.secondsRemaining() <= 1) {
-        this.handleTimerCompletion();
-        return;
-      }
-      this.secondsRemaining.update((current) => current - 1);
-    }, 1000);
-  }
-
-  pauseTimer(): void {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
-      this.timerInterval = null;
-    }
-    this.isRunning.set(false);
-  }
-
-  resetTimer(): void {
-    this.pauseTimer();
-    this.secondsRemaining.set(TIMER_DURATIONS[this.timerMode()]);
-  }
-
-  private handleTimerCompletion(): void {
-    this.pauseTimer();
-
-    if (this.timerMode() === 'pomodoro') {
-      const nextPomoCount = this.pomoNumber() + 1;
-
-      if (nextPomoCount < 4) {
-        this.pomoNumber.set(nextPomoCount);
-        this.setMode('short');
-      } else {
-        this.pomoNumber.set(0);
-        this.setMode('long');
-      }
-      this.playPomodoroFinishedSound();
-    } else {
-      this.setMode('pomodoro');
-      this.playBreakFinishedSound();
-    }
-  }
-
-  playPomodoroFinishedSound() {
-    const audio = new Audio('/sounds/pomo-finished.wav');
-    audio.play().catch((err) => console.error('Error playing pomo sound:', err));
-  }
-
-  playBreakFinishedSound() {
-    const audio = new Audio('/sounds/break-finish.wav');
-    audio.play().catch((err) => console.error('Error playing break sound:', err));
-  }
-
-  ngOnDestroy(): void {
-    this.pauseTimer();
-  }
 }
 </file>
 
@@ -2154,155 +2071,6 @@ export class TasksWidget {
 }
 </file>
 
-<file path="src/app/features/dashboard/services/task-service.ts">
-import { computed, Service, signal } from '@angular/core';
-import { Task } from '../models/task-model';
-
-@Service()
-export class TaskService {
-  taskList = signal<Task[]>([
-    // 1. Everyday Daily Routine Task
-    {
-      id: 'task-1',
-      title: 'Morning Code Review & PR Triage',
-      description: 'Review pending team pull requests and prioritize open issues before deep work.',
-      completedPomodoros: 1,
-      isCompleted: false,
-      type: 'everyday',
-      dueDate: null,
-      createdAt: '2026-07-30T08:00:00Z',
-      settings: {
-        targetPomodoros: 2,
-        pomoLength: 25,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-      isSelected: false,
-    },
-
-    // 2. High-Focus Scheduled Project Task
-    {
-      id: 'task-2',
-      title: 'Implement Authentication Service',
-      description: 'Setup JWT authentication, refresh token rotation, and Angular route guards.',
-      completedPomodoros: 3,
-      isCompleted: false,
-      type: 'scheduled',
-      dueDate: '2026-08-05',
-      createdAt: '2026-07-28T10:00:00Z',
-      settings: {
-        targetPomodoros: 6,
-        pomoLength: 45,
-        shortBreakLength: 10,
-        longBreakLength: 20,
-      },
-      isSelected: false,
-    },
-
-    // 3. Short Everyday Learning Habit
-    {
-      id: 'task-3',
-      title: 'Read Technical Documentation',
-      description: 'Study Angular signal APIs, RxJS interop, and change detection optimizations.',
-      completedPomodoros: 1,
-      isCompleted: true,
-      dueDate: null,
-      createdAt: '2026-07-29T09:00:00Z',
-      completedAt: '2026-07-30T10:30:00Z',
-      type: 'everyday',
-      settings: {
-        targetPomodoros: 1,
-        pomoLength: 20,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-      isSelected: false,
-    },
-
-    // 4. Time-Sensitive Scheduled Deadline
-    {
-      id: 'task-4',
-      title: 'Prepare Sprint Demo Deck',
-      description:
-        'Create slide deck for end-of-sprint demo and record short feature walkthrough video.',
-      completedPomodoros: 0,
-      isCompleted: false,
-      type: 'scheduled',
-      dueDate: '2026-07-31',
-      createdAt: '2026-07-30T07:30:00Z',
-      settings: {
-        targetPomodoros: 3,
-        pomoLength: 25,
-        shortBreakLength: 5,
-        longBreakLength: 15,
-      },
-      isSelected: false,
-    },
-
-    // 5. Intensive Scheduled Maintenance Task
-    {
-      id: 'task-5',
-      title: 'Database Schema Migration & Cleanup',
-      description:
-        'Archive legacy user audit logs, run index optimization scripts, and update ORM schemas.',
-      completedPomodoros: 4,
-      isCompleted: true,
-      type: 'scheduled',
-      dueDate: '2026-08-12',
-      createdAt: '2026-07-25T11:00:00Z',
-      completedAt: '2026-07-29T16:00:00Z',
-      settings: {
-        targetPomodoros: 4,
-        pomoLength: 50,
-        shortBreakLength: 10,
-        longBreakLength: 30,
-      },
-      isSelected: false,
-    },
-  ]);
-
-  selectedTask = signal<Task | null>(null);
-
-  createTask(task: Task): void {
-    const newTask: Task = {
-      ...task,
-      id: `task-${Date.now()}`, // Simple unique ID generation
-      createdAt: new Date().toISOString(),
-      completedPomodoros: 0,
-      isCompleted: false,
-      isSelected: false,
-    };
-
-    this.taskList.update((tasks) => [...tasks, newTask]);
-  }
-
-  deleteTask(taskId: string): void {
-    this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
-  }
-
-  updateTask(taskId: string, title?: string, description?: string): void {}
-
-  setTaskCompleted(taskId: string, isCompleted: boolean): void {}
-
-  persistTaskList(): void {}
-
-  fetchTask(taskId: string): Task | null {
-    return this.taskList().find((task) => task.id === taskId) || null;
-  }
-
-  setSelectedTask(taskID: string) {
-    this.taskList.update((tasks) =>
-      tasks.map((task) => ({
-        ...task,
-        isSelected: task.id === taskID,
-      })),
-    );
-
-    this.selectedTask.set(this.taskList().find((task) => task.id === taskID) || null);
-  }
-}
-</file>
-
 <file path="src/app/app.html">
 <tui-root>
   <app-main-layout></app-main-layout>
@@ -2368,6 +2136,151 @@ export class TaskService {
 }
 </file>
 
+<file path="src/app/features/dashboard/services/pomodoro-service.ts">
+import { computed, effect, inject, signal, OnDestroy, Service } from '@angular/core';
+import { DEFAULT_TIMER_DURATIONS, TimerMode } from '../models/pomodoro-model';
+import { TaskService } from './task-service';
+
+@Service()
+export class PomodoroService implements OnDestroy {
+  private taskService = inject(TaskService);
+
+  // Primary reactive state
+  readonly timerMode = signal<TimerMode>('pomodoro');
+
+  // Dynamically calculate durations based on the selected task
+  readonly currentDurations = computed(() => {
+    const task = this.taskService.selectedTask();
+    if (task) {
+      // Multiply by 60 to convert model minutes to seconds
+      return {
+        pomodoro: task.settings.pomoLength * 60,
+        short: task.settings.shortBreakLength * 60,
+        long: task.settings.longBreakLength * 60,
+      };
+    }
+    return DEFAULT_TIMER_DURATIONS;
+  });
+
+  readonly secondsRemaining = signal(this.currentDurations()['pomodoro']);
+  readonly isRunning = signal(false);
+  readonly pomoNumber = signal(0);
+
+  private timerInterval: ReturnType<typeof setInterval> | null = null;
+
+  constructor() {
+    // Automatically update the remaining time when the task selection changes
+    // (only if the timer is not currently running)
+    effect(
+      () => {
+        const durations = this.currentDurations();
+        if (!this.isRunning()) {
+          this.secondsRemaining.set(durations[this.timerMode()]);
+        }
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  setMode(mode: TimerMode): void {
+    this.pauseTimer();
+    this.timerMode.set(mode);
+    this.secondsRemaining.set(this.currentDurations()[mode]);
+  }
+
+  toggleTimer(): void {
+    if (this.isRunning()) {
+      this.pauseTimer();
+    } else {
+      this.startTimer();
+    }
+  }
+
+  startTimer(): void {
+    if (this.isRunning()) return;
+
+    this.isRunning.set(true);
+
+    this.timerInterval = setInterval(() => {
+      if (this.secondsRemaining() <= 1) {
+        this.handleTimerCompletion();
+        return;
+      }
+      this.secondsRemaining.update((current) => current - 1);
+    }, 1000);
+  }
+
+  pauseTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+    this.isRunning.set(false);
+  }
+
+  resetTimer(): void {
+    this.pauseTimer();
+    this.secondsRemaining.set(this.currentDurations()[this.timerMode()]);
+  }
+
+  private handleTimerCompletion(): void {
+    this.pauseTimer();
+
+    if (this.timerMode() === 'pomodoro') {
+      const nextPomoCount = this.pomoNumber() + 1;
+
+      const currentTask = this.taskService.selectedTask();
+      if (currentTask) {
+        // 1. Update the main task list so the TasksWidget UI reflects the progress
+        this.taskService.taskList.update((tasks) =>
+          tasks.map((task) =>
+            task.id === currentTask.id
+              ? {
+                  ...task,
+                  completedPomodoros: task.completedPomodoros + 1,
+                  pomodoroHistory: [new Date()],
+                }
+              : task,
+          ),
+        );
+
+        // 2. Update the selectedTask signal immutably
+        this.taskService.selectedTask.update((task) => {
+          if (!task) return null;
+          return { ...task, completedPomodoros: task.completedPomodoros + 1 };
+        });
+      }
+
+      if (nextPomoCount < 4) {
+        this.pomoNumber.set(nextPomoCount);
+        this.setMode('short');
+      } else {
+        this.pomoNumber.set(0);
+        this.setMode('long');
+      }
+      this.playPomodoroFinishedSound();
+    } else {
+      this.setMode('pomodoro');
+      this.playBreakFinishedSound();
+    }
+  }
+
+  playPomodoroFinishedSound() {
+    const audio = new Audio('/sounds/pomo-finished.wav');
+    audio.play().catch((err) => console.error('Error playing pomo sound:', err));
+  }
+
+  playBreakFinishedSound() {
+    const audio = new Audio('/sounds/break-finish.wav');
+    audio.play().catch((err) => console.error('Error playing break sound:', err));
+  }
+
+  ngOnDestroy(): void {
+    this.pauseTimer();
+  }
+}
+</file>
+
 <file path="src/app/app.routes.ts">
 import { Routes } from '@angular/router';
 
@@ -2385,6 +2298,101 @@ export const routes: Routes = [
     loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
   },
 ];
+</file>
+
+<file path="src/app/features/dashboard/services/task-service.ts">
+import { computed, effect, Service, signal } from '@angular/core';
+import { Task } from '../models/task-model';
+
+const DEFAULT_TASKS: Task[] = [];
+
+@Service()
+export class TaskService {
+  private readonly STORAGE_KEY = 'pomodoro_tasks';
+
+  // Initialize the signal directly from localStorage (or fallback to defaults)
+  taskList = signal<Task[]>(this.loadTasksFromStorage());
+
+  selectedTask = signal<Task | null>(null);
+
+  constructor() {
+    // If a task was marked as 'isSelected' in storage, set it as active on load
+    const initiallySelected = this.taskList().find((task) => task.isSelected) || null;
+    this.selectedTask.set(initiallySelected);
+
+    // Auto-save to localStorage whenever `taskList` changes
+    effect(() => {
+      this.persistTaskList();
+    });
+  }
+
+  private loadTasksFromStorage(): Task[] {
+    if (typeof localStorage !== 'undefined') {
+      const storedTasks = localStorage.getItem(this.STORAGE_KEY);
+      if (storedTasks) {
+        try {
+          return JSON.parse(storedTasks);
+        } catch (error) {
+          console.error('Failed to parse tasks from local storage', error);
+        }
+      }
+    }
+    // Return default tasks if storage is empty
+    return DEFAULT_TASKS;
+  }
+
+  persistTaskList(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.taskList()));
+    }
+  }
+
+  createTask(task: Task): void {
+    const newTask: Task = {
+      ...task,
+      id: `task-${Date.now()}`, // Simple unique ID generation
+      createdAt: new Date().toISOString(),
+      completedPomodoros: 0,
+      isCompleted: false,
+      isSelected: false,
+    };
+
+    this.taskList.update((tasks) => [...tasks, newTask]);
+  }
+
+  deleteTask(taskId: string): void {
+    this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
+
+    // Clear the selected task if it was just deleted
+    if (this.selectedTask()?.id === taskId) {
+      this.selectedTask.set(null);
+    }
+  }
+
+  updateTask(taskId: string, title?: string, description?: string): void {
+    // Implement as needed
+  }
+
+  setTaskCompleted(taskId: string, isCompleted: boolean): void {
+    // Implement as needed
+  }
+
+  fetchTask(taskId: string): Task | null {
+    return this.taskList().find((task) => task.id === taskId) || null;
+  }
+
+  setSelectedTask(taskID: string) {
+    // Mark one task as selected and all others as unselected
+    this.taskList.update((tasks) =>
+      tasks.map((task) => ({
+        ...task,
+        isSelected: task.id === taskID,
+      })),
+    );
+
+    this.selectedTask.set(this.taskList().find((task) => task.id === taskID) || null);
+  }
+}
 </file>
 
 <file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.html">
@@ -2615,7 +2623,7 @@ export const routes: Routes = [
 import { NgClass, DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { PomodoroService } from '../../../services/pomodoro-service';
-import { ModeOption, TimerMode, TIMER_DURATIONS } from '../../../models/pomodoro-model';
+import { ModeOption, TimerMode } from '../../../models/pomodoro-model';
 import { DialogService } from '../../../../../core/services/dialog-service';
 import { Dialog } from '../../../../../shared/components/dialog/dialog';
 import { Task } from '../../../models/task-model';
@@ -2656,7 +2664,7 @@ export class PomoTimer {
   readonly CIRCUMFERENCE = 2 * Math.PI * this.RADIUS; // ~276.46
 
   // Computed properties
-  totalSeconds = computed(() => TIMER_DURATIONS[this.timerMode()]);
+  totalSeconds = computed(() => this.pomodoroService.currentDurations()[this.timerMode()]);
 
   progress = computed(() => {
     const total = this.totalSeconds();
@@ -2682,7 +2690,6 @@ export class PomoTimer {
   constructor() {
     effect(() => {
       this.taskList.set(this.taskService.taskList());
-
       this.selectedTaskTitle = this.taskService.selectedTask()?.title || 'No task selected';
     });
   }
