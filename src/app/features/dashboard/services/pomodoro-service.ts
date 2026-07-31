@@ -90,6 +90,24 @@ export class PomodoroService implements OnDestroy {
     if (this.timerMode() === 'pomodoro') {
       const nextPomoCount = this.pomoNumber() + 1;
 
+      const currentTask = this.taskService.selectedTask();
+      if (currentTask) {
+        // 1. Update the main task list so the TasksWidget UI reflects the progress
+        this.taskService.taskList.update((tasks) =>
+          tasks.map((task) =>
+            task.id === currentTask.id
+              ? { ...task, completedPomodoros: task.completedPomodoros + 1 }
+              : task,
+          ),
+        );
+
+        // 2. Update the selectedTask signal immutably
+        this.taskService.selectedTask.update((task) => {
+          if (!task) return null;
+          return { ...task, completedPomodoros: task.completedPomodoros + 1 };
+        });
+      }
+
       if (nextPomoCount < 4) {
         this.pomoNumber.set(nextPomoCount);
         this.setMode('short');
