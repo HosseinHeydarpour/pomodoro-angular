@@ -44,7 +44,14 @@ public/
   sounds/
     break-finish.wav
     pomo-finished.wav
+  apple-touch-icon.png
+  favicon-96x96.png
   favicon.ico
+  favicon.svg
+  focusflow.svg
+  site.webmanifest
+  web-app-manifest-192x192.png
+  web-app-manifest-512x512.png
 src/
   app/
     core/
@@ -131,6 +138,105 @@ tsconfig.spec.json
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="public/favicon.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><defs>
+    <!-- Primary Gradient -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6D6AFE"></stop>
+      <stop offset="100%" stop-color="#8B5CF6"></stop>
+    </linearGradient>
+
+    <!-- Ambient Glow Filter -->
+    <filter id="primaryGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur"></feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+    </filter>
+  </defs><rect width="512" height="512" rx="96" fill="#111827" stroke="#23314A" stroke-width="8"></rect><path d="M 256 128 A 128 128 0 1 1 128 256" fill="none" stroke="#172033" stroke-width="32" stroke-linecap="round"></path><path d="M 256 128 A 128 128 0 1 1 156 335" fill="none" stroke="url(#primaryGradient)" stroke-width="32" stroke-linecap="round" filter="url(#primaryGlow)"></path><path d="M 256 104 C 256 80, 280 64, 304 68 C 304 92, 280 108, 256 104 Z" fill="#22C55E"></path><circle cx="256" cy="112" r="8" fill="#6D6AFE"></circle><text x="256" y="275" font-family="'Geist Mono', 'Inter', monospace" font-size="72" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="-2">25</text></svg>
+</file>
+
+<file path="public/focusflow.svg">
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Primary Gradient -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6D6AFE" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <!-- Ambient Glow Filter -->
+    <filter id="primaryGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Container Background (Rounded 2xl equivalent) -->
+  <rect width="512" height="512" rx="96" fill="#111827" stroke="#23314A" stroke-width="8" />
+
+  <!-- Background Track Ring -->
+  <path 
+    d="M 256 128 A 128 128 0 1 1 128 256" 
+    fill="none" 
+    stroke="#172033" 
+    stroke-width="32" 
+    stroke-linecap="round" 
+  />
+
+  <!-- Active Glowing Pomodoro Ring (Arc) -->
+  <path 
+    d="M 256 128 A 128 128 0 1 1 156 335" 
+    fill="none" 
+    stroke="url(#primaryGradient)" 
+    stroke-width="32" 
+    stroke-linecap="round" 
+    filter="url(#primaryGlow)"
+  />
+
+  <!-- Stylized Green Stem / Leaf -->
+  <path 
+    d="M 256 104 C 256 80, 280 64, 304 68 C 304 92, 280 108, 256 104 Z" 
+    fill="#22C55E" 
+  />
+  <circle cx="256" cy="112" r="8" fill="#6D6AFE" />
+
+  <!-- Monospaced Center Element (Geist Mono style) -->
+  <text 
+    x="256" 
+    y="275" 
+    font-family="'Geist Mono', 'Inter', monospace" 
+    font-size="72" 
+    font-weight="700" 
+    fill="#F8FAFC" 
+    text-anchor="middle"
+    letter-spacing="-2"
+  >25</text>
+</svg>
+</file>
+
+<file path="public/site.webmanifest">
+{
+  "name": "Focus Flow",
+  "short_name": "Focus Flow",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#f4f4f4",
+  "display": "standalone"
+}
+</file>
 
 <file path="src/app/core/services/dialog-service.ts">
 import { Service, signal } from '@angular/core';
@@ -237,125 +343,8 @@ export class NotesWidget {
 
 </file>
 
-<file path="src/app/features/dashboard/components/timer/summary/summary.html">
-<div class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6">
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-base font-semibold text-white">Session Summary</h2>
-    <button
-      class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-800/40 px-3 py-1.5 rounded-lg border border-slate-700/50"
-    >
-      <span>Today</span>
-      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        ></path>
-      </svg>
-    </button>
-  </div>
-
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-    <!-- Stat 1 -->
-    <div class="flex items-center gap-3">
-      <div
-        class="w-11 h-11 rounded-full bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center text-indigo-400 shrink-0"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-      </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Focus Time</p>
-        <p class="text-lg font-bold text-white">3h 40m</p>
-      </div>
-    </div>
-
-    <!-- Stat 2 -->
-    <div class="flex items-center gap-3">
-      <div
-        class="w-11 h-11 rounded-full bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center text-emerald-400 shrink-0"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-      </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Completed</p>
-        <p class="text-lg font-bold text-white">8</p>
-      </div>
-    </div>
-
-    <!-- Stat 3 -->
-    <div class="flex items-center gap-3">
-      <div
-        class="w-11 h-11 rounded-full bg-amber-950/60 border border-amber-800/40 flex items-center justify-center text-amber-400 shrink-0"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-          ></path>
-        </svg>
-      </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Pomodoros</p>
-        <p class="text-lg font-bold text-white">12</p>
-      </div>
-    </div>
-
-    <!-- Stat 4 -->
-    <div class="flex items-center gap-3">
-      <div
-        class="w-11 h-11 rounded-full bg-blue-950/60 border border-blue-800/40 flex items-center justify-center text-blue-400 shrink-0"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 10V3L4 14h7v7l9-11h-7z"
-          ></path>
-        </svg>
-      </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Long Breaks</p>
-        <p class="text-lg font-bold text-white">2</p>
-      </div>
-    </div>
-  </div>
-</div>
-</file>
-
 <file path="src/app/features/dashboard/components/timer/summary/summary.scss">
 
-</file>
-
-<file path="src/app/features/dashboard/components/timer/summary/summary.ts">
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-summary',
-  imports: [],
-  templateUrl: './summary.html',
-  styleUrl: './summary.scss',
-})
-export class Summary {
-
-}
 </file>
 
 <file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.scss">
@@ -541,22 +530,6 @@ describe('App', () => {
     expect(compiled.querySelector('h1')?.textContent).toContain('Hello, pomodoro-app');
   });
 });
-</file>
-
-<file path="src/index.html">
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>PomodoroApp</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
-</html>
 </file>
 
 <file path="src/main.ts">
@@ -844,22 +817,123 @@ export default {
 }
 </file>
 
-<file path="src/app/features/dashboard/models/pomodoro-model.ts">
-export const DEFAULT_TIMER_DURATIONS = {
-  pomodoro: 25 * 60,
-  short: 5 * 60,
-  long: 15 * 60,
-} as const;
+<file path="src/app/features/dashboard/components/timer/summary/summary.html">
+<div class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-base font-semibold text-white">Session Summary</h2>
+    <button
+      class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-800/40 px-3 py-1.5 rounded-lg border border-slate-700/50"
+    >
+      <span>Today</span>
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </button>
+  </div>
 
-export type TimerMode = keyof typeof DEFAULT_TIMER_DURATIONS;
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <!-- Stat 1 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center text-indigo-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Focus Time</p>
+        <p class="text-lg font-bold text-white">
+          {{ taskService.stats().todaysFocusedHoursDisplay }}
+        </p>
+      </div>
+    </div>
 
-export interface ModeOption {
-  id: TimerMode;
-  label: string;
-}
+    <!-- Stat 2 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center text-emerald-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Completed</p>
+        <p class="text-lg font-bold text-white">{{ taskService.stats().todaysPomodoros }}</p>
+      </div>
+    </div>
 
-export interface PomodoroHistory {
-  pomodoroDoneDate: Date;
+    <!-- Stat 3 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-amber-950/60 border border-amber-800/40 flex items-center justify-center text-amber-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Pomodoros</p>
+        <p class="text-lg font-bold text-white">{{ taskService.stats().uncompletedPomodoros }}</p>
+      </div>
+    </div>
+
+    <!-- Stat 4 -->
+    <div class="flex items-center gap-3">
+      <div
+        class="w-11 h-11 rounded-full bg-blue-950/60 border border-blue-800/40 flex items-center justify-center text-blue-400 shrink-0"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] text-slate-400">Long Breaks</p>
+        <p class="text-lg font-bold text-white">2</p>
+      </div>
+    </div>
+  </div>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/timer/summary/summary.ts">
+import { Component, inject } from '@angular/core';
+import { TaskService } from '../../../services/task-service';
+
+@Component({
+  selector: 'app-summary',
+  imports: [],
+  templateUrl: './summary.html',
+  styleUrl: './summary.scss',
+})
+export class Summary {
+  taskService = inject(TaskService);
 }
 </file>
 
@@ -1043,6 +1117,27 @@ export class Header {
 }
 </file>
 
+<file path="src/index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PomodoroApp</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Focus Flow" />
+    <link rel="manifest" href="/site.webmanifest" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
+</file>
+
 <file path="src/styles.scss">
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
@@ -1194,398 +1289,22 @@ body {
 }
 </file>
 
-<file path="src/app/features/dashboard/components/tasks/tasks.html">
-<!-- src/app/features/dashboard/components/tasks/tasks.html -->
-<div class="max-w-full mx-auto w-full pt-8 pb-12">
-  <form
-    [formGroup]="taskForm"
-    (ngSubmit)="onSubmit()"
-    class="bg-surface rounded-[24px] p-8 border border-border/60 shadow-xl"
-  >
-    <!-- Row 1: Title & Task Type -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-      <!-- Task Title (Takes up 2 columns) -->
-      <div class="md:col-span-2">
-        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Title</label>
-        <input
-          type="text"
-          formControlName="title"
-          placeholder="e.g. Implement Authentication Service"
-          class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-        />
-        @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
-          <span class="text-xs text-danger mt-1.5 block">Title is required.</span>
-        }
-      </div>
+<file path="src/app/features/dashboard/models/pomodoro-model.ts">
+export const DEFAULT_TIMER_DURATIONS = {
+  pomodoro: 25 * 60,
+  short: 5 * 60,
+  long: 15 * 60,
+} as const;
 
-      <!-- Task Type -->
-      <div>
-        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Type</label>
-        <div class="relative">
-          <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-            <!-- Dynamic Icon based on type -->
-            @if (taskForm.get('type')?.value === 'everyday') {
-              <div
-                class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"
-              ></div>
-            } @else {
-              <div
-                class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
-              ></div>
-            }
-          </div>
-          <select
-            formControlName="type"
-            class="w-full bg-background border border-border/80 rounded-xl pl-10 pr-10 py-3 text-sm text-text appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
-          >
-            <option value="everyday">Everyday Habit</option>
-            <option value="scheduled">Scheduled Task</option>
-          </select>
-          <div
-            class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-text-muted"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
+export type TimerMode = keyof typeof DEFAULT_TIMER_DURATIONS;
 
-    <!-- Row 2: Description -->
-    <div class="mb-8">
-      <label class="block text-[13px] font-medium text-text-muted mb-2"
-        >Description (optional)</label
-      >
-      <textarea
-        formControlName="description"
-        rows="3"
-        placeholder="Add more details about this task..."
-        class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none"
-      ></textarea>
-    </div>
-
-    <!-- Settings Group -->
-    <div formGroupName="settings">
-      <div class="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
-        <h3 class="text-sm font-semibold text-text">Timer Configuration</h3>
-      </div>
-
-      <!-- Row 3: Target Pomodoros & Due Date (if scheduled) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Target Pomodoros -->
-        <div>
-          <label class="block text-[13px] font-medium text-text-muted mb-2">Target Pomodoros</label>
-          <div
-            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
-          >
-            <div class="pl-4 pr-2 flex items-center justify-center">
-              <span class="text-base">🍅</span>
-            </div>
-            <input
-              type="number"
-              min="1"
-              formControlName="targetPomodoros"
-              class="w-full bg-transparent text-sm text-text focus:outline-none placeholder:text-text-muted/60"
-            />
-            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
-              <span class="text-xs text-text-muted">pomos</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Due Date (Only visible if type is scheduled) -->
-        @if (taskForm.get('type')?.value === 'scheduled') {
-          <div [formGroup]="taskForm">
-            <label class="block text-[13px] font-medium text-text-muted mb-2">Due Date</label>
-            <div class="relative h-[46px]">
-              <div
-                class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-text-muted"
-              >
-                <!-- Calendar Icon -->
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-4 h-4"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-              </div>
-              <input
-                type="date"
-                formControlName="dueDate"
-                class="w-full h-full bg-background border border-border/80 rounded-xl pl-11 pr-4 text-sm text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer [color-scheme:dark]"
-              />
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Row 4: Custom Durations -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
-        <!-- Pomo Length -->
-        <div>
-          <label class="block text-[13px] font-medium text-text-muted mb-2">Work Duration</label>
-          <div
-            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
-          >
-            <div class="pl-4 pr-2 flex items-center justify-center text-indigo-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </div>
-            <input
-              type="number"
-              formControlName="pomoLength"
-              class="w-full bg-transparent text-sm text-text focus:outline-none"
-            />
-            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
-              <span class="text-xs text-text-muted">min</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Short Break Length -->
-        <div>
-          <label class="block text-[13px] font-medium text-text-muted mb-2">Short Break</label>
-          <div
-            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
-          >
-            <div class="pl-4 pr-2 flex items-center justify-center text-emerald-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                ></path>
-              </svg>
-            </div>
-            <input
-              type="number"
-              formControlName="shortBreakLength"
-              class="w-full bg-transparent text-sm text-text focus:outline-none"
-            />
-            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
-              <span class="text-xs text-text-muted">min</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Long Break Length -->
-        <div>
-          <label class="block text-[13px] font-medium text-text-muted mb-2">Long Break</label>
-          <div
-            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
-          >
-            <div class="pl-4 pr-2 flex items-center justify-center text-blue-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 14h6m-3-3v6m3-9h10m-5-5v10m5 5v5m-3-3h6"
-                ></path>
-              </svg>
-            </div>
-            <input
-              type="number"
-              formControlName="longBreakLength"
-              class="w-full bg-transparent text-sm text-text focus:outline-none"
-            />
-            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
-              <span class="text-xs text-text-muted">min</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Actions Footer -->
-    <div class="flex items-center justify-end gap-4 pt-6 mt-8 border-t border-border/40">
-      <button
-        type="button"
-        [routerLink]="['/']"
-        class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
-      >
-        Cancel
-      </button>
-      @if (mode() === 'edit') {
-        <button
-          type="button"
-          [routerLink]="['/']"
-          class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
-        >
-          Delete
-        </button>
-      }
-      <button
-        type="submit"
-        [disabled]="taskForm.invalid"
-        class="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary-hover shadow-button transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {{ mode() === 'create' ? 'Create Task' : 'Update Task' }}
-      </button>
-    </div>
-  </form>
-</div>
-</file>
-
-<file path="src/app/features/dashboard/components/tasks/tasks.ts">
-// src/app/features/dashboard/components/tasks/tasks.ts
-import { Component, effect, inject, input, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink, Router } from '@angular/router';
-import { Task, TaskType } from '../../models/task-model';
-import { TaskService } from '../../services/task-service';
-
-@Component({
-  selector: 'app-tasks',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './tasks.html',
-  styleUrl: './tasks.scss',
-})
-export class Tasks {
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private taskService = inject(TaskService);
-  loadedTask = signal<Task | null>(null);
-  mode = signal<'create' | 'edit'>('create');
-  taskForm: FormGroup = this.fb.group({
-    title: ['', [Validators.required]],
-    description: [''],
-    type: ['everyday' as TaskType, [Validators.required]],
-    dueDate: [null], // Only applicable if type is 'scheduled'
-    // Holds the task data if editing an existing task
-
-    // Nested form group for PomodoroSettings
-    settings: this.fb.group({
-      targetPomodoros: [4, [Validators.required, Validators.min(1)]],
-      pomoLength: [25, [Validators.required, Validators.min(1)]],
-      shortBreakLength: [5, [Validators.required, Validators.min(1)]],
-      longBreakLength: [15, [Validators.required, Validators.min(1)]],
-    }),
-  });
-
-  taskId = input<string>();
-
-  constructor() {
-    effect(
-      () => {
-        const currentId = this.taskId();
-
-        if (currentId) {
-          const task = this.taskService.fetchTask(currentId);
-
-          if (task) {
-            this.loadedTask.set(task);
-            this.fillTaskForm(task); // 👈 Pass 'task' directly (TypeScript knows it is non-null)
-            this.mode.set('edit');
-          } else {
-            console.warn(`Task with ID ${currentId} not found.`);
-          }
-        } else {
-          console.log('Creating a new task');
-          this.loadedTask.set(null);
-          this.taskForm.reset();
-        }
-      },
-      { allowSignalWrites: true },
-    );
-  }
-
-  fillTaskForm(task: Task) {
-    this.taskForm.patchValue({
-      title: task.title,
-      description: task.description || '',
-      type: task.type,
-      dueDate: task.dueDate,
-      settings: {
-        targetPomodoros: task.settings.targetPomodoros,
-        pomoLength: task.settings.pomoLength,
-        shortBreakLength: task.settings.shortBreakLength,
-        longBreakLength: task.settings.longBreakLength,
-      },
-    });
-  }
-
-  onSubmit() {
-    if (this.taskForm.invalid) {
-      this.taskForm.markAllAsTouched();
-      return;
-    }
-
-    const formValue = this.taskForm.value;
-
-    // Cleanup dueDate if the type is everyday
-    if (formValue.type === 'everyday') {
-      formValue.dueDate = null;
-    }
-
-    console.log('Task Data Ready for Service:', formValue);
-
-    // TODO: Call your TaskService here to save the task
-    this.taskService.createTask(formValue);
-
-    // Navigate back to the dashboard after saving
-    this.router.navigate(['/']);
-  }
-}
-</file>
-
-<file path="src/app/features/dashboard/models/task-model.ts">
-import { PomodoroHistory } from './pomodoro-model';
-
-export type TaskType = 'everyday' | 'scheduled';
-
-export interface PomodoroSettings {
-  pomoLength: number; // Duration in minutes (e.g., 25)
-  shortBreakLength: number; // Duration in minutes (e.g., 5)
-  longBreakLength: number; // Duration in minutes (e.g., 15)
-  targetPomodoros: number; // Estimated pomodoros required (e.g., 4)
+export interface ModeOption {
+  id: TimerMode;
+  label: string;
 }
 
-export interface Task {
-  id: string;
-  title: string; //
-  description?: string; //
-
-  // Progress tracking
-  completedPomodoros: number;
-  isCompleted: boolean;
-
-  pomodoroHistory?: PomodoroHistory[] | null;
-
-  // Scheduling: Either an everyday repeating task or has a explicit due date
-  type: TaskType;
-  dueDate?: Date | string | null;
-
-  // Configuration for timer when this task is active
-  settings: PomodoroSettings;
-
-  isSelected: boolean; // Optional property to indicate if the task is currently selected
-
-  // Metadata
-  createdAt: Date | string;
-  completedAt?: Date | string | null;
+export interface PomodoroHistory {
+  pomodoroDoneDate: Date | string; // <-- Allow string for localStorage parsing
 }
 </file>
 
@@ -1881,6 +1600,365 @@ export class App {
 }
 </file>
 
+<file path="src/app/features/dashboard/components/tasks/tasks.html">
+<!-- src/app/features/dashboard/components/tasks/tasks.html -->
+<div class="max-w-full mx-auto w-full pt-8 pb-12">
+  <form
+    [formGroup]="taskForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-surface rounded-[24px] p-8 border border-border/60 shadow-xl"
+  >
+    <!-- Row 1: Title & Task Type -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <!-- Task Title (Takes up 2 columns) -->
+      <div class="md:col-span-2">
+        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Title</label>
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Implement Authentication Service"
+          class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+        />
+        @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
+          <span class="text-xs text-danger mt-1.5 block">Title is required.</span>
+        }
+      </div>
+
+      <!-- Task Type -->
+      <div>
+        <label class="block text-[13px] font-medium text-text-muted mb-2">Task Type</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+            <!-- Dynamic Icon based on type -->
+            @if (taskForm.get('type')?.value === 'everyday') {
+              <div
+                class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+              ></div>
+            } @else {
+              <div
+                class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
+              ></div>
+            }
+          </div>
+          <select
+            formControlName="type"
+            class="w-full bg-background border border-border/80 rounded-xl pl-10 pr-10 py-3 text-sm text-text appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+          >
+            <option value="everyday">Everyday Habit</option>
+            <option value="scheduled">Scheduled Task</option>
+          </select>
+          <div
+            class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-text-muted"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Description -->
+    <div class="mb-8">
+      <label class="block text-[13px] font-medium text-text-muted mb-2"
+        >Description (optional)</label
+      >
+      <textarea
+        formControlName="description"
+        rows="3"
+        placeholder="Add more details about this task..."
+        class="w-full bg-background border border-border/80 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none"
+      ></textarea>
+    </div>
+
+    <!-- Settings Group -->
+    <div formGroupName="settings">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
+        <h3 class="text-sm font-semibold text-text">Timer Configuration</h3>
+      </div>
+
+      <!-- Row 3: Target Pomodoros & Due Date (if scheduled) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Target Pomodoros -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Target Pomodoros</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center">
+              <span class="text-base">🍅</span>
+            </div>
+            <input
+              type="number"
+              min="1"
+              formControlName="targetPomodoros"
+              class="w-full bg-transparent text-sm text-text focus:outline-none placeholder:text-text-muted/60"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">pomos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Due Date (Only visible if type is scheduled) -->
+        @if (taskForm.get('type')?.value === 'scheduled') {
+          <div [formGroup]="taskForm">
+            <label class="block text-[13px] font-medium text-text-muted mb-2">Due Date</label>
+            <div class="relative h-[46px]">
+              <div
+                class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-text-muted"
+              >
+                <!-- Calendar Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </div>
+              <input
+                type="date"
+                formControlName="dueDate"
+                class="w-full h-full bg-background border border-border/80 rounded-xl pl-11 pr-4 text-sm text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer [color-scheme:dark]"
+              />
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Row 4: Custom Durations -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
+        <!-- Pomo Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Work Duration</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-indigo-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="pomoLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short Break Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Short Break</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-emerald-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="shortBreakLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Long Break Length -->
+        <div>
+          <label class="block text-[13px] font-medium text-text-muted mb-2">Long Break</label>
+          <div
+            class="relative flex items-center bg-background border border-border/80 rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all h-[46px]"
+          >
+            <div class="pl-4 pr-2 flex items-center justify-center text-blue-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 14h6m-3-3v6m3-9h10m-5-5v10m5 5v5m-3-3h6"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="number"
+              formControlName="longBreakLength"
+              class="w-full bg-transparent text-sm text-text focus:outline-none"
+            />
+            <div class="pr-3 flex items-center gap-2 border-l border-border/50 pl-3 h-full">
+              <span class="text-xs text-text-muted">min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Footer -->
+    <div class="flex items-center justify-end gap-4 pt-6 mt-8 border-t border-border/40">
+      <button
+        type="button"
+        [routerLink]="['/']"
+        class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
+      >
+        Cancel
+      </button>
+      @if (mode() === 'edit') {
+        <button
+          type="button"
+          [routerLink]="['/']"
+          class="px-6 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-transparent border border-border/60 hover:bg-hover hover:border-border hover:text-text transition-all"
+          (click)="onTaskDeleteButtonClicked()"
+        >
+          Delete
+        </button>
+      }
+      <button
+        type="submit"
+        [disabled]="taskForm.invalid"
+        class="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary-hover shadow-button transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ mode() === 'create' ? 'Create Task' : 'Update Task' }}
+      </button>
+    </div>
+  </form>
+</div>
+</file>
+
+<file path="src/app/features/dashboard/components/tasks/tasks.ts">
+// src/app/features/dashboard/components/tasks/tasks.ts
+import { Component, effect, inject, input, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
+import { Task, TaskType } from '../../models/task-model';
+import { TaskService } from '../../services/task-service';
+
+@Component({
+  selector: 'app-tasks',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './tasks.html',
+  styleUrl: './tasks.scss',
+})
+export class Tasks {
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private taskService = inject(TaskService);
+  loadedTask = signal<Task | null>(null);
+  mode = signal<'create' | 'edit'>('create');
+  taskForm: FormGroup = this.fb.group({
+    title: ['', [Validators.required]],
+    description: [''],
+    type: ['everyday' as TaskType, [Validators.required]],
+    dueDate: [null], // Only applicable if type is 'scheduled'
+    // Holds the task data if editing an existing task
+
+    // Nested form group for PomodoroSettings
+    settings: this.fb.group({
+      targetPomodoros: [4, [Validators.required, Validators.min(1)]],
+      pomoLength: [25, [Validators.required, Validators.min(1)]],
+      shortBreakLength: [5, [Validators.required, Validators.min(1)]],
+      longBreakLength: [15, [Validators.required, Validators.min(1)]],
+    }),
+  });
+
+  taskId = input<string>();
+
+  constructor() {
+    effect(
+      () => {
+        const currentId = this.taskId();
+
+        if (currentId) {
+          const task = this.taskService.fetchTask(currentId);
+
+          if (task) {
+            this.loadedTask.set(task);
+            this.fillTaskForm(task); // 👈 Pass 'task' directly (TypeScript knows it is non-null)
+            this.mode.set('edit');
+          } else {
+            console.warn(`Task with ID ${currentId} not found.`);
+          }
+        } else {
+          this.loadedTask.set(null);
+          this.taskForm.reset();
+        }
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  fillTaskForm(task: Task) {
+    this.taskForm.patchValue({
+      title: task.title,
+      description: task.description || '',
+      type: task.type,
+      dueDate: task.dueDate,
+      settings: {
+        targetPomodoros: task.settings.targetPomodoros,
+        pomoLength: task.settings.pomoLength,
+        shortBreakLength: task.settings.shortBreakLength,
+        longBreakLength: task.settings.longBreakLength,
+      },
+    });
+  }
+
+  onSubmit() {
+    if (this.taskForm.invalid) {
+      this.taskForm.markAllAsTouched();
+      return;
+    }
+
+    const formValue = this.taskForm.value;
+
+    // Cleanup dueDate if the type is everyday
+    if (formValue.type === 'everyday') {
+      formValue.dueDate = null;
+    }
+
+    this.taskService.createTask(formValue);
+
+    // Navigate back to the dashboard after saving
+    this.router.navigate(['/']);
+  }
+
+  onTaskDeleteButtonClicked() {
+    const currentId = this.taskId();
+    if (currentId) this.taskService.deleteTask(currentId);
+  }
+}
+</file>
+
 <file path="src/app/features/dashboard/components/timer/tasks-widget/tasks-widget.html">
 <div
   class="bg-[#121620] border border-slate-800/80 rounded-3xl p-6 flex-1 flex flex-col justify-between h-full"
@@ -2071,6 +2149,44 @@ export class TasksWidget {
 }
 </file>
 
+<file path="src/app/features/dashboard/models/task-model.ts">
+import { PomodoroHistory } from './pomodoro-model';
+
+export type TaskType = 'everyday' | 'scheduled';
+
+export interface PomodoroSettings {
+  pomoLength: number; // Duration in minutes (e.g., 25)
+  shortBreakLength: number; // Duration in minutes (e.g., 5)
+  longBreakLength: number; // Duration in minutes (e.g., 15)
+  targetPomodoros: number; // Estimated pomodoros required (e.g., 4)
+}
+
+export interface Task {
+  id: string;
+  title: string; //
+  description?: string; //
+
+  // Progress tracking
+  completedPomodoros: number;
+  isCompleted: boolean;
+
+  pomodoroHistory?: PomodoroHistory[] | null;
+
+  // Scheduling: Either an everyday repeating task or has a explicit due date
+  type: TaskType;
+  dueDate?: Date | string | null;
+
+  // Configuration for timer when this task is active
+  settings: PomodoroSettings;
+
+  isSelected: boolean; // Optional property to indicate if the task is currently selected
+
+  // Metadata
+  createdAt: Date | string;
+  completedAt?: Date | string | null;
+}
+</file>
+
 <file path="src/app/app.html">
 <tui-root>
   <app-main-layout></app-main-layout>
@@ -2134,6 +2250,25 @@ export class TasksWidget {
     "vitest": "^4.0.8"
   }
 }
+</file>
+
+<file path="src/app/app.routes.ts">
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./features/dashboard/components/timer/timer').then((m) => m.Timer),
+  },
+  {
+    path: 'tasks',
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
+  {
+    path: 'tasks/:taskId', // 👈 Clean flat route mapping directly to the component
+    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
+  },
+];
 </file>
 
 <file path="src/app/features/dashboard/services/pomodoro-service.ts">
@@ -2231,6 +2366,9 @@ export class PomodoroService implements OnDestroy {
 
       const currentTask = this.taskService.selectedTask();
       if (currentTask) {
+        // Create the new history entry
+        const newHistoryEntry = { pomodoroDoneDate: new Date().toISOString() };
+
         // 1. Update the main task list so the TasksWidget UI reflects the progress
         this.taskService.taskList.update((tasks) =>
           tasks.map((task) =>
@@ -2238,7 +2376,8 @@ export class PomodoroService implements OnDestroy {
               ? {
                   ...task,
                   completedPomodoros: task.completedPomodoros + 1,
-                  pomodoroHistory: [new Date()],
+                  // Append to existing history or create a new array
+                  pomodoroHistory: [...(task.pomodoroHistory || []), newHistoryEntry],
                 }
               : task,
           ),
@@ -2247,7 +2386,11 @@ export class PomodoroService implements OnDestroy {
         // 2. Update the selectedTask signal immutably
         this.taskService.selectedTask.update((task) => {
           if (!task) return null;
-          return { ...task, completedPomodoros: task.completedPomodoros + 1 };
+          return {
+            ...task,
+            completedPomodoros: task.completedPomodoros + 1,
+            pomodoroHistory: [...(task.pomodoroHistory || []), newHistoryEntry],
+          };
         });
       }
 
@@ -2264,7 +2407,6 @@ export class PomodoroService implements OnDestroy {
       this.playBreakFinishedSound();
     }
   }
-
   playPomodoroFinishedSound() {
     const audio = new Audio('/sounds/pomo-finished.wav');
     audio.play().catch((err) => console.error('Error playing pomo sound:', err));
@@ -2277,120 +2419,6 @@ export class PomodoroService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.pauseTimer();
-  }
-}
-</file>
-
-<file path="src/app/app.routes.ts">
-import { Routes } from '@angular/router';
-
-export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./features/dashboard/components/timer/timer').then((m) => m.Timer),
-  },
-  {
-    path: 'tasks',
-    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
-  },
-  {
-    path: 'tasks/:taskId', // 👈 Clean flat route mapping directly to the component
-    loadComponent: () => import('./features/dashboard/components/tasks/tasks').then((m) => m.Tasks),
-  },
-];
-</file>
-
-<file path="src/app/features/dashboard/services/task-service.ts">
-import { computed, effect, Service, signal } from '@angular/core';
-import { Task } from '../models/task-model';
-
-const DEFAULT_TASKS: Task[] = [];
-
-@Service()
-export class TaskService {
-  private readonly STORAGE_KEY = 'pomodoro_tasks';
-
-  // Initialize the signal directly from localStorage (or fallback to defaults)
-  taskList = signal<Task[]>(this.loadTasksFromStorage());
-
-  selectedTask = signal<Task | null>(null);
-
-  constructor() {
-    // If a task was marked as 'isSelected' in storage, set it as active on load
-    const initiallySelected = this.taskList().find((task) => task.isSelected) || null;
-    this.selectedTask.set(initiallySelected);
-
-    // Auto-save to localStorage whenever `taskList` changes
-    effect(() => {
-      this.persistTaskList();
-    });
-  }
-
-  private loadTasksFromStorage(): Task[] {
-    if (typeof localStorage !== 'undefined') {
-      const storedTasks = localStorage.getItem(this.STORAGE_KEY);
-      if (storedTasks) {
-        try {
-          return JSON.parse(storedTasks);
-        } catch (error) {
-          console.error('Failed to parse tasks from local storage', error);
-        }
-      }
-    }
-    // Return default tasks if storage is empty
-    return DEFAULT_TASKS;
-  }
-
-  persistTaskList(): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.taskList()));
-    }
-  }
-
-  createTask(task: Task): void {
-    const newTask: Task = {
-      ...task,
-      id: `task-${Date.now()}`, // Simple unique ID generation
-      createdAt: new Date().toISOString(),
-      completedPomodoros: 0,
-      isCompleted: false,
-      isSelected: false,
-    };
-
-    this.taskList.update((tasks) => [...tasks, newTask]);
-  }
-
-  deleteTask(taskId: string): void {
-    this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
-
-    // Clear the selected task if it was just deleted
-    if (this.selectedTask()?.id === taskId) {
-      this.selectedTask.set(null);
-    }
-  }
-
-  updateTask(taskId: string, title?: string, description?: string): void {
-    // Implement as needed
-  }
-
-  setTaskCompleted(taskId: string, isCompleted: boolean): void {
-    // Implement as needed
-  }
-
-  fetchTask(taskId: string): Task | null {
-    return this.taskList().find((task) => task.id === taskId) || null;
-  }
-
-  setSelectedTask(taskID: string) {
-    // Mark one task as selected and all others as unselected
-    this.taskList.update((tasks) =>
-      tasks.map((task) => ({
-        ...task,
-        isSelected: task.id === taskID,
-      })),
-    );
-
-    this.selectedTask.set(this.taskList().find((task) => task.id === taskID) || null);
   }
 }
 </file>
@@ -2617,6 +2645,155 @@ export class TaskService {
     <p class="text-sm text-slate-500 py-4 text-center">No tasks found.</p>
   }
 </app-dialog>
+</file>
+
+<file path="src/app/features/dashboard/services/task-service.ts">
+import { computed, effect, Service, signal } from '@angular/core';
+import { Task } from '../models/task-model';
+
+const DEFAULT_TASKS: Task[] = [];
+
+@Service()
+export class TaskService {
+  private readonly STORAGE_KEY = 'pomodoro_tasks';
+
+  // Initialize the signal directly from localStorage (or fallback to defaults)
+  taskList = signal<Task[]>(this.loadTasksFromStorage());
+
+  selectedTask = signal<Task | null>(null);
+
+  stats = computed(() => {
+    const tasks = this.taskList();
+    const today = new Date();
+
+    // Helper to safely check if a date string is from today
+    const isToday = (dateString: Date | string | null | undefined) => {
+      if (!dateString) return false;
+      const d = new Date(dateString);
+      return (
+        d.getDate() === today.getDate() &&
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear()
+      );
+    };
+
+    let todaysPomodoros = 0;
+    let uncompletedPomodoros = 0; // <-- Changed this
+    let todaysFocusMinutes = 0;
+    let todaysCompletedTasks = 0;
+
+    tasks.forEach((task) => {
+      // 1. Check completed tasks for today
+      if (task.isCompleted && isToday(task.completedAt)) {
+        todaysCompletedTasks++;
+      }
+
+      // 2. Calculate UNCOMPLETED / REMAINING Pomodoros
+      if (!task.isCompleted) {
+        // Target minus completed (ensure it doesn't go below 0 if they over-achieved)
+        const remaining = task.settings.targetPomodoros - task.completedPomodoros;
+        if (remaining > 0) {
+          uncompletedPomodoros += remaining;
+        }
+      }
+
+      // 3. Count today's finished pomodoros and focus time
+      if (task.pomodoroHistory) {
+        const todayHistory = task.pomodoroHistory.filter((h) => isToday(h.pomodoroDoneDate));
+        todaysPomodoros += todayHistory.length;
+        todaysFocusMinutes += todayHistory.length * task.settings.pomoLength;
+      }
+    });
+
+    const hours = Math.floor(todaysFocusMinutes / 60);
+    const minutes = todaysFocusMinutes % 60;
+
+    return {
+      todaysPomodoros,
+      uncompletedPomodoros, // <-- Returning the new metric
+      todaysCompletedTasks,
+      todaysFocusedHoursDisplay: hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
+    };
+  });
+
+  constructor() {
+    // If a task was marked as 'isSelected' in storage, set it as active on load
+    const initiallySelected = this.taskList().find((task) => task.isSelected) || null;
+    this.selectedTask.set(initiallySelected);
+
+    // Auto-save to localStorage whenever `taskList` changes
+    effect(() => {
+      this.persistTaskList();
+    });
+  }
+
+  private loadTasksFromStorage(): Task[] {
+    if (typeof localStorage !== 'undefined') {
+      const storedTasks = localStorage.getItem(this.STORAGE_KEY);
+      if (storedTasks) {
+        try {
+          return JSON.parse(storedTasks);
+        } catch (error) {
+          console.error('Failed to parse tasks from local storage', error);
+        }
+      }
+    }
+    // Return default tasks if storage is empty
+    return DEFAULT_TASKS;
+  }
+
+  persistTaskList(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.taskList()));
+    }
+  }
+
+  createTask(task: Task): void {
+    const newTask: Task = {
+      ...task,
+      id: `task-${Date.now()}`, // Simple unique ID generation
+      createdAt: new Date().toISOString(),
+      completedPomodoros: 0,
+      isCompleted: false,
+      isSelected: false,
+    };
+
+    this.taskList.update((tasks) => [...tasks, newTask]);
+  }
+
+  deleteTask(taskId: string): void {
+    this.taskList.update((tasks) => tasks.filter((task) => task.id !== taskId));
+
+    // Clear the selected task if it was just deleted
+    if (this.selectedTask()?.id === taskId) {
+      this.selectedTask.set(null);
+    }
+  }
+
+  updateTask(taskId: string, title?: string, description?: string): void {
+    // Implement as needed
+  }
+
+  setTaskCompleted(taskId: string, isCompleted: boolean): void {
+    // Implement as needed
+  }
+
+  fetchTask(taskId: string): Task | null {
+    return this.taskList().find((task) => task.id === taskId) || null;
+  }
+
+  setSelectedTask(taskID: string) {
+    // Mark one task as selected and all others as unselected
+    this.taskList.update((tasks) =>
+      tasks.map((task) => ({
+        ...task,
+        isSelected: task.id === taskID,
+      })),
+    );
+
+    this.selectedTask.set(this.taskList().find((task) => task.id === taskID) || null);
+  }
+}
 </file>
 
 <file path="src/app/features/dashboard/components/timer/pomo-timer/pomo-timer.ts">
