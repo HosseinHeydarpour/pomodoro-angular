@@ -1,4 +1,4 @@
-import { Service, signal } from '@angular/core';
+import { computed, Service, signal } from '@angular/core';
 import { Task } from '../models/task-model';
 
 @Service()
@@ -104,6 +104,8 @@ export class TaskService {
     },
   ]);
 
+  selectedTask = signal<Task | null>(null);
+
   createTask(task: Task): void {
     const newTask: Task = {
       ...task,
@@ -129,5 +131,16 @@ export class TaskService {
 
   fetchTask(taskId: string): Task | null {
     return this.taskList().find((task) => task.id === taskId) || null;
+  }
+
+  setSelectedTask(taskID: string) {
+    this.taskList.update((tasks) =>
+      tasks.map((task) => ({
+        ...task,
+        isSelected: task.id === taskID,
+      })),
+    );
+
+    this.selectedTask.set(this.taskList().find((task) => task.id === taskID) || null);
   }
 }

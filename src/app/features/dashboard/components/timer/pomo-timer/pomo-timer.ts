@@ -1,7 +1,7 @@
 import { NgClass, DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { PomodoroService } from '../../../services/pomodoro-service';
-import { ModeOption, TimerMode, TIMER_DURATIONS } from '../../../models/pomodoro-model';
+import { ModeOption, TimerMode } from '../../../models/pomodoro-model';
 import { DialogService } from '../../../../../core/services/dialog-service';
 import { Dialog } from '../../../../../shared/components/dialog/dialog';
 import { Task } from '../../../models/task-model';
@@ -22,6 +22,8 @@ export class PomoTimer {
 
   uncompletedTasks = computed(() => this.taskList().filter((task) => !task.isCompleted));
 
+  selectedTaskTitle: string = 'No task selected';
+
   // Mode configuration for template repetition
   readonly modes: ModeOption[] = [
     { id: 'pomodoro', label: 'Pomodoro' },
@@ -40,7 +42,7 @@ export class PomoTimer {
   readonly CIRCUMFERENCE = 2 * Math.PI * this.RADIUS; // ~276.46
 
   // Computed properties
-  totalSeconds = computed(() => TIMER_DURATIONS[this.timerMode()]);
+  totalSeconds = computed(() => this.pomodoroService.currentDurations()[this.timerMode()]);
 
   progress = computed(() => {
     const total = this.totalSeconds();
@@ -66,6 +68,7 @@ export class PomoTimer {
   constructor() {
     effect(() => {
       this.taskList.set(this.taskService.taskList());
+      this.selectedTaskTitle = this.taskService.selectedTask()?.title || 'No task selected';
     });
   }
 
@@ -84,5 +87,10 @@ export class PomoTimer {
 
   onSelectTaskButtonClicked() {
     this.dialogService.openDialog();
+  }
+
+  onTaskSelected(taskID: string) {
+    this.taskService.setSelectedTask(taskID);
+    this.dialogService.closeDialog();
   }
 }

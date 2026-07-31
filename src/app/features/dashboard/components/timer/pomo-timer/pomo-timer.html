@@ -102,6 +102,9 @@
       <span class="text-xs font-medium text-slate-400 tracking-wider mb-1 capitalize">
         {{ timerMode() }} Time
       </span>
+      <span class="text-xs font-medium text-slate-400 tracking-wider mb-1 capitalize">
+        {{ selectedTaskTitle }}
+      </span>
       <h1 class="text-6xl font-semibold tracking-tight text-white mb-4">
         {{ timerDate() | date: 'mm:ss' : 'UTC' }}
       </h1>
@@ -175,8 +178,31 @@
   @for (task of uncompletedTasks(); track task.id) {
     <div
       class="flex items-center justify-between py-2 border-b border-slate-800/50 cursor-pointer group"
+      (click)="onTaskSelected(task.id)"
     >
       <div class="flex items-center gap-3">
+        <!-- Checkbox Container -->
+        <div
+          class="w-5 h-5 rounded flex items-center justify-center shrink-0 cursor-pointer transition-colors"
+          [class]="
+            task.isSelected
+              ? 'bg-indigo-600 text-white'
+              : 'border border-slate-700 group-hover:border-slate-500'
+          "
+        >
+          @if (task.isSelected) {
+            <svg
+              class="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          }
+        </div>
+
         <!-- Task Details -->
         <div>
           <p class="text-sm font-medium transition-all">
@@ -186,30 +212,6 @@
           <p class="text-xs text-slate-500 capitalize">
             {{ task.description || task.type + ' task' }}
           </p>
-        </div>
-      </div>
-
-      <!-- Time & Pomodoro Metadata -->
-      <div class="flex items-center gap-3 text-xs text-slate-400 shrink-0">
-        <!-- Pomodoro Progress Counter -->
-        <div
-          class="flex items-center gap-1 font-mono font-medium text-slate-300 bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50"
-        >
-          <span>🍅</span>
-          <span>{{ task.completedPomodoros || 0 }}</span>
-          <span class="text-slate-500">/</span>
-          <span class="text-slate-400">{{ task.settings.targetPomodoros }}</span>
-        </div>
-
-        <!-- Timer Lengths Breakdown (Work / Short Break / Long Break) -->
-        <div class="hidden sm:flex items-center gap-1.5 text-slate-500 font-medium">
-          <span title="Work Duration" class="text-indigo-400">{{ task.settings.pomoLength }}m</span>
-          <span>/</span>
-          <span title="Short Break" class="text-emerald-400"
-            >{{ task.settings.shortBreakLength }}m</span
-          >
-          <span>/</span>
-          <span title="Long Break" class="text-sky-400">{{ task.settings.longBreakLength }}m</span>
         </div>
       </div>
     </div>

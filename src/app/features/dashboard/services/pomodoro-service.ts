@@ -1,20 +1,52 @@
-import { Injectable, signal, OnDestroy, Service } from '@angular/core';
-import { TIMER_DURATIONS, TimerMode } from '../models/pomodoro-model';
+import { computed, effect, inject, signal, OnDestroy, Service } from '@angular/core';
+import { DEFAULT_TIMER_DURATIONS, TimerMode } from '../models/pomodoro-model';
+import { TaskService } from './task-service';
 
 @Service()
 export class PomodoroService implements OnDestroy {
+  private taskService = inject(TaskService);
+
   // Primary reactive state
   readonly timerMode = signal<TimerMode>('pomodoro');
-  readonly secondsRemaining = signal(TIMER_DURATIONS['pomodoro']);
+
+  // Dynamically calculate durations based on the selected task
+  readonly currentDurations = computed(() => {
+    const task = this.taskService.selectedTask();
+    if (task) {
+      // Multiply by 60 to convert model minutes to seconds
+      return {
+        pomodoro: task.settings.pomoLength * 60,
+        short: task.settings.shortBreakLength * 60,
+        long: task.settings.longBreakLength * 60,
+      };
+    }
+    return DEFAULT_TIMER_DURATIONS;
+  });
+
+  readonly secondsRemaining = signal(this.currentDurations()['pomodoro']);
   readonly isRunning = signal(false);
   readonly pomoNumber = signal(0);
 
   private timerInterval: ReturnType<typeof setInterval> | null = null;
 
+  constructor() {
+    // Automatically update the remaining time when the task selection changes
+    // (only if the timer is not currently running)
+    effect(
+      () => {
+        const durations = this.currentDurations();
+        if (!this.isRunning()) {
+          this.secondsRemaining.set(durations[this.timerMode()]);
+        }
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
   setMode(mode: TimerMode): void {
     this.pauseTimer();
     this.timerMode.set(mode);
-    this.secondsRemaining.set(TIMER_DURATIONS[mode]);
+    this.secondsRemaining.set(this.currentDurations()[mode]);
   }
 
   toggleTimer(): void {
@@ -49,7 +81,7 @@ export class PomodoroService implements OnDestroy {
 
   resetTimer(): void {
     this.pauseTimer();
-    this.secondsRemaining.set(TIMER_DURATIONS[this.timerMode()]);
+    this.secondsRemaining.set(this.currentDurations()[this.timerMode()]);
   }
 
   private handleTimerCompletion(): void {
